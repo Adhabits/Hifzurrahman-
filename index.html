@@ -4,13 +4,16 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AdHabits — Affiliate Opportunities (100% Commission)</title>
+
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --bg:#0a0f1b; --text:#e7eaf0; --muted:#9fb0c9; --stroke:#1e2a42;
   --card-bg: #fff;
-  --answer-black: #06101d; /* full black-like for answers */
-  --question-color: #0b1220; /* darker heading color for question */
+  --answer-black: #06101d;
+  --question-color: #0b1220;
   --accent-grad: linear-gradient(135deg,#8b5cf6,#22d3ee 55%,#34d399);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -18,17 +21,18 @@ html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-ap
 a{color:inherit;text-decoration:none}
 .container{max-width:1150px;margin:auto;padding:0 18px}
 
-/* header placeholder */
+/* header placeholder (real nav can be included) */
 header{height:64px}
 
 /* floating compact pill */
 .floating-bar{
-  position:fixed;left:50%;transform:translateX(-50%);top:16px;z-index:140;
+  position:fixed;left:50%;transform:translateX(-50%);top:12px;z-index:200;
   background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:8px 12px;border-radius:999px;font-weight:800;box-shadow:0 12px 30px rgba(155,59,255,.12);
   font-size:13px;display:inline-flex;gap:10px;align-items:center;max-width:360px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  border:2px solid rgba(255,255,255,0.06);
 }
 
-/* HERO */
+/* hero */
 .hero{padding:28px 0 6px}
 .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:#c9d3e6;font-size:13px}
 .h1{font-family:Poppins,system-ui;font-weight:800;font-size:28px;color:var(--text);margin:12px 0}
@@ -42,10 +46,10 @@ header{height:64px}
 .feature-card h3{margin:8px 0 10px;font-size:20px}
 .feature-card p{color:#6b7889;margin:0;font-size:15px;line-height:1.5}
 
-/* ensure visible overflow so sticky children not clipped */
+/* ensure visible overflow so sticky doesn't clip */
 .features-grid, .feature-card { overflow: visible; }
 
-/* STEPS (What Happens When You Join) */
+/* STEPS */
 .steps{padding:36px 0}
 .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .step-card{background:var(--card-bg);border-radius:14px;padding:22px;display:flex;gap:18px;align-items:center;box-shadow:0 16px 36px rgba(0,0,0,0.12)}
@@ -53,42 +57,41 @@ header{height:64px}
 .step-body h4{margin:0;font-size:20px;color:var(--question-color);font-weight:800}
 .step-body p{margin:6px 0 0;color:var(--answer-black);line-height:1.5;font-size:15px}
 
-/* ensure sticky doesn't clip */
-.steps-grid, .step-card { overflow: visible; }
-
-/* FORM + RIGHT BOX (kept simple) */
+/* FORM */
 .form-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start;padding:24px 0}
 .form-card{border:1px solid #273047;background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:16px;padding:18px}
 label{display:block;margin:10px 0 6px;color:#bfc9de}
 select,input{width:100%;background:#0c1426;border:1px solid #2a3552;border-radius:12px;color:#e6ecf7;padding:12px 14px;outline:none}
 .form-btn{margin-top:12px;display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;background:#25d366;color:#061016;font-weight:800;border:none;cursor:pointer}
 
-/* responsive mobile stacking rules */
+/* responsive behavior */
 @media (max-width:900px){
   .features-grid{grid-template-columns:repeat(2,1fr)}
   .steps-grid{grid-template-columns:1fr}
   .form-wrap{grid-template-columns:1fr}
 }
 @media (max-width:640px){
-  .features-grid{grid-template-columns:1fr;padding-top:12px;padding-bottom:160px}
-  .feature-card{margin-bottom:-48px;border-radius:12px}
-  .steps-grid{grid-template-columns:1fr;padding-top:12px;padding-bottom:160px}
-  .step-card{margin-bottom:-48px}
-  .floating-bar{top:12px;padding:7px 10px;font-size:12px}
+  .features-grid{grid-template-columns:1fr;padding-top:16px;padding-bottom:200px}
+  .feature-card{margin-bottom:-64px;border-radius:12px}
+  .steps-grid{grid-template-columns:1fr;padding-top:16px;padding-bottom:200px}
+  .step-card{margin-bottom:-64px}
+  .floating-bar{top:10px;padding:7px 10px;font-size:12px}
 }
 
-/* reveal animation & small pop */
+/* reveal & pop */
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
 .reveal.on{opacity:1;transform:none}
-.feature-card.pop, .step-card.pop{transform:translateY(-8px);box-shadow:0 30px 70px rgba(0,0,0,0.22)}
+.pop-anim.pop{transform:translateY(-10px);box-shadow:0 32px 80px rgba(0,0,0,0.22)}
 </style>
 </head>
 <body>
 
 <header></header>
 
+<!-- floating pill -->
 <div class="floating-bar" id="floatBanner">▶ Watch this video first</div>
 
+<!-- HERO -->
 <section class="hero container">
   <span class="eyebrow">Affiliate Opportunity</span>
   <div class="h1">Earn With <span style="color:#ffb454">100% Commissions</span></div>
@@ -176,7 +179,7 @@ select,input{width:100%;background:#0c1426;border:1px solid #2a3552;border-radiu
   </div>
 </section>
 
-<!-- FORM area (example) -->
+<!-- FORM -->
 <section id="getstart" style="padding:28px 0">
   <div class="container form-wrap">
     <div class="form-card">
@@ -238,26 +241,38 @@ select,input{width:100%;background:#0c1426;border:1px solid #2a3552;border-radiu
   </div>
 </footer>
 
+<!-- Meta Pixel (kept same if you need) -->
 <script>
-/* -------- reveal on scroll init -------- */
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
+}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+try{ fbq('init','905585234905857'); fbq('track','PageView'); }catch(e){}
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=905585234905857&ev=PageView&noscript=1"/></noscript>
+
+<script>
+/* Reveal + small pop animation */
 function revealInit(){
   const revealEls = document.querySelectorAll('.reveal, .pop-anim');
   const obs = new IntersectionObserver((entries, o)=>{
     entries.forEach(en=>{
       if(en.isIntersecting){
         en.target.classList.add('on');
-        // add small pop class for ones with pop-anim
-        if(en.target.classList.contains('pop-anim')) en.target.classList.add('pop');
-        setTimeout(()=>{ if(en.target.classList.contains('pop')) en.target.classList.remove('pop') }, 700);
+        if(en.target.classList.contains('pop-anim')) {
+          en.target.classList.add('pop');
+          setTimeout(()=>en.target.classList.remove('pop'),700);
+        }
         o.unobserve(en.target);
       }
     });
-  }, {threshold: 0.18});
+  },{threshold:0.18});
   revealEls.forEach(el=>obs.observe(el));
 }
 revealInit();
 
-/* -------- number animation 0 -> target -------- */
+/* Number animation */
 function animateNum(el, to, dur=1200){
   const start = performance.now(), from = 0;
   function step(now){
@@ -268,38 +283,21 @@ function animateNum(el, to, dur=1200){
   }
   requestAnimationFrame(step);
 }
-document.querySelectorAll('.knum, .num').forEach(k => {
+document.querySelectorAll('.knum, .num').forEach(k=>{
   k.textContent = '0';
-  const target = parseInt(k.dataset.count || k.textContent || '0', 10) || 0;
-  const ioNum = new IntersectionObserver((entries, ob) => {
-    entries.forEach(e => {
+  const target = parseInt(k.dataset.count||'0',10) || 0;
+  const io = new IntersectionObserver((entries, ob)=>{
+    entries.forEach(e=>{
       if(e.isIntersecting){
         animateNum(k, target, 1200);
         ob.unobserve(e.target);
       }
     });
-  }, {threshold: 0.4});
-  ioNum.observe(k);
+  },{threshold:0.4});
+  io.observe(k);
 });
 
-/* -------- video selector placeholder (if needed) -------- */
-const videoItems = document.querySelectorAll('.vitem');
-const mainPlayer = document.getElementById('mainPlayer');
-if(videoItems && mainPlayer){
-  videoItems.forEach(item=>{
-    item.addEventListener('click', ()=>{
-      videoItems.forEach(i=>i.classList.remove('active'));
-      item.classList.add('active');
-      const vid = item.dataset.video;
-      mainPlayer.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
-    });
-  });
-}
-
-/* -------- stacking behaviour for features + steps on small screens --------
-   - Makes cards position:sticky with computed top offsets so they overlap as you scroll.
-   - Tweak baseTop, step, marginBottomNeg to change behaviour.
-*/
+/* Stacking behaviour — increased gap settings */
 function setupStickyStacking(containerSelector, itemSelector, opts){
   const mq = window.matchMedia('(max-width:640px)');
   const container = document.querySelector(containerSelector);
@@ -308,14 +306,12 @@ function setupStickyStacking(containerSelector, itemSelector, opts){
   if(!items.length) return;
 
   if(mq.matches){
-    const baseTop = opts.baseTop ?? 60; // px for first item
-    const step = opts.step ?? 36;       // px difference for each next item (overlap)
-    const marginBottomNeg = opts.marginBottomNeg ?? -48;
+    const baseTop = opts.baseTop ?? 90; // increased — first item sticks lower
+    const step = opts.step ?? 44;       // increased step for more gap
+    const marginBottomNeg = opts.marginBottomNeg ?? -64; // overlap
 
-    // container padding adjustments so stick works smoothly
     container.style.paddingTop = (baseTop / 2) + 'px';
-    // add bottom padding so last item can be scrolled fully
-    container.style.paddingBottom = (Math.abs(marginBottomNeg) + 120) + 'px';
+    container.style.paddingBottom = (Math.abs(marginBottomNeg) + 220) + 'px';
 
     items.forEach((it, index) => {
       it.style.position = 'sticky';
@@ -328,7 +324,6 @@ function setupStickyStacking(containerSelector, itemSelector, opts){
       it.style.willChange = 'transform';
     });
   } else {
-    // reset styles
     items.forEach(it=>{
       it.style.position = '';
       it.style.top = '';
@@ -342,16 +337,16 @@ function setupStickyStacking(containerSelector, itemSelector, opts){
   }
 }
 
-/* Apply to features and steps */
+/* Apply stacking to both features and steps */
 function applyAllStacking(){
-  setupStickyStacking('.features-grid', '.feature-card', { baseTop: 60, step: 36, marginBottomNeg: -48 });
-  setupStickyStacking('#stepsGrid', '.step-card',     { baseTop: 60, step: 36, marginBottomNeg: -48 });
+  setupStickyStacking('.features-grid', '.feature-card', { baseTop: 90, step: 44, marginBottomNeg: -64 });
+  setupStickyStacking('#stepsGrid', '.step-card',     { baseTop: 90, step: 44, marginBottomNeg: -64 });
 }
 applyAllStacking();
 window.addEventListener('resize', applyAllStacking);
-window.addEventListener('orientationchange', ()=> setTimeout(applyAllStacking, 120));
+window.addEventListener('orientationchange', ()=> setTimeout(applyAllStacking, 150));
 
-/* -------- small pop interaction (tap to lift) -------- */
+/* pop interactions */
 document.querySelectorAll('.pop-anim').forEach(el=>{
   el.addEventListener('click', ()=> {
     el.classList.add('pop');
@@ -361,7 +356,7 @@ document.querySelectorAll('.pop-anim').forEach(el=>{
   el.addEventListener('touchend', ()=> setTimeout(()=>el.classList.remove('pop'), 600));
 });
 
-/* -------- form + WhatsApp logic (profession included) -------- */
+/* Form + WhatsApp logic */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznR1Wk3Gn2jztC1ZXnBW4jr52146ctHC3phfdn8Ve3zuwKvCflNIOy_sxfPZNhQbbf/exec";
 const WHATSAPP_TO = "919610580359";
 function saveLeadFast(params){
@@ -399,7 +394,7 @@ if(sendBtn){
   });
 }
 
-/* ensure stacking runs after layout/fonts stable */
+/* ensure stacking runs after fonts/layout stable */
 window.addEventListener('load', ()=> setTimeout(applyAllStacking, 120));
 </script>
 
