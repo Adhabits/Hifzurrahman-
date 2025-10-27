@@ -137,7 +137,7 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 .coach-head{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(20px,4.2vw,36px);line-height:1.02;margin:6px 0;color:var(--text)}
 .coach-desc{color:var(--muted);max-width:66ch}
 .coach-stats{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-.stat-pill{background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:12px;padding:12px 16px;min-width:160px;display:flex;flex-direction:column;align-items:center;box-shadow:0 12px 30px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,0.02);color:var(--text)}
+.stat-pill{background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:12px;padding:12px 16px;min-width:160px;display:flex;flex-direction:column;align-items:center;box-shadow:0 12px 30px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.02);color:var(--text)}
 .stat-num{font-weight:900;font-size:20px;color:#ff6aa2}
 .stat-label{font-size:13px;color:var(--muted);margin-top:6px;text-align:center}
 .coach-cta{margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
@@ -194,6 +194,22 @@ select:focus,input:focus{border-color:#3a8bd8}
 .reveal.on{opacity:1;transform:none}
 
 </style>
+
+<!-- ====== META PIXEL (same as your working page) - ID: 905585234905857 ====== -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
+}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','905585234905857');
+fbq('track','PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=905585234905857&ev=PageView&noscript=1"/>
+</noscript>
+<!-- ======================================================================= -->
+
 </head>
 <body>
 
@@ -600,11 +616,9 @@ function enableStacking(){
         card.style.zIndex = 300 + idx;
       });
       // set on-top for the currently visible stacked card depending on progress
-      // compute which card should be "on top" by measuring which card's top has crossed viewport top threshold
       mobileCards.forEach(c=>c.classList.remove('on-top'));
       // determine index of top card based on scroll position within section
       const progress = (s - start) / Math.max(1, (end - start));
-      // map progress 0..1 to card index 0..n-1
       const topIndex = Math.min(mobileCards.length - 1, Math.floor(progress * (mobileCards.length)));
       if(mobileCards[topIndex]) mobileCards[topIndex].classList.add('on-top');
     } else {
@@ -676,6 +690,7 @@ function saveLeadFast(params){
     }
   }catch(_){}
 }
+/* wrapper helpers that call fbq if available */
 function track(e,d){ try{ fbq && fbq('track', e, d||{}); }catch(_){ } }
 function trackCustom(n,d){ try{ fbq && fbq('trackCustom', n, d||{}); }catch(_){ } }
 
@@ -685,6 +700,15 @@ function openWhatsApp({name, phone, plan, profession}){
   window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
+/* Extra: track any WhatsApp links (custom event) */
+function bindWhatsAppLinks(){
+  document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"]').forEach(a=>{
+    a.addEventListener('click', ()=> trackCustom('WhatsAppLinkClick'));
+  });
+}
+bindWhatsAppLinks();
+
+/* Form submit (sends lead payload AND fires fbq Lead event) */
 const sendBtn = document.getElementById('sendBtn');
 if(sendBtn){
   sendBtn.addEventListener('click', (e)=>{
@@ -697,14 +721,14 @@ if(sendBtn){
     if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
     const old = sendBtn.textContent; sendBtn.disabled = true; sendBtn.textContent = 'Opening WhatsApp...';
     const payload = new URLSearchParams({ name, phone, plan, profession });
-    saveLeadFast(payload);
-    track('Lead', { content_name: plan, content_category: 'Affiliate' });
+    saveLeadFast(payload);                     // send to Google Script (fire-and-forget)
+    track('Lead', { content_name: plan, content_category: 'Affiliate' }); // Meta pixel Lead event
     openWhatsApp({name, phone, plan, profession});
     setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent = old; }, 1200);
   });
 }
 
-/* quick CTAs */
+/* Quick CTAs and contact tracking for coach buttons */
 document.getElementById('ctaStart')?.addEventListener('click', ()=>{
   sessionStorage.setItem('adh_plan', 'Affiliate Onboard');
   document.getElementById('name')?.focus({preventScroll:true});
@@ -715,20 +739,29 @@ document.getElementById('bottomWhats')?.addEventListener('click', ()=>{
   document.getElementById('name')?.focus({preventScroll:true});
   location.hash = '#getstart';
 });
+
+/* coach chat - track Contact when user initiates conversation */
+document.getElementById('coachChatBtn')?.addEventListener('click', ()=>{
+  try{ if(window.fbq) fbq('trackCustom','WhatsAppCoachClick'); }catch(e){}
+  // also send Contact event so Ads manager sees contact conversions
+  track('Contact', { source: 'coachChat' });
+  const msg = `Hello Rahman sir, I want to join as an affiliate.\nName:\nPhone:\nInterested in: Affiliate onboarding / 100% commission offers`;
+  window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
+});
 document.getElementById('coachWhats')?.addEventListener('click', ()=>{
   sessionStorage.setItem('adh_plan', 'Coach 1:1');
   document.getElementById('name')?.focus({preventScroll:true});
   location.hash = '#getstart';
-});
-document.getElementById('coachChatBtn')?.addEventListener('click', ()=>{
-  try{ if(window.fbq) fbq('trackCustom','WhatsAppCoachClick'); }catch(e){}
-  const msg = `Hello Rahman sir, I want to join as an affiliate.\nName:\nPhone:\nInterested in: Affiliate onboarding / 100% commission offers`;
-  window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
+  // treat this as contact intent
+  track('Contact', { source: 'coachWhats' });
 });
 document.getElementById('coachLearnBtn')?.addEventListener('click', ()=>{
   const t = document.getElementById('plans') || document.getElementById('getstart');
   if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
 });
+
+/* ensure stacking runs after load */
+window.addEventListener('load', ()=> setTimeout(enableStacking, 120));
 </script>
 
 </body>
