@@ -15,8 +15,8 @@
   --grad:linear-gradient(135deg,#8b5cf6,#22d3ee 55%,#34d399);
   --accent:#ffb454; --accent2:#ff914d;
   --card:#0f172a;
-  --gold: #ffcf8a;
-  --answer-black: #06101d;
+  --gold:#ffcf8a;
+  --answer-black:#06101d;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
@@ -41,7 +41,7 @@ a{color:inherit;text-decoration:none}
   .hamb{display:block}
 }
 
-/* floating banner (shorter / compact) */
+/* floating banner compact */
 .floating-bar{
   position:fixed;left:50%;transform:translateX(-50%);top:16px;z-index:90;
   background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:8px 14px;border-radius:999px;font-weight:800;box-shadow:0 14px 40px rgba(155,59,255,.12);
@@ -94,29 +94,40 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 .reasons ul{margin:8px 0 0;padding-left:18px;color:#dfe9f7}
 .reasons li{margin:8px 0}
 
-/* features grid */
+/* FEATURES GRID */
 .features-section{padding:40px 0 60px;background:linear-gradient(180deg, rgba(255,240,247,0.02), transparent)}
 .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px;align-items:start;padding-top:8px;overflow:visible}
 @media (max-width:1000px){.features-grid{grid-template-columns:repeat(2,1fr)}}
 
-/* For mobile we'll use slide-in animation + make the grid temporarily fixed when in view */
+/* mobile behaviour: full white boxes + sticky stacking effect */
 @media (max-width:640px){
-  .features-grid{grid-template-columns:1fr;padding-top:12px}
-  .feature-card{background:#fff;border-radius:12px;padding:22px 18px;text-align:center;color:#0b1220;box-shadow:0 12px 30px rgba(0,0,0,0.14);transition:transform .58s cubic-bezier(.2,.9,.2,1),opacity .45s}
-  .feature-card .icon{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
-  .feature-card h3{margin:6px 0 8px;font-size:18px}
-  .feature-card p{color:#6b7889;margin:0}
-  /* start positions */
-  .feature-card.from-left{opacity:0; transform:translateX(-90px) translateY(12px);}
-  .feature-card.from-right{opacity:0; transform:translateX(90px) translateY(12px);}
-  /* visible state */
-  .feature-card.in{opacity:1; transform:translateX(0) translateY(0);}
+  .features-grid{grid-template-columns:1fr;padding-top:12px;gap:20px}
+  .feature-card{
+    background:#fff;border-radius:12px;padding:28px 20px;text-align:center;color:#0b1220;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);transition:transform .18s ease, box-shadow .18s ease;
+    width:100%; /* full width */
+    margin:0 auto;
+  }
+  .feature-card .icon{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;margin:0 auto 16px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
+  .feature-card h3{margin:6px 0 10px;font-size:20px;color:#06101d}
+  .feature-card p{color:#6b7889;margin:0;font-size:16px}
+
+  /* we will toggle .stacked state from JS; when stacked we position sticky+top to overlap */
+  .feature-card.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    right: 0;
+  }
+
+  /* when card has .on-top we raise z and slightly reduce bottom margin so it visually covers previous */
+  .feature-card.on-top{ z-index: 400; transform: translateY(-6px); box-shadow:0 30px 80px rgba(0,0,0,0.25);}
 }
 
 /* ensure sticky cards content is visible above neighboring card edges */
 .features-grid, .feature-card { overflow: visible; }
 
-/* coach (kept improved responsive) */
+/* coach */
 .coach-section{max-width:1150px;margin:48px auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:24px;align-items:center;color:var(--text)}
 .coach-inner{display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
 .coach-photo{width:100%;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.45);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
@@ -137,13 +148,13 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
   .coach-stats{flex-direction:column;align-self:start}
 }
 
-/* steps / form etc kept similar (only minor mobile tweaks below) */
+/* steps / form etc */
 .steps{padding:48px 0}
 .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media (max-width:980px){.steps-grid{grid-template-columns:1fr}}
 .step-card{background:#fff;border-radius:10px;padding:20px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 10px 28px rgba(0,0,0,.08)}
 .step-num{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-size:20px}
-/* QUESTION (heading) golden, ANSWER (p) full black and clear */
+/* heading golden, paragraph full black and strong */
 .step-body h4{margin:0;font-size:18px;color:var(--gold);font-weight:800}
 .step-body p{margin:6px 0 0;color:var(--answer-black);line-height:1.45;font-weight:700;opacity:1}
 
@@ -160,7 +171,7 @@ select:focus,input:focus{border-color:#3a8bd8}
 .form-hint{color:#93a4c6;margin-left:8px}
 .right-box{border:1px solid #273047;background:#0f172a;border-radius:16px;padding:18px}
 
-/* small-screen adjustments to ensure nothing hides */
+/* small-screen adjustments */
 @media (max-width:520px){
   .hero{padding:36px 0}
   h1{font-size:24px;line-height:1.06}
@@ -178,12 +189,10 @@ select:focus,input:focus{border-color:#3a8bd8}
   .player-wrap{margin:0 auto}
 }
 
-/* reveal animation */
+/* reveal */
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
 .reveal.on{opacity:1;transform:none}
 
-/* small helpers for feature pop effect */
-.feature-card.pop{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.25)}
 </style>
 </head>
 <body>
@@ -294,25 +303,25 @@ select:focus,input:focus{border-color:#3a8bd8}
     </div>
 
     <div class="features-grid" id="featuresGrid">
-      <div class="feature-card pop-anim from-left" data-pop>
+      <div class="feature-card pop-anim" data-pop>
         <div class="icon">💡</div>
         <h3>In-demand Digital Skills</h3>
         <p>Latest market skills jo demand mein hain.</p>
       </div>
 
-      <div class="feature-card pop-anim from-right" data-pop>
+      <div class="feature-card pop-anim" data-pop>
         <div class="icon">📞</div>
         <h3>Phone Se Kaam</h3>
         <p>Apne phone se professional kaam karna.</p>
       </div>
 
-      <div class="feature-card pop-anim from-left" data-pop>
+      <div class="feature-card pop-anim" data-pop>
         <div class="icon">⏰</div>
         <h3>Flexible Timing</h3>
         <p>Apne time ke according kaam karo.</p>
       </div>
 
-      <div class="feature-card pop-anim from-right" data-pop>
+      <div class="feature-card pop-anim" data-pop>
         <div class="icon">🆔</div>
         <h3>Online Identity</h3>
         <p>Confidently apni online presence build karna.</p>
@@ -365,7 +374,6 @@ select:focus,input:focus{border-color:#3a8bd8}
   </div>
 </section>
 
-<!-- coach section (replaced, responsive & mobile-friendly) -->
 <section id="coach" class="coach-section">
   <div class="coach-inner container">
     <div class="coach-photo reveal">
@@ -423,8 +431,6 @@ select:focus,input:focus{border-color:#3a8bd8}
       <h3>Get Started — Become an Affiliate</h3>
       <p class="form-note">Hello Rahman sir, I want to become an affiliate and start earning. My details below 👇</p>
 
-      <!-- removed the top 'Which Offer' select per request -->
-
       <label for="name">Your Name</label>
       <input id="name" type="text" placeholder="Your name" required>
 
@@ -481,7 +487,7 @@ select:focus,input:focus{border-color:#3a8bd8}
 </footer>
 
 <script>
-/* Mobile menu toggle */
+/* mobile menu toggle */
 const hamb = document.getElementById('hamb'), mnav = document.getElementById('mnav');
 if(hamb) hamb.onclick = () => { mnav.style.display = (mnav.style.display === 'block') ? 'none' : 'block'; };
 
@@ -538,155 +544,94 @@ videoItems.forEach(item=>{
   });
 });
 
-/* ---- Improved fixed-panel + left/right slide-in logic ----
-   Use scroll listener & geometry checks for stable fixed behavior.
+/* ---------- Sticky stacking logic for feature cards (mobile) ----------
+   Approach:
+   - On mobile, when features section enters viewport, add .sticky to each card.
+   - Use JS to compute top offsets so cards become sticky at slightly different top values,
+     resulting in each next card overlapping the previous as user scrolls down.
+   - When leaving section, remove sticky and reset.
 */
-const featuresSection = document.getElementById('features');
-const featuresGrid = document.getElementById('featuresGrid');
 const featuresContainer = document.getElementById('featuresContainer');
-const featureCards = featuresGrid ? Array.from(featuresGrid.querySelectorAll('.feature-card')) : [];
+const featuresGrid = document.getElementById('featuresGrid');
+let mobileCards = featuresGrid ? Array.from(featuresGrid.querySelectorAll('.feature-card')) : [];
+const mobileBreakpoint = 640;
+const cardStackStep = 56; // overlap amount - how much each next card moves up relative to previous
+const baseTop = 110;      // where first card sticks (px from viewport top)
 
-let placeholder = null;
-let isFixed = false;
-const topOffset = 110;         // px from top where fixed grid should sit (adjust if header taller)
-const slideStagger = 120;      // ms between card reveals
+function enableStacking(){
+  if(!mobileCards.length) mobileCards = featuresGrid ? Array.from(featuresGrid.querySelectorAll('.feature-card')) : [];
+  if(!mobileCards.length || !featuresContainer) return;
 
-function setPlaceholder(height){
-  if(!placeholder){
-    placeholder = document.createElement('div');
-    placeholder.style.width = '100%';
-    placeholder.style.height = height + 'px';
-    featuresGrid.parentNode.insertBefore(placeholder, featuresGrid);
-  } else {
-    placeholder.style.height = height + 'px';
-  }
-}
+  // compute full section bounds
+  const sectionRect = featuresContainer.getBoundingClientRect();
+  const sectionTopAbs = window.scrollY + sectionRect.top;
+  const sectionHeight = sectionRect.height;
 
-function removePlaceholder(){
-  if(placeholder && placeholder.parentNode){
-    placeholder.parentNode.removeChild(placeholder);
-    placeholder = null;
-  }
-}
+  // We'll observe scroll and toggle sticky when user enters between start and end
+  // start when top of section reaches viewport top + 40 (a little earlier)
+  const start = sectionTopAbs - 160;
+  // end when bottom of section scrolls past top + some margin
+  const end = sectionTopAbs + sectionHeight - 80;
 
-function applyFixed(){
-  if(!featuresGrid || isFixed) return;
-  if(!window.matchMedia('(max-width:640px)').matches) return;
-
-  // measure container
-  const contRect = featuresContainer.getBoundingClientRect();
-  const absoluteLeft = contRect.left + window.scrollX;
-  const width = contRect.width;
-
-  // create placeholder same height so page flow doesn't jump
-  setPlaceholder(featuresGrid.getBoundingClientRect().height);
-
-  // save minimal inline styles (we'll not revert every property; we restore by clearing inline style)
-  featuresGrid.style.position = 'fixed';
-  featuresGrid.style.left = absoluteLeft + 'px';
-  featuresGrid.style.top = topOffset + 'px';
-  featuresGrid.style.width = width + 'px';
-  featuresGrid.style.zIndex = 9999;
-  featuresGrid.style.boxShadow = '0 30px 80px rgba(0,0,0,0.45)';
-  featuresGrid.style.background = 'transparent';
-
-  // reveal cards with stagger
-  featureCards.forEach((card, i) => {
-    card.classList.remove('in');
-    setTimeout(()=> card.classList.add('in'), i * slideStagger);
-  });
-
-  // slightly increase bottom padding to avoid abrupt end when scrolling past
-  document.body.style.paddingBottom = '80px';
-
-  isFixed = true;
-}
-
-function removeFixed(){
-  if(!featuresGrid || !isFixed) return;
-  // remove inline styles to return to normal flow
-  featuresGrid.style.position = '';
-  featuresGrid.style.left = '';
-  featuresGrid.style.top = '';
-  featuresGrid.style.width = '';
-  featuresGrid.style.zIndex = '';
-  featuresGrid.style.boxShadow = '';
-  featuresGrid.style.background = '';
-
-  // remove "in" to allow animation replay next time
-  featureCards.forEach(card => card.classList.remove('in'));
-
-  removePlaceholder();
-  document.body.style.paddingBottom = '';
-  isFixed = false;
-}
-
-let lastKnownScroll = 0;
-let ticking = false;
-function onScrollCheck(){
-  lastKnownScroll = window.scrollY;
-  if(!ticking){
-    window.requestAnimationFrame(()=> {
-      ticking = false;
-      evaluateFixedState(lastKnownScroll);
-    });
-    ticking = true;
-  }
-}
-
-function evaluateFixedState(scrollY){
-  if(!featuresSection || !featuresGrid) return;
-  const contRect = featuresContainer.getBoundingClientRect();
-  const sectionTopAbs = scrollY + contRect.top;
-  const sectionHeight = contRect.height;
-  const gridHeight = featuresGrid.getBoundingClientRect().height;
-
-  // We want the grid fixed when:
-  // user scrolled past the top of the section (plus some tolerance) AND
-  // user has not scrolled past the bottom (so fixed doesn't overlap next sections).
-  const fixedStart = sectionTopAbs - topOffset;
-  const fixedEnd = sectionTopAbs + sectionHeight - topOffset - gridHeight;
-
-  if(window.matchMedia('(max-width:640px)').matches && scrollY >= fixedStart && scrollY <= fixedEnd){
-    applyFixed();
-  } else {
-    removeFixed();
-  }
-}
-
-// attach scroll handler
-window.addEventListener('scroll', onScrollCheck, {passive:true});
-window.addEventListener('resize', ()=> {
-  // if viewport changed to desktop, remove fixed
-  if(!window.matchMedia('(max-width:640px)').matches) removeFixed();
-  else {
-    // if fixed, re-set left/width
-    if(isFixed && featuresContainer){
-      const contRect = featuresContainer.getBoundingClientRect();
-      featuresGrid.style.left = (contRect.left + window.scrollX) + 'px';
-      featuresGrid.style.width = contRect.width + 'px';
+  function onScroll(){
+    if(window.innerWidth > mobileBreakpoint) {
+      // cleanup
+      mobileCards.forEach((c)=>{
+        c.classList.remove('sticky', 'on-top');
+        c.style.top = '';
+        c.style.zIndex = '';
+      });
+      return;
+    }
+    const s = window.scrollY;
+    if(s >= start && s <= end){
+      // add sticky class & compute top offsets
+      mobileCards.forEach((card, idx) => {
+        card.classList.add('sticky');
+        // top value for each card: baseTop - (idx * step)
+        const topVal = Math.max(14, baseTop - (idx * cardStackStep));
+        card.style.top = topVal + 'px';
+        // later cards should be above earlier ones
+        card.style.zIndex = 300 + idx;
+      });
+      // set on-top for the currently visible stacked card depending on progress
+      // compute which card should be "on top" by measuring which card's top has crossed viewport top threshold
+      mobileCards.forEach(c=>c.classList.remove('on-top'));
+      // determine index of top card based on scroll position within section
+      const progress = (s - start) / Math.max(1, (end - start));
+      // map progress 0..1 to card index 0..n-1
+      const topIndex = Math.min(mobileCards.length - 1, Math.floor(progress * (mobileCards.length)));
+      if(mobileCards[topIndex]) mobileCards[topIndex].classList.add('on-top');
+    } else {
+      // remove sticky
+      mobileCards.forEach((card)=>{
+        card.classList.remove('sticky', 'on-top');
+        card.style.top = '';
+        card.style.zIndex = '';
+      });
     }
   }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  // initial run
+  onScroll();
+}
+
+// run stacking logic on load (and re-run when resizing into mobile)
+window.addEventListener('load', ()=> {
+  enableStacking();
+  // small re-run after fonts settle
+  setTimeout(enableStacking, 200);
 });
-window.addEventListener('orientationchange', ()=> setTimeout(()=> {
-  if(isFixed && featuresContainer){
-    const contRect = featuresContainer.getBoundingClientRect();
-    featuresGrid.style.left = (contRect.left + window.scrollX) + 'px';
-    featuresGrid.style.width = contRect.width + 'px';
-  }
-}, 160));
+window.addEventListener('orientationchange', ()=> setTimeout(enableStacking, 160));
 
-// initial evaluate in case user loads mid-page
-window.addEventListener('load', ()=> setTimeout(()=> evaluateFixedState(window.scrollY), 120));
-
-/* small pop animation for features (tap) */
-featureCards.forEach(card=>{
+/* small tap animation for feature cards */
+mobileCards.forEach(card=>{
   card.addEventListener('click', ()=> {
     card.classList.add('pop');
     setTimeout(()=>card.classList.remove('pop'), 700);
   });
-  card.addEventListener('touchstart', ()=> card.classList.add('pop'));
-  card.addEventListener('touchend', ()=> setTimeout(()=>card.classList.remove('pop'), 600));
 });
 
 /* countdown (1 hour persisted) */
@@ -711,7 +656,7 @@ featureCards.forEach(card=>{
   tick();
 })();
 
-/* form + whatsapp (no platform select now) */
+/* form + whatsapp (platform removed) */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznR1Wk3Gn2jztC1ZXnBW4jr52146ctHC3phfdn8Ve3zuwKvCflNIOy_sxfPZNhQbbf/exec";
 const WHATSAPP_TO = "919610580359";
 
@@ -730,8 +675,8 @@ function saveLeadFast(params){
 function track(e,d){ try{ fbq && fbq('track', e, d||{}); }catch(_){ } }
 function trackCustom(n,d){ try{ fbq && fbq('trackCustom', n, d||{}); }catch(_){ } }
 
-function openWhatsApp({name, phone, platform, plan, profession}){
-  trackCustom('WhatsAppOpen', {plan, platform});
+function openWhatsApp({name, phone, plan, profession}){
+  trackCustom('WhatsAppOpen', {plan});
   const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nProfession: ${profession || 'Not specified'}\nPlan: ${plan || 'Affiliate Onboard'}\n\nPlease guide me.`;
   window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
 }
@@ -740,8 +685,6 @@ const sendBtn = document.getElementById('sendBtn');
 if(sendBtn){
   sendBtn.addEventListener('click', (e)=>{
     e.preventDefault();
-    // platform select removed, fallback to default platform name
-    const platform = 'Affiliate — 100% Commission Offer';
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const profession = document.getElementById('profession').value.trim();
@@ -749,10 +692,10 @@ if(sendBtn){
     if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
     if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
     const old = sendBtn.textContent; sendBtn.disabled = true; sendBtn.textContent = 'Opening WhatsApp...';
-    const payload = new URLSearchParams({ name, phone, platform, plan, profession });
+    const payload = new URLSearchParams({ name, phone, plan, profession });
     saveLeadFast(payload);
-    track('Lead', { content_name: plan, content_category: platform });
-    openWhatsApp({name, phone, platform, plan, profession});
+    track('Lead', { content_name: plan, content_category: 'Affiliate' });
+    openWhatsApp({name, phone, plan, profession});
     setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent = old; }, 1200);
   });
 }
