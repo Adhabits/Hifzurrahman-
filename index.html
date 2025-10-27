@@ -12,24 +12,20 @@
 <style>
 :root{
   --bg:#0a0f1b; --text:#e7eaf0; --muted:#9fb0c9; --stroke:#1e2a42;
-  --card:#0f172a; --grad:linear-gradient(90deg,#ff6aa2,#9b5cff);
-  --accent-grad:linear-gradient(135deg,#8b5cf6,#ff6aa2);
-  --cta-grad:linear-gradient(90deg,#ff6aa2,#9b5cff);
-  --accent2:#ffcf8a;
+  --card:#0f172a; --grad:linear-gradient(135deg,#8b5cf6, #22d3ee 55%, #34d399);
+  --accent:#ffb454; --accent2:#ffcf8a;
 }
 
-/* RESET */
+/* Reset */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 .container{max-width:1150px;margin:auto;padding:0 18px}
 
 /* NAV */
 .nav{position:sticky;top:0;z-index:60;background:rgba(10,15,27,.92);backdrop-filter:saturate(160%) blur(8px);border-bottom:1px solid rgba(255,255,255,0.02)}
 .nav-inner{height:64px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800}
-.logo{width:28px;height:28px}
-.logo img{width:100%;height:100%;object-fit:contain}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
 .nav-links{display:flex;align-items:center;gap:18px}
 .nav-links a{color:#c9d3e6;font-weight:700}
 .nav-links a:hover{color:#fff}
@@ -37,48 +33,45 @@ a{color:inherit;text-decoration:none}
 .hamb span{display:block;width:22px;height:2px;background:#c9d3e6;margin:5px 0;border-radius:2px}
 @media (max-width:860px){.nav-links{display:none}.hamb{display:block}}
 
-/* Floating pill (center top) + small tip line under it */
+/* mobile menu */
+.mobile-menu{position:fixed;inset:64px 0 auto 0;background:rgba(9,14,24,.98);border-top:1px solid rgba(255,255,255,0.02);display:none;z-index:59}
+.mobile-menu.on{display:block}
+.mobile-menu a{display:block;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.02);color:#d5def1;font-weight:700}
+
+/* floating banner + tip */
 .floating-bar{
   position:fixed;left:50%;transform:translateX(-50%);top:14px;z-index:120;
-  background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:10px 26px;border-radius:999px;font-weight:800;
-  display:inline-flex;gap:12px;align-items:center;cursor:pointer;box-shadow:0 14px 40px rgba(155,59,255,.12);
-  border: 2px solid rgba(255,255,255,.06);
-  transition:transform .18s ease;
+  background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;box-shadow:0 14px 40px rgba(155,59,255,.12);
+  border: 2px solid rgba(255,255,255,.06);cursor:pointer;
 }
-.floating-bar:active{transform:translateX(-50%) translateY(2px)}
 .floating-tip{
-  position:fixed;left:50%;transform:translateX(-50%);top:56px;z-index:119;
-  color:#dfe7f6;font-size:13px;background:transparent;padding:4px 8px;border-radius:8px;pointer-events:none;
-  text-align:center;
+  position:fixed;left:50%;transform:translateX(-50%);top:54px;z-index:119;color:#dfe9f7;font-size:13px;padding:2px 8px;border-radius:8px;pointer-events:none;
 }
 
 /* HERO */
-.hero{
-  padding:88px 0 28px;
-  background:
-   radial-gradient(1200px 600px at 80% -10%, rgba(167,139,250,.08), transparent 60%),
-   radial-gradient(900px 500px at -10% 10%, rgba(34,211,238,.04), transparent 60%);
-}
-.eyebrow{display:inline-block;padding:7px 12px;border:1px solid rgba(255,255,255,0.04);border-radius:999px;color:#b5c1d8;margin-bottom:14px;font-weight:700}
-h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(28px,6vw,46px);line-height:1.02;letter-spacing:-.02em;margin-bottom:10px;color:var(--text)}
+.hero{padding:80px 0 28px;background:
+ radial-gradient(1200px 600px at 80% -10%, rgba(167,139,250,.08), transparent 60%),
+ radial-gradient(900px 500px at -10% 10%, rgba(34,211,238,.04), transparent 60%);}
+.eyebrow{display:inline-block;padding:7px 12px;border:1px solid rgba(255,255,255,0.03);border-radius:999px;color:#b5c1d8;margin-bottom:14px;font-weight:700}
+h1{font-family:Poppins, system-ui, Arial;font-weight:800;font-size:clamp(28px,6vw,48px);line-height:1.02;letter-spacing:-.02em;margin-bottom:10px;color:var(--text)}
+.headline-animated{display:inline-block;white-space:nowrap;overflow:hidden}
 .kpis{color:var(--muted);margin:10px 0 18px;font-size:15px}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 16px}
 .btn{padding:12px 18px;border-radius:12px;font-weight:800;transition:transform .18s ease, box-shadow .18s ease;cursor:pointer;border:none}
 .btn.primary{background:linear-gradient(90deg,#7f3bff,#ff6aa2);color:#06101d}
-.btn.primary:hover{transform:scale(1.03);box-shadow:0 12px 30px rgba(127,59,255,.18)}
 .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e6eef8}
 .panel{border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,#0f1628,#0b0f1a);border-radius:12px;padding:12px;color:#aeb9ce;font-size:14px;display:inline-block}
 
-/* layout for video + right column (on desktop) */
+/* layout video + right column */
 .video-area{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start;margin-top:18px}
 @media (max-width:980px){.video-area{grid-template-columns:1fr;padding-bottom:8px}}
-.player-wrap{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);background:#0b0f1a;box-shadow:0 30px 60px rgba(0,0,0,0.45)}
+.player-wrap{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);background:#0b0f1a}
 .player-frame{position:relative;padding-top:56.25%;background:#111}
 .player-frame iframe{position:absolute;inset:0;width:100%;height:100%}
-.player-card{background:#fff;color:#0b1220;padding:16px;border-radius:0 0 12px 12px}
-.timer{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800;box-shadow:0 8px 24px rgba(155,59,255,.12)}
+.player-card{background:#fff;color:#0b1220;padding:14px;border-radius:0 0 12px 12px}
+.timer{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
 
-/* video select (right column) */
+/* video select right */
 .video-select{display:flex;flex-direction:column;gap:14px}
 .vitem{border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:10px;display:flex;gap:12px;align-items:center;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
 .vitem.active{border-color:#ff4da6;box-shadow:0 8px 30px rgba(255,77,166,0.06);transform:translateY(-4px)}
@@ -86,50 +79,47 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(28px,6vw,
 .vmeta h4{margin:0;font-weight:800;color:#e6edf7}
 .vmeta p{margin:6px 0 0;color:#9fb0c9;font-size:14px}
 
-/* reasons box */
+/* reasons */
 .reasons{margin-top:8px;padding:14px;border-radius:12px;background:linear-gradient(180deg,rgba(139,92,246,0.04), rgba(255,77,166,0.02));border:1px solid rgba(255,255,255,0.02)}
 .reasons ul{margin:8px 0 0;padding-left:18px;color:#dfe9f7}
 .reasons li{margin:8px 0;}
 
-/* FEATURES grid (cards) */
+/* FEATURES grid */
 .features-section{padding:38px 0 50px;background:linear-gradient(180deg, rgba(255,240,247,0.01), transparent)}
 .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px}
 @media (max-width:1000px){.features-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:640px){.features-grid{grid-template-columns:1fr;padding:0 6px}}
+@media (max-width:640px){.features-grid{grid-template-columns:1fr;padding:0 6px;gap:16px}}
 .feature-card{background:#fff;border-radius:12px;padding:28px;text-align:center;color:#0b1220;box-shadow:0 12px 30px rgba(0,0,0,0.12);transition:transform .18s ease}
 .feature-card .icon{width:80px;height:80px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
 .feature-card p{color:#6b7889}
 .pop-anim{transition:transform .18s cubic-bezier(.2,.9,.2,1);transform-origin:center}
 .pop-anim.pop{transform:scale(1.04);box-shadow:0 24px 60px rgba(0,0,0,.18)}
 
-/* STEPS — stacked effect */
+/* STEPS: stacked cards effect on desktop, normal on mobile */
 .steps{padding:36px 0}
 .steps .title{font:800 34px/1.05 Poppins;text-align:center;margin-bottom:22px}
 .steps-stack{position:relative;max-width:1150px;margin:0 auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:18px}
 .step-card{
   background:#fff;border-radius:12px;padding:22px;display:flex;gap:14px;align-items:flex-start;box-shadow:0 10px 28px rgba(0,0,0,.08);
-  position:sticky; top: calc(120px - var(--i)*18px); z-index: calc(50 - var(--i));
-  transition:transform .18s ease, box-shadow .18s ease;
-  overflow:visible;
+  position:sticky; top: calc(120px - var(--i,0)*18px); z-index: calc(50 - var(--i,0));
+  transition:transform .18s ease, box-shadow .18s ease; overflow:visible;
 }
-@media (max-width:980px){
-  .step-card{position:relative;top:auto;z-index:auto}
-}
+@media (max-width:980px){ .step-card{position:relative;top:auto;z-index:auto} }
 
-/* number pill (left) */
+/* number pill */
 .step-num{width:56px;height:56px;border-radius:999px;display:grid;place-items:center;font-weight:800;
   background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-size:18px;flex:0 0 auto}
 
-/* question (title) colored) and answer black */
+/* question colored, answer black */
 .step-body h4{margin:0;font-weight:800;color:var(--accent2); font-family:Poppins, system-ui, sans-serif}
-.step-body p{margin:8px 0 0;color:#06101d} /* full black */
+.step-body p{margin:8px 0 0;color:#06101d} /* full black for body */
 
 @media (max-width:640px){
   .step-card{flex-direction:row;align-items:center;padding:18px}
   .step-body p{font-size:15px}
 }
 
-/* COACH / PROFILE section (kept responsive) */
+/* coach/profile */
 .coach{padding:40px 0;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
 @media (max-width:980px){.coach{grid-template-columns:1fr}}
 .coach-photo{border-radius:16px;overflow:hidden;background:#0b0f1a;padding:12px;display:grid;place-items:center;box-shadow:0 24px 60px rgba(0,0,0,.45)}
@@ -139,7 +129,7 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(28px,6vw,
 .stat-card{background:#fff;padding:12px 18px;border-radius:10px;min-width:120px;text-align:center;color:#0b1220;box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .stat-card .num{font-weight:900;font-size:20px;color:#ff4da6}
 
-/* FORM and other utilities */
+/* form */
 #getstart{padding:36px 0}
 .form-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
 @media (max-width:980px){.form-wrap{grid-template-columns:1fr}}
@@ -149,17 +139,16 @@ select,input{width:100%;background:#0c1426;border:1px solid #2a3552;border-radiu
 .form-btn{margin-top:12px;display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;background:#25d366;color:#061016;font-weight:800;border:none;cursor:pointer}
 .right-box{border:1px solid rgba(255,255,255,0.03);background:#0f172a;border-radius:12px;padding:18px}
 
-/* FOOTER */
+/* footer */
 footer{border-top:1px solid rgba(255,255,255,0.03);margin-top:40px}
 .foot{max-width:1150px;margin:auto;padding:16px 18px 26px;color:#aeb8cc}
-.small{color:#8292b6}
 
 /* reveal helper */
 .reveal{opacity:0;transform:translateY(8px);transition:opacity .6s ease, transform .6s ease}
 .reveal.on{opacity:1;transform:none}
 </style>
 
-<!-- pixel kept (unchanged) -->
+<!-- Meta Pixel (unchanged) -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -176,18 +165,19 @@ fbq('track','PageView');
 
 <header class="nav">
   <div class="container nav-inner">
-    <div class="brand">
-      <span class="logo"><img src="https://i.postimg.cc/3rVMTKYG/adhabits-logo.png" alt="AdHabits" /></span>
-      <span>AdHabits</span>
-    </div>
+    <!-- removed logo image per your request; brand text only -->
+    <div class="brand">AdHabits</div>
+
     <nav class="nav-links">
       <a href="#features">What you'll learn</a>
       <a href="#coach">Your Coach</a>
       <a href="#testimonials">Testimonials</a>
       <a href="#getstart" class="btn secondary">WhatsApp</a>
     </nav>
+
     <div class="hamb" id="hamb"><span></span><span></span><span></span></div>
   </div>
+
   <div class="mobile-menu" id="mnav">
     <a href="#features">What you'll learn</a>
     <a href="#coach">Your Coach</a>
@@ -196,25 +186,27 @@ fbq('track','PageView');
   </div>
 </header>
 
-<!-- Floating watch pill + small tip text -->
+<!-- Floating watch pill & tip -->
 <div class="floating-bar" id="floatBanner">▶ Watch this video first</div>
-<div class="floating-tip" id="floatTip">Tap to play • Scroll to explore</div>
+<div class="floating-tip" id="floatTip">Tip: Watch the intro before you scroll</div>
 
 <section class="hero">
   <div class="container">
     <div class="reveal on">
       <span class="eyebrow">Affiliate Opportunity</span>
-      <h1>Earn With <span style="color:var(--accent2)">100% Commissions</span><br>
-        <span style="font-weight:700" class="headline-animated">We help Affiliates — Students — Housewives — Newbies</span>
+      <h1>
+        Earn With <span style="color:var(--accent2)">100% Commissions</span><br>
+        <span class="headline-animated">We help Affiliates — Students — Housewives — Newbies</span>
       </h1>
 
       <div class="kpis">Join Over <b style="color:#ffb454">1,00,000+</b> Working Professionals, Housewives, Students &amp; Self Employed with us</div>
 
       <div class="video-area">
-        <!-- main player -->
+        <!-- left: main player -->
         <div>
-          <div class="player-wrap reveal player-shadow">
+          <div class="player-wrap player-shadow reveal">
             <div class="player-frame" id="playerFrame">
+              <!-- embedded YouTube -->
               <iframe id="mainPlayer" src="https://www.youtube.com/embed/SG5MdFiP1zA?rel=0&modestbranding=1&playsinline=1" title="AdHabits Intro" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
             <div class="player-card">
@@ -231,7 +223,7 @@ fbq('track','PageView');
           </div>
         </div>
 
-        <!-- right: selectors -->
+        <!-- right selectors & reasons -->
         <aside>
           <div class="video-select reveal">
             <div class="vitem active" data-video="SG5MdFiP1zA">
@@ -256,6 +248,7 @@ fbq('track','PageView');
                 <li>See actual affiliate results & 100% commission examples</li>
                 <li>Understand how newbies & homemakers started earning</li>
                 <li>Learn the simple offer & messaging that converts</li>
+                <li>Get motivated — this is repeatable and teachable</li>
               </ul>
             </div>
           </div>
@@ -308,13 +301,11 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- WHAT HAPPENS (stacked scroll effect) -->
+<!-- WHAT HAPPENS STACKED -->
 <section class="steps">
   <div class="container">
-    <div class="title" style="text-align:center;margin-bottom:18px"><h2 class="title" style="font-family:Poppins,system-ui,Arial;font-weight:800;color:var(--text)">What Happens When You Join?</h2></div>
+    <h2 class="title" style="font-family:Poppins,system-ui,Arial;font-weight:800;font-size:34px;color:var(--text);text-align:center;margin-bottom:18px">What Happens When You Join?</h2>
 
-    <!-- steps stack: on desktop cards are sticky and show stacking effect using --i
-         on mobile they render as normal stacked cards -->
     <div class="steps-stack" id="stepsStack">
       <div class="step-card reveal" style="--i:0">
         <div class="step-num">1</div>
@@ -355,7 +346,7 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- COACH (responsive) -->
+<!-- COACH -->
 <section id="coach" class="coach">
   <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center">
     <div class="coach-photo reveal">
@@ -364,8 +355,8 @@ fbq('track','PageView');
 
     <div class="coach-copy reveal">
       <div class="eyebrow" style="display:inline-block;background:linear-gradient(90deg,#ff6aa2,#9b5cff);border:none;color:#fff">Your Coach</div>
-      <h3>Hi, Rahman here — I help affiliates scale & earn <span style="color:var(--accent2)">100% commissions</span></h3>
-      <p style="color:var(--muted);margin-top:6px">I work with students, homemakers and full-time affiliates. If you're stuck, I help you grow from first sale to consistent income — small & big packages both supported. I provide traffic, scripts, 1:1 audits & weekly payouts.</p>
+      <h3>Hi, Rahman here — I help affiliates scale & earn 100% commissions</h3>
+      <p style="color:var(--muted);margin-top:6px">I work with students, homemakers and full-time affiliates. If you're stuck, I help you grow from first sale to consistent income — small & big packages both supported.</p>
 
       <div class="stats-row" style="margin-top:14px">
         <div class="stat-card">
@@ -389,7 +380,22 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- FORM -->
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="padding:36px 0">
+  <div class="container">
+    <h2 style="font-weight:800">Client Testimonials</h2>
+    <p style="color:var(--muted);margin-top:8px">Real WhatsApp screenshots from happy affiliates & students</p>
+
+    <div style="display:flex;gap:12px;overflow:auto;padding-top:12px;margin-top:12px">
+      <img src="https://i.postimg.cc/PJtN2tcP/nasreen-mam-finel.jpg" style="width:200px;border-radius:12px" alt="">
+      <img src="https://i.postimg.cc/G3qpbnVx/Rukkaya-appi-finel.jpg" style="width:200px;border-radius:12px" alt="">
+      <img src="https://i.postimg.cc/LXSzFFwM/Farheen-mam.jpg" style="width:200px;border-radius:12px" alt="">
+      <img src="https://i.postimg.cc/vBDGBcp7/Firdous-finel.jpg" style="width:200px;border-radius:12px" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- GET STARTED FORM -->
 <section id="getstart">
   <div class="container form-wrap">
     <div class="form-card">
@@ -431,7 +437,7 @@ fbq('track','PageView');
 
 <footer>
   <div class="foot">
-    <div class="foot-row">
+    <div class="foot-row" style="display:flex;justify-content:space-between;align-items:center">
       <small>© 2025 AdHabits. All rights reserved.</small>
       <div class="foot-links">
         <a class="terms" href="#terms" style="color:#9fc5ff">Terms</a>
@@ -443,14 +449,13 @@ fbq('track','PageView');
   </div>
 </footer>
 
-<!-- SCRIPTS: interactions, counters, video swap, WA, UTM capture (kept & slightly adjusted) -->
 <script>
-// MOBILE MENU
+// ===== Mobile menu
 hamb.onclick = () => mnav.classList.toggle('on');
 document.querySelectorAll('#mnav a').forEach(a=>a.addEventListener('click',()=>mnav.classList.remove('on')));
 
-// REVEAL + COUNTERS
-function animateNum(el, to, dur=1100){
+// ===== Reveal & Numbers (animate when in view) =====
+function animateNum(el, to, dur=1300){
   const start=performance.now(), from=0;
   function step(t){
     const p=Math.min(1,(t-start)/dur), ease=1-Math.pow(1-p,3);
@@ -463,20 +468,17 @@ const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       e.target.classList.add('on');
-      // animate numbers inside
       e.target.querySelectorAll && e.target.querySelectorAll('.knum').forEach(k=>{
-        animateNum(k, parseInt(k.dataset.count||0,10));
+        animateNum(k, parseInt(k.dataset.count,10));
       });
       io.unobserve(e.target);
     }
   });
-},{threshold:0.2});
+},{threshold:0.25});
 document.querySelectorAll('.reveal, .knum').forEach(el=>io.observe(el));
-
-// ensure immediately visible reveal sections show
 document.querySelectorAll('.reveal.on').forEach(el=>el.classList.add('on'));
 
-// VIDEO SWITCHER
+// ===== Video selector: swap iframe src on click =====
 const videoItems = document.querySelectorAll('.vitem');
 const mainPlayer = document.getElementById('mainPlayer');
 videoItems.forEach(item=>{
@@ -488,7 +490,7 @@ videoItems.forEach(item=>{
   });
 });
 
-// FEATURE CARDS: pop on click/touch (mobile friendly)
+// ===== Pop animation for feature cards on touch / click =====
 document.querySelectorAll('[data-pop]').forEach(card=>{
   card.addEventListener('click',()=>{
     card.classList.toggle('pop');
@@ -498,43 +500,31 @@ document.querySelectorAll('[data-pop]').forEach(card=>{
   card.addEventListener('touchend',()=>setTimeout(()=>card.classList.remove('pop'),700));
 });
 
-// COUNTDOWN (1 hour) — same as before
+// ===== Countdown 1 hour timer (starts on page load) =====
 (function(){
   const cdElem = document.getElementById('countdown');
   if(!cdElem) return;
   const key = 'adh_countdown_end';
   let end = sessionStorage.getItem(key);
-  if(!end || isNaN(+end)){ end = Date.now() + (60*60*1000); sessionStorage.setItem(key, end); } else end = +end;
+  if(!end || isNaN(+end)){
+    end = Date.now() + (60*60*1000);
+    sessionStorage.setItem(key, end);
+  } else end = +end;
   function tick(){
-    const now = Date.now(); const diff = Math.max(0, end - now);
+    const now = Date.now();
+    const diff = Math.max(0, end - now);
     const hrs = Math.floor(diff / (1000*60*60));
     const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
     const secs = Math.floor((diff % (1000*60)) / 1000);
     cdElem.textContent = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-    if(diff>0) requestAnimationFrame(tick); else cdElem.textContent='00:00:00';
+    if(diff>0) requestAnimationFrame(tick); else cdElem.textContent = '00:00:00';
   }
   tick();
 })();
 
-// LEAD SAVE + WHATSAPP opening (kept original endpoints)
+// ===== CTA & WhatsApp interactions =====
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznR1Wk3Gn2jztC1ZXnBW4jr52146ctHC3phfdn8Ve3zuwKvCflNIOy_sxfPZNhQbbf/exec";
 const WHATSAPP_TO = "919610580359";
-
-(function persistUTM(){
-  try{
-    const p = new URLSearchParams(location.search);
-    const fields = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'];
-    const hasAny = fields.some(k=>p.get(k));
-    if(hasAny){
-      const bag = {};
-      fields.forEach(k=>{ if(p.get(k)) bag[k]=p.get(k); });
-      bag.landing_url = location.href; bag.referrer = document.referrer || ''; bag.ts = new Date().toISOString();
-      sessionStorage.setItem('adh_utm', JSON.stringify(bag));
-    } else if(!sessionStorage.getItem('adh_utm')){
-      sessionStorage.setItem('adh_utm', JSON.stringify({ landing_url: location.href, referrer: document.referrer || '', ts: new Date().toISOString() }));
-    }
-  }catch(e){}
-})();
 
 function saveLeadFast(params){
   try{
@@ -546,16 +536,18 @@ function saveLeadFast(params){
     }else{
       fetch(SCRIPT_URL, { method:'POST', body: params, mode:'no-cors', keepalive:true }).catch(()=>{});
     }
-  }catch(_){}
+  }catch(_){ }
 }
+function track(e,d){ try{ fbq && fbq('track', e, d||{}); }catch(_){}}
+function trackCustom(n,d){ try{ fbq && fbq('trackCustom', n, d||{}); }catch(_){}}
 
 function openWhatsApp({name, phone, platform, plan}){
-  try{ fbq && fbq('trackCustom','WhatsAppOpen',{plan,platform}); }catch(_){}
-  const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nName: ${name}\nPhone: ${phone}\nOffer: ${platform}\nPlan: ${plan || 'Affiliate Onboard'}\nPlease guide me.`;
+  trackCustom('WhatsAppOpen', {plan, platform});
+  const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nOffer: ${platform}\nPlan: ${plan || 'Affiliate Onboard'}\n\nPlease guide me.`;
   window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
-// FORM submit + quick CTA handlers
+// Form submit
 const sendBtn = document.getElementById('sendBtn');
 if(sendBtn){
   sendBtn.addEventListener('click',(e)=>{
@@ -564,18 +556,22 @@ if(sendBtn){
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const plan = sessionStorage.getItem('adh_plan') || 'Affiliate Starter';
+
     if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
     if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
+
     const old = sendBtn.textContent; sendBtn.disabled=true; sendBtn.textContent='Opening WhatsApp...';
+
     const payload = new URLSearchParams({ name, phone, platform, plan });
     saveLeadFast(payload);
-    try{ fbq && fbq('track','Lead',{ content_name: plan, content_category: platform }); }catch(_){}
+    track('Lead', { content_name: plan, content_category: platform });
     openWhatsApp({name, phone, platform, plan});
+
     setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent=old; }, 1200);
   });
 }
 
-// CTA quick nav
+// quick buttons
 document.getElementById('ctaStart').addEventListener('click', ()=>{
   sessionStorage.setItem('adh_plan', 'Affiliate Onboard');
   document.getElementById('name') && document.getElementById('name').focus({preventScroll:true});
@@ -592,27 +588,17 @@ document.getElementById('coachWhats').addEventListener('click', ()=>{
   location.hash = '#getstart';
 });
 
-// Floating bar scroll-to player
+// floating banner click toggles the player scroll
 document.getElementById('floatBanner').addEventListener('click', ()=>{
   document.getElementById('playerFrame').scrollIntoView({behavior:'smooth', block:'center'});
 });
 
-// Coach Learn button scroll (exists in previous code)
-document.querySelectorAll('.ex-btn, .btn.secondary').forEach(btn=>{
-  btn.addEventListener('click', (e)=>{
-    // if it's the plan CTA it might be hash
-    // fallback: scroll to getstart
-    const target = document.getElementById('getstart');
-    if(target){ target.scrollIntoView({behavior:'smooth'}); }
-  });
-});
-
-// animate already visible knum elements
+// animate numbers already in DOM if visible
 document.querySelectorAll('.knum').forEach(k=>{
-  if(k.getBoundingClientRect().top < window.innerHeight) animateNum(k, parseInt(k.dataset.count||0,10));
+  if(k.getBoundingClientRect().top < window.innerHeight) animateNum(k, parseInt(k.dataset.count,10));
 });
 
-// Steps: for desktop we want a stacking feel — small JS to add a subtle transform while scrolling (optional)
+// Steps stacking subtle transform on desktop for nicer visual while scrolling
 (function(){
   const stack = document.getElementById('stepsStack');
   if(!stack) return;
@@ -620,10 +606,9 @@ document.querySelectorAll('.knum').forEach(k=>{
   if(window.innerWidth >= 980){
     window.addEventListener('scroll', ()=> {
       const rect = stack.getBoundingClientRect();
-      const start = window.innerHeight * 0.15;
-      const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
+      const prog = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
       cards.forEach((c,i)=> {
-        const offset = (i * 6) * progress;
+        const offset = (i * 6) * prog;
         c.style.transform = `translateY(${offset}px)`;
       });
     }, {passive:true});
