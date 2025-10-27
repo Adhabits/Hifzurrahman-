@@ -4,338 +4,146 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AdHabits — Affiliate Opportunities (100% Commission)</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
-
 <style>
 :root{
   --bg:#0a0f1b; --text:#e7eaf0; --muted:#9fb0c9; --stroke:#1e2a42;
-  --grad:linear-gradient(135deg,#8b5cf6,#22d3ee 55%,#34d399);
-  --accent:#ffb454; --accent2:#ff914d;
-  --card:#0f172a;
+  --card-bg: #fff;
+  --answer-black: #06101d; /* full black-like for answers */
+  --question-color: #0b1220; /* darker heading color for question */
+  --accent-grad: linear-gradient(135deg,#8b5cf6,#22d3ee 55%,#34d399);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 .container{max-width:1150px;margin:auto;padding:0 18px}
 
-/* NAV */
-.nav{position:sticky;top:0;z-index:60;background:rgba(10,15,27,.88);backdrop-filter:saturate(160%) blur(8px);border-bottom:1px solid var(--stroke)}
-.nav-inner{height:64px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800}
-.logo{width:28px;height:28px}
-.logo img{width:100%;height:100%;object-fit:contain}
+/* header placeholder */
+header{height:64px}
 
-.nav-links{display:flex;align-items:center;gap:18px}
-.nav-links a{color:#c9d3e6;font-weight:700;font-size:15px}
-.nav-links a:hover{color:#fff}
-
-.hamb{display:none;cursor:pointer;border:1px solid #2b3652;border-radius:10px;padding:8px 10px}
-.hamb span{display:block;width:22px;height:2px;background:#c9d3e6;margin:4px 0;border-radius:2px}
-@media (max-width:860px){
-  .nav-links{display:none}
-  .hamb{display:block}
-}
-
-/* floating banner (shorter / compact) */
+/* floating compact pill */
 .floating-bar{
-  position:fixed;left:50%;transform:translateX(-50%);top:16px;z-index:90;
-  background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:8px 14px;border-radius:999px;font-weight:800;box-shadow:0 14px 40px rgba(155,59,255,.12);
-  display:inline-flex;gap:10px;align-items:center;cursor:pointer;animation:floaty 2.8s ease-in-out infinite;
-  border:2px solid rgba(255,255,255,.06);
-  font-size:13px;
-  max-width:360px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  position:fixed;left:50%;transform:translateX(-50%);top:16px;z-index:140;
+  background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:8px 12px;border-radius:999px;font-weight:800;box-shadow:0 12px 30px rgba(155,59,255,.12);
+  font-size:13px;display:inline-flex;gap:10px;align-items:center;max-width:360px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-@keyframes floaty{0%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}100%{transform:translateX(-50%) translateY(0)}}
 
 /* HERO */
-.hero{
-  padding:70px 0 30px;
-  background:
-   radial-gradient(1200px 600px at 80% -10%, rgba(167,139,250,.20), transparent 60%),
-   radial-gradient(900px 500px at -10% 10%, rgba(34,211,238,.10), transparent 60%);
-}
-.eyebrow{display:inline-block;padding:7px 12px;border:1px solid #2a344f;border-radius:999px;color:#b5c1d8;margin-bottom:12px;font-size:14px}
-h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,48px);line-height:1.02;letter-spacing:-.02em;margin-bottom:10px;color:var(--text)}
-.headline-animated{display:inline-block;white-space:normal;overflow:visible}
-.hl2{color:var(--accent2)}
+.hero{padding:28px 0 6px}
+.eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:#c9d3e6;font-size:13px}
+.h1{font-family:Poppins,system-ui;font-weight:800;font-size:28px;color:var(--text);margin:12px 0}
+.kpis{color:#cfd7e9;margin:6px 0 14px;font-size:15px}
 
-/* layout */
-.video-area{display:grid;grid-template-columns:1fr 420px;gap:26px;align-items:start;margin-top:18px;align-items:start}
-@media (max-width:980px){.video-area{grid-template-columns:1fr;gap:18px;justify-items:center}}
-.player-wrap{border-radius:16px;overflow:hidden;border:1px solid #25304a;background:#0b0f1a;box-shadow: 0 30px 60px rgba(0,0,0,0.5)}
-.player-frame{position:relative;padding-top:56.25%;background:#111;overflow:hidden}
-.player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.player-card{background:#fff;color:#0b1220;padding:14px;border-radius:0 0 12px 12px}
-.player-shadow{box-shadow:0 40px 80px rgba(0,0,0,.45);border-radius:12px}
+/* FEATURES */
+.features-section{padding:18px 0 22px;background:linear-gradient(180deg, rgba(255,240,247,0.01), transparent)}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:8px;align-items:start;overflow:visible;padding-top:6px}
+.feature-card{background:var(--card-bg);border-radius:14px;padding:34px 26px;text-align:center;color:#0b1220;box-shadow:0 14px 30px rgba(0,0,0,0.12);transition:transform .18s ease}
+.feature-card .icon{width:86px;height:86px;border-radius:50%;display:grid;place-items:center;margin:0 auto 18px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
+.feature-card h3{margin:8px 0 10px;font-size:20px}
+.feature-card p{color:#6b7889;margin:0;font-size:15px;line-height:1.5}
 
-.kpis{color:#cfd7e9;margin:10px 0 18px;font-size:15px}
-.cta{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
-.btn{padding:12px 18px;border-radius:12px;font-weight:800;transition:transform .18s ease, box-shadow .18s ease;cursor:pointer}
-.btn.primary{background:var(--grad);color:#06101d;border:none}
-.btn.primary:hover{transform:scale(1.03);box-shadow:0 0 18px rgba(139,92,246,.45)}
-.btn.secondary{background:#0f1526;border:1px solid #303a57;color:#d7def0}
-.btn.secondary:hover{transform:scale(1.02);box-shadow:0 0 12px rgba(34,211,238,.2)}
-.panel{border:1px solid var(--stroke);background:#0f1628;border-radius:14px;padding:12px;color:#aeb9ce;font-size:14px}
-
-/* right column selectors */
-.video-select{display:flex;flex-direction:column;gap:12px}
-.vitem{border:2px solid rgba(255,255,255,0.03);padding:10px;border-radius:10px;display:flex;gap:12px;align-items:center;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
-.vitem.active{border-color:#ff4da6;box-shadow:0 8px 30px rgba(255,77,166,0.08);transform:translateY(-3px)}
-.thumb{width:64px;height:44px;background:#e6e9ed;border-radius:6px;flex:0 0 auto;display:grid;place-items:center;color:#222;font-weight:700}
-.vmeta h4{margin:0;font-weight:800;color:#e6edf7;font-size:15px}
-.vmeta p{margin:4px 0 0;color:#9fb0c9;font-size:13px}
-
-/* reasons */
-.reasons{margin-top:8px;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(139,92,246,0.06), rgba(255,77,166,0.04));border:1px solid rgba(255,255,255,0.02)}
-.reasons ul{margin:8px 0 0;padding-left:18px;color:#dfe9f7}
-.reasons li{margin:8px 0}
-
-/* features grid */
-.features-section{padding:40px 0 60px;background:linear-gradient(180deg, rgba(255,240,247,0.02), transparent)}
-/* provide extra top padding so sticky cards have room to stick */
-.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px;align-items:start;padding-top:8px;overflow:visible}
-@media (max-width:1000px){.features-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:640px){
-  .features-grid{grid-template-columns:1fr;padding-top:12px}
-  /* we'll make each card sticky and overlap via JS-set top & z-index */
-  .feature-card{
-    margin-bottom:-68px; /* overlap amount */
-    overflow:visible !important;
-    border-radius:12px;
-    will-change:transform;
-  }
-}
-.feature-card{background:#fff;border-radius:12px;padding:22px 18px;text-align:center;color:#0b1220;box-shadow:0 12px 30px rgba(0,0,0,0.14);transition:transform .18s ease}
-.feature-card .icon{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
-.feature-card h3{margin:6px 0 8px;font-size:18px}
-.feature-card p{color:#6b7889;margin:0}
-
-/* ensure sticky cards content is visible above neighboring card edges */
+/* ensure visible overflow so sticky children not clipped */
 .features-grid, .feature-card { overflow: visible; }
 
-/* coach (kept improved responsive) */
-.coach-section{max-width:1150px;margin:48px auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:24px;align-items:center;color:var(--text)}
-.coach-inner{display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
-.coach-photo{width:100%;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.45);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
-.coach-photo img{width:100%;height:100%;display:block;object-fit:cover}
-.coach-copy{display:flex;flex-direction:column;gap:12px}
-.coach-badge{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:700;width:max-content}
-.coach-head{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(20px,4.2vw,36px);line-height:1.02;margin:6px 0;color:var(--text)}
-.coach-desc{color:var(--muted);max-width:66ch}
-.coach-stats{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-.stat-pill{background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:12px;padding:12px 16px;min-width:160px;display:flex;flex-direction:column;align-items:center;box-shadow:0 12px 30px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,0.02);color:var(--text)}
-.stat-num{font-weight:900;font-size:20px;color:#ff6aa2}
-.stat-label{font-size:13px;color:var(--muted);margin-top:6px;text-align:center}
-.coach-cta{margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.btn-chat{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg,#25d366,#06b658);color:#061016;font-weight:800;border:none;cursor:pointer;box-shadow:0 12px 30px rgba(2,6,23,0.45)}
-
-@media(min-width:980px){
-  .coach-inner{grid-template-columns:420px 1fr;align-items:start}
-  .coach-stats{flex-direction:column;align-self:start}
-}
-
-/* steps / form etc kept similar (only minor mobile tweaks below) */
-.steps{padding:48px 0}
+/* STEPS (What Happens When You Join) */
+.steps{padding:36px 0}
 .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media (max-width:980px){.steps-grid{grid-template-columns:1fr}}
-.step-card{background:#fff;border-radius:10px;padding:20px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 10px 28px rgba(0,0,0,.08)}
-.step-num{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-size:20px}
+.step-card{background:var(--card-bg);border-radius:14px;padding:22px;display:flex;gap:18px;align-items:center;box-shadow:0 16px 36px rgba(0,0,0,0.12)}
+.step-num{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-size:22px}
+.step-body h4{margin:0;font-size:20px;color:var(--question-color);font-weight:800}
+.step-body p{margin:6px 0 0;color:var(--answer-black);line-height:1.5;font-size:15px}
 
-/* form */
-#getstart{padding:36px 0}
-.form-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
-@media (max-width:980px){.form-wrap{grid-template-columns:1fr}}
+/* ensure sticky doesn't clip */
+.steps-grid, .step-card { overflow: visible; }
+
+/* FORM + RIGHT BOX (kept simple) */
+.form-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start;padding:24px 0}
 .form-card{border:1px solid #273047;background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:16px;padding:18px}
 label{display:block;margin:10px 0 6px;color:#bfc9de}
 select,input{width:100%;background:#0c1426;border:1px solid #2a3552;border-radius:12px;color:#e6ecf7;padding:12px 14px;outline:none}
-select:focus,input:focus{border-color:#3a8bd8}
-.form-note{margin:8px 0 2px;color:#9fb0c9}
 .form-btn{margin-top:12px;display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;background:#25d366;color:#061016;font-weight:800;border:none;cursor:pointer}
-.form-hint{color:#93a4c6;margin-left:8px}
-.right-box{border:1px solid #273047;background:#0f172a;border-radius:16px;padding:18px}
 
-/* small-screen adjustments to ensure nothing hides */
-@media (max-width:520px){
-  .hero{padding:36px 0}
-  h1{font-size:24px;line-height:1.06}
-  .player-frame{padding-top:56.25%;max-height:420px} /* limit height on small screens */
-  .player-wrap{border-radius:12px}
-  .player-card{padding:12px}
-  .floating-bar{left:50%;right:auto;transform:translateX(-50%);width:auto;max-width:360px;font-size:13px;top:12px;padding:8px 12px}
-  .nav-inner{padding:0 10px}
-  .btn{padding:10px 14px}
-  .kpis{font-size:13px}
-  .video-area{gap:14px}
-  .vmeta h4{font-size:14px}
-  .vmeta p{font-size:12px}
-  .coach-head{font-size:20px}
-  /* ensure video container centered */
-  .player-wrap{margin:0 auto}
-  .features-grid{padding-bottom:140px}
+/* responsive mobile stacking rules */
+@media (max-width:900px){
+  .features-grid{grid-template-columns:repeat(2,1fr)}
+  .steps-grid{grid-template-columns:1fr}
+  .form-wrap{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .features-grid{grid-template-columns:1fr;padding-top:12px;padding-bottom:160px}
+  .feature-card{margin-bottom:-48px;border-radius:12px}
+  .steps-grid{grid-template-columns:1fr;padding-top:12px;padding-bottom:160px}
+  .step-card{margin-bottom:-48px}
+  .floating-bar{top:12px;padding:7px 10px;font-size:12px}
 }
 
-/* reveal animation */
+/* reveal animation & small pop */
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
 .reveal.on{opacity:1;transform:none}
-
-/* small helpers for feature stacking visuals */
-.feature-card.pop{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.25)}
+.feature-card.pop, .step-card.pop{transform:translateY(-8px);box-shadow:0 30px 70px rgba(0,0,0,0.22)}
 </style>
-
 </head>
 <body>
 
-<header class="nav">
-  <div class="container nav-inner">
-    <div class="brand">
-      <span class="logo"><img src="https://i.postimg.cc/3rVMTKYG/adhabits-logo.png" alt="AdHabits" /></span>
-      <span>AdHabits</span>
-    </div>
-    <nav class="nav-links">
-      <a href="#features">What you'll learn</a>
-      <a href="#coach">Your Coach</a>
-      <a href="#testimonials">Testimonials</a>
-      <a href="#getstart" class="btn secondary">WhatsApp</a>
-    </nav>
-    <div class="hamb" id="hamb"><span></span><span></span><span></span></div>
-  </div>
-  <div class="mobile-menu" id="mnav" style="display:none">
-    <a href="#features">What you'll learn</a>
-    <a href="#coach">Your Coach</a>
-    <a href="#testimonials">Testimonials</a>
-    <a href="#getstart">WhatsApp</a>
-  </div>
-</header>
+<header></header>
 
 <div class="floating-bar" id="floatBanner">▶ Watch this video first</div>
 
-<section class="hero">
-  <div class="container">
-    <div class="reveal on">
-      <span class="eyebrow">Affiliate Opportunity</span>
-      <h1>
-        Earn With <span class="hl2">100% Commissions</span><br>
-        <span class="headline-animated">We help Affiliates — Students — Housewives — Newbies</span>
-      </h1>
-
-      <div class="kpis">Join Over <b style="color:#ffb454">1,00,000+</b> Working Professionals, Housewives, Students &amp; Self Employed with us</div>
-
-      <div class="video-area">
-        <!-- main player -->
-        <div>
-          <div class="player-wrap player-shadow">
-            <div class="player-frame" id="playerFrame">
-              <iframe id="mainPlayer" src="https://www.youtube.com/embed/SG5MdFiP1zA?rel=0&modestbranding=1&playsinline=1" title="AdHabits Intro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="player-card">
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-                <div>
-                  <div style="font-weight:800;font-size:17px;color:#06101d">Success Stories - Student Testimonials</div>
-                  <div style="color:#6b7889;margin-top:6px">Watch how our affiliates & students are earning 100% commissions</div>
-                </div>
-                <div style="display:flex;gap:10px;align-items:center">
-                  <div class="timer" id="countdown">01:00:00</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- selectors -->
-        <aside>
-          <div class="video-select">
-            <div class="vitem active" data-video="SG5MdFiP1zA">
-              <div class="thumb">▶</div>
-              <div class="vmeta">
-                <h4>Success Stories</h4>
-                <p>Real students & affiliates sharing wins.</p>
-              </div>
-            </div>
-
-            <div class="vitem" data-video="dQw4w9WgXcQ">
-              <div class="thumb">▶</div>
-              <div class="vmeta">
-                <h4>Behind the Scenes</h4>
-                <p>Coach journey & how offers are structured.</p>
-              </div>
-            </div>
-
-            <div class="reasons">
-              <strong>Why watch?</strong>
-              <ul>
-                <li>See actual affiliate results & 100% commission examples</li>
-                <li>Understand how homemakers & newbies started earning</li>
-                <li>Learn the simple offer that converts</li>
-                <li>Get motivated — it’s repeatable</li>
-              </ul>
-            </div>
-          </div>
-        </aside>
-      </div>
-
-      <div style="margin-top:18px" class="cta">
-        <button class="btn primary" id="ctaStart">I want 100% commissions — Get me started</button>
-        <a href="#features" class="btn secondary">See What You Learn</a>
-      </div>
-
-      <div class="panel">⚡ Fast onboarding • ✅ 1:1 mentoring • 💬 WhatsApp support</div>
-    </div>
-  </div>
+<section class="hero container">
+  <span class="eyebrow">Affiliate Opportunity</span>
+  <div class="h1">Earn With <span style="color:#ffb454">100% Commissions</span></div>
+  <div class="kpis">Join Over <b style="color:#ffb454">1,00,000+</b> Working Professionals, Housewives, Students &amp; Self Employed with us</div>
 </section>
 
+<!-- FEATURES -->
 <section id="features" class="features-section">
   <div class="container">
-    <div class="join-head">
-      <h2>🌱 Aap Yahan Seekhenge</h2>
-      <p>Real, skill-based aur sustainable online income opportunity — phone se kaam, flexible timing.</p>
-    </div>
+    <h2 style="font-size:20px;margin-bottom:8px">🌱 Aap Yahan Seekhenge</h2>
+    <p style="color:#9fb0c9;margin-bottom:14px">Real, skill-based aur sustainable online income opportunity — phone se kaam, flexible timing.</p>
 
     <div class="features-grid" id="featuresGrid">
       <div class="feature-card pop-anim" data-pop>
         <div class="icon">💡</div>
         <h3>In-demand Digital Skills</h3>
-        <p>Latest market skills jo demand mein hain.</p>
+        <p>Latest market skills jo demand mein hain — bina complex setup ke.</p>
       </div>
 
       <div class="feature-card pop-anim" data-pop>
         <div class="icon">📞</div>
         <h3>Phone Se Kaam</h3>
-        <p>Apne phone se professional kaam karna.</p>
+        <p>Apne phone se professional kaam karna — simple workflows.</p>
       </div>
 
       <div class="feature-card pop-anim" data-pop>
         <div class="icon">⏰</div>
         <h3>Flexible Timing</h3>
-        <p>Apne time ke according kaam karo.</p>
+        <p>Apne time ke according kaam karo — chhote sessions se bhi kam chal sakta hai.</p>
       </div>
 
       <div class="feature-card pop-anim" data-pop>
         <div class="icon">🆔</div>
         <h3>Online Identity</h3>
-        <p>Confidently apni online presence build karna.</p>
+        <p>Confidently apni online presence build karna — brand value create karo.</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- STEPS -->
 <section class="steps">
   <div class="container">
-    <h2 style="text-align:center;font-weight:800;font-size:34px;color:var(--text)">What Happens When You Join?</h2>
-    <div style="height:12px"></div>
-    <div class="steps-grid">
-      <div class="step-card reveal">
+    <h2 style="text-align:center;font-weight:800;font-size:34px;color:var(--text);margin-bottom:16px">What Happens When You Join?</h2>
+
+    <div class="steps-grid" id="stepsGrid">
+      <div class="step-card pop-anim" data-pop>
         <div class="step-num">1</div>
         <div class="step-body">
           <h4>Instant Connection</h4>
           <p>Message on WhatsApp & instantly connect with coach for guidance.</p>
-      </div>
+        </div>
       </div>
 
-      <div class="step-card reveal">
+      <div class="step-card pop-anim" data-pop>
         <div class="step-num">2</div>
         <div class="step-body">
           <h4>Complete Access</h4>
@@ -343,7 +151,7 @@ select:focus,input:focus{border-color:#3a8bd8}
         </div>
       </div>
 
-      <div class="step-card reveal">
+      <div class="step-card pop-anim" data-pop>
         <div class="step-num">3</div>
         <div class="step-body">
           <h4>Daily Mentorship</h4>
@@ -351,7 +159,7 @@ select:focus,input:focus{border-color:#3a8bd8}
         </div>
       </div>
 
-      <div class="step-card reveal">
+      <div class="step-card pop-anim" data-pop>
         <div class="step-num">4</div>
         <div class="step-body">
           <h4>Start Earning</h4>
@@ -360,69 +168,20 @@ select:focus,input:focus{border-color:#3a8bd8}
       </div>
     </div>
 
-    <div style="margin-top:26px;text-align:center">
-      <button class="btn primary" id="bottomWhats">💬 Message on WhatsApp: +91 9610580359</button>
+    <div style="margin-top:18px;text-align:center">
+      <button class="btn primary" id="bottomWhats" style="background:var(--accent-grad);border:none;padding:14px 22px;border-radius:999px;font-weight:800;color:#061016">
+        💬 Message on WhatsApp: +91 9610580359
+      </button>
     </div>
   </div>
 </section>
 
-<!-- coach section (replaced, responsive & mobile-friendly) -->
-<section id="coach" class="coach-section">
-  <div class="coach-inner container">
-    <div class="coach-photo reveal">
-      <img src="https://i.postimg.cc/vm9tGMTm/Whats-App-Image-2025-09-26-at-11-47-37.jpg" alt="Coach Rahman">
-    </div>
-
-    <div class="coach-copy reveal">
-      <span class="coach-badge">Your Coach</span>
-      <h3 class="coach-head">Hi, Rahman here — I help affiliates scale & earn <span style="color:#ffcf8a">100% commissions</span></h3>
-      <p class="coach-desc">I work with students, homemakers and full-time affiliates. If you're stuck, I help you grow from first sale to consistent income — small & big packages both supported. I provide ad traffic, scripts, 1:1 audits & weekly payouts.</p>
-
-      <div class="coach-stats" aria-hidden="false">
-        <div class="stat-pill">
-          <div class="stat-num knum" data-count="3">0</div>
-          <div class="stat-label">Years Experience</div>
-        </div>
-
-        <div class="stat-pill">
-          <div class="stat-num knum" data-count="250">0</div>
-          <div class="stat-label">Affiliates Helped</div>
-        </div>
-
-        <div class="stat-pill">
-          <div class="stat-num knum" data-count="100000">0</div>
-          <div class="stat-label">Leads Delivered</div>
-        </div>
-      </div>
-
-      <div class="coach-cta">
-        <button class="btn-chat" id="coachChatBtn">💬 Talk with Rahman on WhatsApp</button>
-        <button id="coachWhats" class="btn secondary" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:12px 16px;border-radius:12px;">Get 1:1 — Start Chat</button>
-        <button class="btn secondary" id="coachLearnBtn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:12px 16px;border-radius:12px;">View Affiliate Plans</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="testimonials" style="padding:36px 0">
-  <div class="container">
-    <h2 style="font-weight:800">Client Testimonials</h2>
-    <p style="color:#9fb0c9;margin-top:8px">Real WhatsApp screenshots from happy affiliates & students</p>
-
-    <div style="display:flex;gap:12px;overflow:auto;padding-top:12px;margin-top:12px">
-      <img src="https://i.postimg.cc/PJtN2tcP/nasreen-mam-finel.jpg" style="width:200px;border-radius:12px" alt="">
-      <img src="https://i.postimg.cc/G3qpbnVx/Rukkaya-appi-finel.jpg" style="width:200px;border-radius:12px" alt="">
-      <img src="https://i.postimg.cc/LXSzFFwM/Farheen-mam.jpg" style="width:200px;border-radius:12px" alt="">
-      <img src="https://i.postimg.cc/vBDGBcp7/Firdous-finel.jpg" style="width:200px;border-radius:12px" alt="">
-    </div>
-  </div>
-</section>
-
-<section id="getstart">
+<!-- FORM area (example) -->
+<section id="getstart" style="padding:28px 0">
   <div class="container form-wrap">
     <div class="form-card">
       <h3>Get Started — Become an Affiliate</h3>
-      <p class="form-note">Hello Rahman sir, I want to become an affiliate and start earning. My details below 👇</p>
+      <p style="color:#9fb0c9">Hello Rahman sir, I want to become an affiliate and start earning. My details below 👇</p>
 
       <label for="platform">Which Offer</label>
       <select id="platform">
@@ -432,7 +191,6 @@ select:focus,input:focus{border-color:#3a8bd8}
         <option>High-ticket Affiliate</option>
       </select>
 
-      <!-- reordered fields: Name -> Phone -> Profession -->
       <label for="name">Your Name</label>
       <input id="name" type="text" placeholder="Your name" required>
 
@@ -450,56 +208,47 @@ select:focus,input:focus{border-color:#3a8bd8}
 
       <div style="margin-top:10px">
         <button id="sendBtn" class="form-btn">Send on WhatsApp</button>
-        <span class="form-hint">Auto-opens WhatsApp after saving.</span>
       </div>
     </div>
 
-    <aside class="right-box reveal">
-      <h3>Ready to Earn Daily?</h3>
-      <p style="color:#9fb0c9">Click and message us to get affiliate onboarding and creatives.</p>
-
-      <div style="margin-top:12px" class="stat-grid" aria-hidden="true">
-        <div class="stat" style="display:inline-block;margin-right:12px">
-          <div class="num knum" data-count="3">0</div>
-          <div class="lbl" style="color:#9fb0c9">Years</div>
+    <aside class="right-box" style="border:1px solid #273047;background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:16px;padding:18px">
+      <h3 style="margin:0 0 8px">Ready to Earn Daily?</h3>
+      <p style="color:#9fb0c9;margin:0 0 8px">Click and message us to get affiliate onboarding and creatives.</p>
+      <div style="display:flex;gap:12px">
+        <div style="text-align:center">
+          <div class="num knum" data-count="3" style="font-weight:800;font-size:18px;color:#ff6aa2">0</div>
+          <div style="color:#9fb0c9">Years</div>
         </div>
-        <div class="stat" style="display:inline-block;margin-right:12px">
-          <div class="num knum" data-count="250">0</div>
-          <div class="lbl" style="color:#9fb0c9">Affiliates</div>
+        <div style="text-align:center">
+          <div class="num knum" data-count="250" style="font-weight:800;font-size:18px;color:#ff6aa2">0</div>
+          <div style="color:#9fb0c9">Affiliates</div>
         </div>
-        <div class="stat" style="display:inline-block">
-          <div class="num knum" data-count="50">0</div>
-          <div class="lbl" style="color:#9fb0c9">₹50 L+ Budget</div>
+        <div style="text-align:center">
+          <div class="num knum" data-count="100000" style="font-weight:800;font-size:18px;color:#ff6aa2">0</div>
+          <div style="color:#9fb0c9">Leads</div>
         </div>
       </div>
     </aside>
   </div>
 </section>
 
-<footer>
-  <div class="foot" style="max-width:1150px;margin:auto;padding:16px 18px 26px;color:#aeb8cc">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
-      <small>© 2025 AdHabits. All rights reserved.</small>
-      <div><a class="terms" href="#terms">Terms</a></div>
-    </div>
-    <div id="terms" style="margin-top:8px;color:#9fb0c9">
-      <b>Terms &amp; Conditions:</b> Services are provided as-is. All payments are <u>Non-Refundable</u>.
-    </div>
+<footer style="padding:24px 0;color:#aeb8cc">
+  <div class="container">
+    <small>© 2025 AdHabits. All rights reserved.</small>
   </div>
 </footer>
 
 <script>
-/* Mobile menu toggle */
-const hamb = document.getElementById('hamb'), mnav = document.getElementById('mnav');
-if(hamb) hamb.onclick = () => { mnav.style.display = (mnav.style.display === 'block') ? 'none' : 'block'; };
-
-/* reveal */
+/* -------- reveal on scroll init -------- */
 function revealInit(){
-  const revealEls = document.querySelectorAll('.reveal');
+  const revealEls = document.querySelectorAll('.reveal, .pop-anim');
   const obs = new IntersectionObserver((entries, o)=>{
     entries.forEach(en=>{
       if(en.isIntersecting){
         en.target.classList.add('on');
+        // add small pop class for ones with pop-anim
+        if(en.target.classList.contains('pop-anim')) en.target.classList.add('pop');
+        setTimeout(()=>{ if(en.target.classList.contains('pop')) en.target.classList.remove('pop') }, 700);
         o.unobserve(en.target);
       }
     });
@@ -508,7 +257,7 @@ function revealInit(){
 }
 revealInit();
 
-/* number animation */
+/* -------- number animation 0 -> target -------- */
 function animateNum(el, to, dur=1200){
   const start = performance.now(), from = 0;
   function step(now){
@@ -521,11 +270,11 @@ function animateNum(el, to, dur=1200){
 }
 document.querySelectorAll('.knum, .num').forEach(k => {
   k.textContent = '0';
-  const target = parseInt(k.dataset.count || '0', 10) || 0;
+  const target = parseInt(k.dataset.count || k.textContent || '0', 10) || 0;
   const ioNum = new IntersectionObserver((entries, ob) => {
     entries.forEach(e => {
       if(e.isIntersecting){
-        animateNum(k, target, 1300);
+        animateNum(k, target, 1200);
         ob.unobserve(e.target);
       }
     });
@@ -533,96 +282,88 @@ document.querySelectorAll('.knum, .num').forEach(k => {
   ioNum.observe(k);
 });
 
-/* video selector */
+/* -------- video selector placeholder (if needed) -------- */
 const videoItems = document.querySelectorAll('.vitem');
 const mainPlayer = document.getElementById('mainPlayer');
-videoItems.forEach(item=>{
-  item.addEventListener('click', ()=>{
-    videoItems.forEach(i=>i.classList.remove('active'));
-    item.classList.add('active');
-    const vid = item.dataset.video;
-    mainPlayer.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
-    if(window.innerWidth < 900) document.getElementById('playerFrame').scrollIntoView({behavior:'smooth', block:'center'});
+if(videoItems && mainPlayer){
+  videoItems.forEach(item=>{
+    item.addEventListener('click', ()=>{
+      videoItems.forEach(i=>i.classList.remove('active'));
+      item.classList.add('active');
+      const vid = item.dataset.video;
+      mainPlayer.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
+    });
   });
-});
+}
 
-/* features stacking: set sticky and top offsets on small screens so cards overlap nicely */
-function setupFeatureSticky(){
-  const cards = Array.from(document.querySelectorAll('.features-grid .feature-card'));
-  const isMobile = window.matchMedia('(max-width:640px)').matches;
-  if(!cards.length) return;
-  if(isMobile){
-    const baseTop = 120;        // first card top
-    const step = 48;            // amount to move each next card up (overlap)
-    cards.forEach((c, idx) => {
-      c.style.position = 'sticky';
-      // compute top: first card stick at baseTop, next at baseTop - step, etc.
-      let topVal = baseTop - (idx * step);
-      if(topVal < 12) topVal = 12; // don't go negative
-      c.style.top = topVal + 'px';
-      // larger z-index for later cards so they appear above earlier ones
-      c.style.zIndex = 100 + idx;
-      // ensure overflow visible (so content doesn't get cut)
-      c.style.overflow = 'visible';
-      // small transform/pointer improvements
-      c.style.willChange = 'transform';
+/* -------- stacking behaviour for features + steps on small screens --------
+   - Makes cards position:sticky with computed top offsets so they overlap as you scroll.
+   - Tweak baseTop, step, marginBottomNeg to change behaviour.
+*/
+function setupStickyStacking(containerSelector, itemSelector, opts){
+  const mq = window.matchMedia('(max-width:640px)');
+  const container = document.querySelector(containerSelector);
+  if(!container) return;
+  const items = Array.from(container.querySelectorAll(itemSelector));
+  if(!items.length) return;
+
+  if(mq.matches){
+    const baseTop = opts.baseTop ?? 60; // px for first item
+    const step = opts.step ?? 36;       // px difference for each next item (overlap)
+    const marginBottomNeg = opts.marginBottomNeg ?? -48;
+
+    // container padding adjustments so stick works smoothly
+    container.style.paddingTop = (baseTop / 2) + 'px';
+    // add bottom padding so last item can be scrolled fully
+    container.style.paddingBottom = (Math.abs(marginBottomNeg) + 120) + 'px';
+
+    items.forEach((it, index) => {
+      it.style.position = 'sticky';
+      let top = baseTop - (index * step);
+      if(top < 8) top = 8;
+      it.style.top = top + 'px';
+      it.style.zIndex = 100 + index;
+      it.style.marginBottom = marginBottomNeg + 'px';
+      it.style.overflow = 'visible';
+      it.style.willChange = 'transform';
     });
-    // small tweak: give container some bottom padding so last card is reachable
-    const grid = document.querySelector('.features-grid');
-    if(grid) grid.style.paddingBottom = '160px';
-  }else{
-    // reset for desktop
-    cards.forEach((c)=>{
-      c.style.position = '';
-      c.style.top = '';
-      c.style.zIndex = '';
-      c.style.overflow = '';
-      c.style.willChange = '';
+  } else {
+    // reset styles
+    items.forEach(it=>{
+      it.style.position = '';
+      it.style.top = '';
+      it.style.zIndex = '';
+      it.style.marginBottom = '';
+      it.style.overflow = '';
+      it.style.willChange = '';
     });
-    const grid = document.querySelector('.features-grid');
-    if(grid) grid.style.paddingBottom = '';
+    container.style.paddingTop = '';
+    container.style.paddingBottom = '';
   }
 }
-setupFeatureSticky();
-window.addEventListener('resize', setupFeatureSticky);
 
-/* small pop animation for features */
-const featureCards = document.querySelectorAll('.feature-card');
-featureCards.forEach(card=>{
-  card.addEventListener('click', ()=> {
-    card.classList.add('pop');
-    setTimeout(()=>card.classList.remove('pop'), 700);
+/* Apply to features and steps */
+function applyAllStacking(){
+  setupStickyStacking('.features-grid', '.feature-card', { baseTop: 60, step: 36, marginBottomNeg: -48 });
+  setupStickyStacking('#stepsGrid', '.step-card',     { baseTop: 60, step: 36, marginBottomNeg: -48 });
+}
+applyAllStacking();
+window.addEventListener('resize', applyAllStacking);
+window.addEventListener('orientationchange', ()=> setTimeout(applyAllStacking, 120));
+
+/* -------- small pop interaction (tap to lift) -------- */
+document.querySelectorAll('.pop-anim').forEach(el=>{
+  el.addEventListener('click', ()=> {
+    el.classList.add('pop');
+    setTimeout(()=>el.classList.remove('pop'), 700);
   });
-  card.addEventListener('touchstart', ()=> card.classList.add('pop'));
-  card.addEventListener('touchend', ()=> setTimeout(()=>card.classList.remove('pop'), 600));
+  el.addEventListener('touchstart', ()=> el.classList.add('pop'));
+  el.addEventListener('touchend', ()=> setTimeout(()=>el.classList.remove('pop'), 600));
 });
 
-/* countdown (1 hour persisted) */
-(function(){
-  const cdElem = document.getElementById('countdown');
-  if(!cdElem) return;
-  const key = 'adh_countdown_end';
-  let end = sessionStorage.getItem(key);
-  if(!end || isNaN(+end)){
-    end = Date.now() + (60*60*1000);
-    sessionStorage.setItem(key, end);
-  } else end = +end;
-  function tick(){
-    const now = Date.now();
-    const diff = Math.max(0, end - now);
-    const hrs = Math.floor(diff / (1000*60*60));
-    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
-    const secs = Math.floor((diff % (1000*60)) / 1000);
-    cdElem.textContent = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-    if(diff>0) requestAnimationFrame(tick); else cdElem.textContent = '00:00:00';
-  }
-  tick();
-})();
-
-/* form + whatsapp (profession included) */
+/* -------- form + WhatsApp logic (profession included) -------- */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznR1Wk3Gn2jztC1ZXnBW4jr52146ctHC3phfdn8Ve3zuwKvCflNIOy_sxfPZNhQbbf/exec";
 const WHATSAPP_TO = "919610580359";
-
 function saveLeadFast(params){
   try{
     const utm = sessionStorage.getItem('adh_utm');
@@ -635,61 +376,31 @@ function saveLeadFast(params){
     }
   }catch(_){}
 }
-function track(e,d){ try{ fbq && fbq('track', e, d||{}); }catch(_){ } }
-function trackCustom(n,d){ try{ fbq && fbq('trackCustom', n, d||{}); }catch(_){ } }
-
 function openWhatsApp({name, phone, platform, plan, profession}){
-  trackCustom('WhatsAppOpen', {plan, platform});
   const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nProfession: ${profession || 'Not specified'}\nOffer: ${platform}\nPlan: ${plan || 'Affiliate Onboard'}\n\nPlease guide me.`;
   window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
 }
-
 const sendBtn = document.getElementById('sendBtn');
-sendBtn.addEventListener('click', (e)=>{
-  e.preventDefault();
-  const platform = document.getElementById('platform').value.trim();
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const profession = document.getElementById('profession').value.trim();
-  const plan = sessionStorage.getItem('adh_plan') || 'Affiliate Starter';
-  if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
-  if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
-  const old = sendBtn.textContent; sendBtn.disabled = true; sendBtn.textContent = 'Opening WhatsApp...';
-  const payload = new URLSearchParams({ name, phone, platform, plan, profession });
-  saveLeadFast(payload);
-  track('Lead', { content_name: plan, content_category: platform });
-  openWhatsApp({name, phone, platform, plan, profession});
-  setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent = old; }, 1200);
-});
+if(sendBtn){
+  sendBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    const platform = document.getElementById('platform').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const profession = document.getElementById('profession').value.trim();
+    const plan = sessionStorage.getItem('adh_plan') || 'Affiliate Starter';
+    if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
+    if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
+    const old = sendBtn.textContent; sendBtn.disabled = true; sendBtn.textContent = 'Opening WhatsApp...';
+    const payload = new URLSearchParams({ name, phone, platform, plan, profession });
+    saveLeadFast(payload);
+    openWhatsApp({name, phone, platform, plan, profession});
+    setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent = old; }, 1200);
+  });
+}
 
-/* quick CTAs */
-document.getElementById('ctaStart')?.addEventListener('click', ()=>{
-  sessionStorage.setItem('adh_plan', 'Affiliate Onboard');
-  document.getElementById('name')?.focus({preventScroll:true});
-  location.hash = '#getstart';
-});
-document.getElementById('bottomWhats')?.addEventListener('click', ()=>{
-  sessionStorage.setItem('adh_plan', 'Affiliate Onboard');
-  document.getElementById('name')?.focus({preventScroll:true});
-  location.hash = '#getstart';
-});
-document.getElementById('coachWhats')?.addEventListener('click', ()=>{
-  sessionStorage.setItem('adh_plan', 'Coach 1:1');
-  document.getElementById('name')?.focus({preventScroll:true});
-  location.hash = '#getstart';
-});
-document.getElementById('coachChatBtn')?.addEventListener('click', ()=>{
-  try{ if(window.fbq) fbq('trackCustom','WhatsAppCoachClick'); }catch(e){}
-  const msg = `Hello Rahman sir, I want to join as an affiliate.\nName:\nPhone:\nInterested in: Affiliate onboarding / 100% commission offers`;
-  window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
-});
-document.getElementById('coachLearnBtn')?.addEventListener('click', ()=>{
-  const t = document.getElementById('plans') || document.getElementById('getstart');
-  if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
-});
-
-/* ensure sticky behaviour runs after fonts/layout stable */
-window.addEventListener('load', ()=> setTimeout(setupFeatureSticky, 120));
+/* ensure stacking runs after layout/fonts stable */
+window.addEventListener('load', ()=> setTimeout(applyAllStacking, 120));
 </script>
 
 </body>
