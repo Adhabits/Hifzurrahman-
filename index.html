@@ -15,6 +15,8 @@
   --grad:linear-gradient(135deg,#8b5cf6,#22d3ee 55%,#34d399);
   --accent:#ffb454; --accent2:#ff914d;
   --card:#0f172a;
+  --answer-black: #06101d;
+  --question-color: #0b1220;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
@@ -27,11 +29,8 @@ a{color:inherit;text-decoration:none}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800}
 .logo{width:28px;height:28px}
 .logo img{width:100%;height:100%;object-fit:contain}
-
 .nav-links{display:flex;align-items:center;gap:18px}
 .nav-links a{color:#c9d3e6;font-weight:700;font-size:15px}
-.nav-links a:hover{color:#fff}
-
 .hamb{display:none;cursor:pointer;border:1px solid #2b3652;border-radius:10px;padding:8px 10px}
 .hamb span{display:block;width:22px;height:2px;background:#c9d3e6;margin:4px 0;border-radius:2px}
 @media (max-width:860px){
@@ -76,34 +75,17 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
 .btn{padding:12px 18px;border-radius:12px;font-weight:800;transition:transform .18s ease, box-shadow .18s ease;cursor:pointer}
 .btn.primary{background:var(--grad);color:#06101d;border:none}
-.btn.primary:hover{transform:scale(1.03);box-shadow:0 0 18px rgba(139,92,246,.45)}
 .btn.secondary{background:#0f1526;border:1px solid #303a57;color:#d7def0}
-.btn.secondary:hover{transform:scale(1.02);box-shadow:0 0 12px rgba(34,211,238,.2)}
-.panel{border:1px solid var(--stroke);background:#0f1628;border-radius:14px;padding:12px;color:#aeb9ce;font-size:14px}
-
-/* right column selectors */
-.video-select{display:flex;flex-direction:column;gap:12px}
-.vitem{border:2px solid rgba(255,255,255,0.03);padding:10px;border-radius:10px;display:flex;gap:12px;align-items:center;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
-.vitem.active{border-color:#ff4da6;box-shadow:0 8px 30px rgba(255,77,166,0.08);transform:translateY(-3px)}
-.thumb{width:64px;height:44px;background:#e6e9ed;border-radius:6px;flex:0 0 auto;display:grid;place-items:center;color:#222;font-weight:700}
-.vmeta h4{margin:0;font-weight:800;color:#e6edf7;font-size:15px}
-.vmeta p{margin:4px 0 0;color:#9fb0c9;font-size:13px}
-
-/* reasons */
-.reasons{margin-top:8px;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(139,92,246,0.06), rgba(255,77,166,0.04));border:1px solid rgba(255,255,255,0.02)}
-.reasons ul{margin:8px 0 0;padding-left:18px;color:#dfe9f7}
-.reasons li{margin:8px 0}
 
 /* features grid */
 .features-section{padding:40px 0 60px;background:linear-gradient(180deg, rgba(255,240,247,0.02), transparent)}
-/* provide extra top padding so sticky cards have room to stick */
 .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px;align-items:start;padding-top:8px;overflow:visible}
 @media (max-width:1000px){.features-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:640px){
   .features-grid{grid-template-columns:1fr;padding-top:12px}
-  /* we'll make each card sticky and overlap via JS-set top & z-index */
+  /* NO default negative margins — initial state shows full cards.
+     JS will add sticky + marginBottom negative when section becomes active. */
   .feature-card{
-    margin-bottom:-68px; /* overlap amount */
     overflow:visible !important;
     border-radius:12px;
     will-change:transform;
@@ -117,7 +99,7 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 /* ensure sticky cards content is visible above neighboring card edges */
 .features-grid, .feature-card { overflow: visible; }
 
-/* coach (kept improved responsive) */
+/* coach */
 .coach-section{max-width:1150px;margin:48px auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:24px;align-items:center;color:var(--text)}
 .coach-inner{display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
 .coach-photo{width:100%;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.45);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
@@ -131,19 +113,15 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 .stat-num{font-weight:900;font-size:20px;color:#ff6aa2}
 .stat-label{font-size:13px;color:var(--muted);margin-top:6px;text-align:center}
 .coach-cta{margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.btn-chat{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg,#25d366,#06b658);color:#061016;font-weight:800;border:none;cursor:pointer;box-shadow:0 12px 30px rgba(2,6,23,0.45)}
 
-@media(min-width:980px){
-  .coach-inner{grid-template-columns:420px 1fr;align-items:start}
-  .coach-stats{flex-direction:column;align-self:start}
-}
-
-/* steps / form etc kept similar (only minor mobile tweaks below) */
+/* steps / form */
 .steps{padding:48px 0}
 .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media (max-width:980px){.steps-grid{grid-template-columns:1fr}}
 .step-card{background:#fff;border-radius:10px;padding:20px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 10px 28px rgba(0,0,0,.08)}
 .step-num{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-size:20px}
+.step-body h4{margin:0;font-size:18px;color:var(--question-color);font-weight:800}
+.step-body p{margin:6px 0 0;color:var(--answer-black);line-height:1.4}
 
 /* form */
 #getstart{padding:36px 0}
@@ -158,23 +136,12 @@ select:focus,input:focus{border-color:#3a8bd8}
 .form-hint{color:#93a4c6;margin-left:8px}
 .right-box{border:1px solid #273047;background:#0f172a;border-radius:16px;padding:18px}
 
-/* small-screen adjustments to ensure nothing hides */
+/* small-screen adjustments */
 @media (max-width:520px){
   .hero{padding:36px 0}
   h1{font-size:24px;line-height:1.06}
-  .player-frame{padding-top:56.25%;max-height:420px} /* limit height on small screens */
-  .player-wrap{border-radius:12px}
-  .player-card{padding:12px}
+  .player-frame{padding-top:56.25%;max-height:420px}
   .floating-bar{left:50%;right:auto;transform:translateX(-50%);width:auto;max-width:360px;font-size:13px;top:12px;padding:8px 12px}
-  .nav-inner{padding:0 10px}
-  .btn{padding:10px 14px}
-  .kpis{font-size:13px}
-  .video-area{gap:14px}
-  .vmeta h4{font-size:14px}
-  .vmeta p{font-size:12px}
-  .coach-head{font-size:20px}
-  /* ensure video container centered */
-  .player-wrap{margin:0 auto}
   .features-grid{padding-bottom:140px}
 }
 
@@ -326,7 +293,7 @@ select:focus,input:focus{border-color:#3a8bd8}
   <div class="container">
     <h2 style="text-align:center;font-weight:800;font-size:34px;color:var(--text)">What Happens When You Join?</h2>
     <div style="height:12px"></div>
-    <div class="steps-grid">
+    <div class="steps-grid" id="stepsGrid">
       <div class="step-card reveal">
         <div class="step-num">1</div>
         <div class="step-body">
@@ -366,7 +333,6 @@ select:focus,input:focus{border-color:#3a8bd8}
   </div>
 </section>
 
-<!-- coach section (replaced, responsive & mobile-friendly) -->
 <section id="coach" class="coach-section">
   <div class="coach-inner container">
     <div class="coach-photo reveal">
@@ -432,7 +398,6 @@ select:focus,input:focus{border-color:#3a8bd8}
         <option>High-ticket Affiliate</option>
       </select>
 
-      <!-- reordered fields: Name -> Phone -> Profession -->
       <label for="name">Your Name</label>
       <input id="name" type="text" placeholder="Your name" required>
 
@@ -493,8 +458,9 @@ select:focus,input:focus{border-color:#3a8bd8}
 const hamb = document.getElementById('hamb'), mnav = document.getElementById('mnav');
 if(hamb) hamb.onclick = () => { mnav.style.display = (mnav.style.display === 'block') ? 'none' : 'block'; };
 
-/* reveal */
+/* reveal & counters */
 function revealInit(){
+  document.querySelectorAll('.reveal, .pop-anim').forEach(el=>el.classList.add('reveal')); // ensure class exists
   const revealEls = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver((entries, o)=>{
     entries.forEach(en=>{
@@ -508,7 +474,6 @@ function revealInit(){
 }
 revealInit();
 
-/* number animation */
 function animateNum(el, to, dur=1200){
   const start = performance.now(), from = 0;
   function step(now){
@@ -541,53 +506,87 @@ videoItems.forEach(item=>{
     videoItems.forEach(i=>i.classList.remove('active'));
     item.classList.add('active');
     const vid = item.dataset.video;
-    mainPlayer.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
-    if(window.innerWidth < 900) document.getElementById('playerFrame').scrollIntoView({behavior:'smooth', block:'center'});
+    if(mainPlayer) mainPlayer.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
+    if(window.innerWidth < 900) document.getElementById('playerFrame')?.scrollIntoView({behavior:'smooth', block:'center'});
   });
 });
 
-/* features stacking: set sticky and top offsets on small screens so cards overlap nicely */
-function setupFeatureSticky(){
-  const cards = Array.from(document.querySelectorAll('.features-grid .feature-card'));
+/* ---------- FEATURES stacking: activate only when section enters view ---------- 
+   Behavior:
+   - Initially cards are normal (no overlap).
+   - When #features intersects (threshold), JS adds sticky + negative margin to create stacking.
+   - When #features is NOT intersecting (scrolled away above), JS removes sticky so normal flow restored.
+*/
+const featuresSection = document.getElementById('features');
+const featureCards = Array.from(document.querySelectorAll('.features-grid .feature-card'));
+
+const stackingConfig = {
+  baseTop: 90,        // px — where first card will stick (so it's fully visible)
+  step: 44,           // px — how much higher subsequent cards stick (overlap amount)
+  marginBottomNeg: -64 // px — negative margin to pull cards for overlap
+};
+
+function applyStackingActive(){
+  // apply sticky stacking (mobile only)
   const isMobile = window.matchMedia('(max-width:640px)').matches;
-  if(!cards.length) return;
-  if(isMobile){
-    const baseTop = 120;        // first card top
-    const step = 48;            // amount to move each next card up (overlap)
-    cards.forEach((c, idx) => {
-      c.style.position = 'sticky';
-      // compute top: first card stick at baseTop, next at baseTop - step, etc.
-      let topVal = baseTop - (idx * step);
-      if(topVal < 12) topVal = 12; // don't go negative
-      c.style.top = topVal + 'px';
-      // larger z-index for later cards so they appear above earlier ones
-      c.style.zIndex = 100 + idx;
-      // ensure overflow visible (so content doesn't get cut)
-      c.style.overflow = 'visible';
-      // small transform/pointer improvements
-      c.style.willChange = 'transform';
-    });
-    // small tweak: give container some bottom padding so last card is reachable
-    const grid = document.querySelector('.features-grid');
-    if(grid) grid.style.paddingBottom = '160px';
-  }else{
-    // reset for desktop
-    cards.forEach((c)=>{
-      c.style.position = '';
-      c.style.top = '';
-      c.style.zIndex = '';
-      c.style.overflow = '';
-      c.style.willChange = '';
-    });
-    const grid = document.querySelector('.features-grid');
-    if(grid) grid.style.paddingBottom = '';
-  }
+  if(!isMobile) return;
+  const grid = document.querySelector('.features-grid');
+  if(grid) grid.style.paddingBottom = (Math.abs(stackingConfig.marginBottomNeg) + 180) + 'px';
+  featureCards.forEach((c, idx) => {
+    c.style.position = 'sticky';
+    let topVal = stackingConfig.baseTop - (idx * stackingConfig.step);
+    if(topVal < 8) topVal = 8;
+    c.style.top = topVal + 'px';
+    c.style.zIndex = 200 + idx;
+    c.style.marginBottom = stackingConfig.marginBottomNeg + 'px';
+    c.style.overflow = 'visible';
+    c.style.willChange = 'transform';
+  });
 }
-setupFeatureSticky();
-window.addEventListener('resize', setupFeatureSticky);
+
+function removeStackingActive(){
+  // revert to normal flow
+  const grid = document.querySelector('.features-grid');
+  if(grid) grid.style.paddingBottom = '';
+  featureCards.forEach((c)=>{
+    c.style.position = '';
+    c.style.top = '';
+    c.style.zIndex = '';
+    c.style.marginBottom = '';
+    c.style.overflow = '';
+    c.style.willChange = '';
+  });
+}
+
+/* IntersectionObserver to toggle stacking only when #features is near viewport
+   threshold and rootMargin tuned so stacking triggers just when section is reached.
+*/
+if(featuresSection && featureCards.length){
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        // activate stacking shortly after intersection to ensure layout stable
+        applyStackingActive();
+      } else {
+        // if section is above (not intersecting) remove stacking so layout goes back to normal
+        removeStackingActive();
+      }
+    });
+  }, {threshold: 0.15, rootMargin: '0px 0px -20% 0px'});
+  obs.observe(featuresSection);
+
+  // also reapply on resize/orientation because mobile state may change
+  window.addEventListener('resize', ()=> {
+    // if currently intersecting (in view), keep stacking according to current viewport
+    // quick check: if section top within viewport height*0.9 then apply
+    const rect = featuresSection.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight*0.85 && rect.bottom > 0;
+    if(inView) applyStackingActive();
+    else removeStackingActive();
+  });
+}
 
 /* small pop animation for features */
-const featureCards = document.querySelectorAll('.feature-card');
 featureCards.forEach(card=>{
   card.addEventListener('click', ()=> {
     card.classList.add('pop');
@@ -645,22 +644,24 @@ function openWhatsApp({name, phone, platform, plan, profession}){
 }
 
 const sendBtn = document.getElementById('sendBtn');
-sendBtn.addEventListener('click', (e)=>{
-  e.preventDefault();
-  const platform = document.getElementById('platform').value.trim();
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const profession = document.getElementById('profession').value.trim();
-  const plan = sessionStorage.getItem('adh_plan') || 'Affiliate Starter';
-  if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
-  if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
-  const old = sendBtn.textContent; sendBtn.disabled = true; sendBtn.textContent = 'Opening WhatsApp...';
-  const payload = new URLSearchParams({ name, phone, platform, plan, profession });
-  saveLeadFast(payload);
-  track('Lead', { content_name: plan, content_category: platform });
-  openWhatsApp({name, phone, platform, plan, profession});
-  setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent = old; }, 1200);
-});
+if(sendBtn){
+  sendBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    const platform = document.getElementById('platform').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const profession = document.getElementById('profession').value.trim();
+    const plan = sessionStorage.getItem('adh_plan') || 'Affiliate Starter';
+    if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
+    if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
+    const old = sendBtn.textContent; sendBtn.disabled = true; sendBtn.textContent = 'Opening WhatsApp...';
+    const payload = new URLSearchParams({ name, phone, platform, plan, profession });
+    saveLeadFast(payload);
+    track('Lead', { content_name: plan, content_category: platform });
+    openWhatsApp({name, phone, platform, plan, profession});
+    setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent = old; }, 1200);
+  });
+}
 
 /* quick CTAs */
 document.getElementById('ctaStart')?.addEventListener('click', ()=>{
@@ -688,11 +689,20 @@ document.getElementById('coachLearnBtn')?.addEventListener('click', ()=>{
   if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-/* ensure sticky behaviour runs after fonts/layout stable */
-window.addEventListener('load', ()=> setTimeout(setupFeatureSticky, 120));
+/* ensure initial layout fine and stacking toggles after load */
+window.addEventListener('load', ()=> {
+  // remove any stacking (safety)
+  removeStackingActive && removeStackingActive();
+  // small timeout so fonts/layout settle
+  setTimeout(()=> {
+    // if user already scrolled into features on load, apply stacking
+    const rect = featuresSection?.getBoundingClientRect();
+    if(rect && rect.top < window.innerHeight*0.85 && rect.bottom > 0){
+      applyStackingActive();
+    }
+  }, 150);
+});
 </script>
 
 </body>
 </html>
-
-
