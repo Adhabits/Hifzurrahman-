@@ -41,23 +41,33 @@ a{color:inherit;text-decoration:none}
 .mobile-menu.on{display:block}
 .mobile-menu a{display:block;padding:16px 18px;border-bottom:1px solid #142036;color:#d5def1;font-weight:700}
 
-/* floating banner (top) with finger indicator */
+/* floating banner (top) with emoji + animated down-arrow */
 .floating-bar{
-  position:fixed;left:50%;transform:translateX(-50%);top:14px;z-index:80;
-  background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;box-shadow:0 14px 40px rgba(155,59,255,.12);
+  position:fixed;left:50%;transform:translateX(-50%);top:14px;z-index:90;
+  background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;
   display:inline-flex;gap:12px;align-items:center;cursor:pointer;animation:floaty 2.8s ease-in-out infinite;
   border: 2px solid rgba(255,255,255,.06);
+  box-shadow:0 14px 40px rgba(155,59,255,.12);
 }
-.floating-bar .pill-icon{font-weight:900;font-size:14px}
+.floating-bar .emoji{font-size:16px;margin-right:6px}
+.floating-bar .text{font-size:14px;letter-spacing:0.2px}
 @keyframes floaty{0%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}100%{transform:translateX(-50%) translateY(0)}}
 
-/* finger indicator (below pill) */
-.finger-wrap{position:fixed;left:50%;transform:translateX(-50%);top:62px;z-index:79;pointer-events:none}
-.finger-dot{display:flex;flex-direction:column;align-items:center;gap:6px}
-.finger-icon{font-size:18px;background:rgba(255,255,255,0.06);padding:8px;border-radius:999px;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
-.finger-text{font-size:12px;color:#dfe9f7;opacity:0.95}
-@keyframes finger-bob{0%{transform:translateY(0)}50%{transform:translateY(8px)}100%{transform:translateY(0)}}
-.finger-wrap .finger-icon{animation:finger-bob 2s infinite ease-in-out}
+/* arrow pointer under pill to point at video */
+.floating-pointer{
+  position:fixed;left:50%;transform:translateX(-50%);top:60px;z-index:89;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.floating-pointer .dot{width:44px;height:44px;border-radius:999px;background:rgba(0,0,0,0.28);display:grid;place-items:center;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,0.45)}
+.floating-pointer .label{font-size:12px;color:#dfe9f7;opacity:0.95}
+.floating-pointer .arrow{
+  margin-top:6px;
+  width:18px;height:18px;border-left:3px solid rgba(255,255,255,0.85);border-bottom:3px solid rgba(255,255,255,0.85);
+  transform:rotate(-45deg);
+  animation:arrow-bob 1.6s infinite;
+  opacity:0.95;
+}
+@keyframes arrow-bob{0%{transform:translateY(0) rotate(-45deg)}50%{transform:translateY(6px) rotate(-45deg)}100%{transform:translateY(0) rotate(-45deg)}}
 
 /* HERO */
 .hero{padding:70px 0 20px;background:
@@ -159,7 +169,7 @@ select,input{width:100%;background:#0c1426;border:1px solid #2a3552;border-radiu
 }
 </style>
 
-<!-- Meta Pixel (unchanged) -->
+<!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -170,7 +180,6 @@ fbq('init','905585234905857');
 fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=905585234905857&ev=PageView&noscript=1"/></noscript>
-<!-- /Meta Pixel -->
 
 </head>
 <body>
@@ -194,13 +203,16 @@ fbq('track','PageView');
   </div>
 </header>
 
-<!-- floating pill + finger -->
-<div class="floating-bar" id="floatBanner" title="Watch this video first">▶ Watch this video first</div>
-<div class="finger-wrap" aria-hidden="true">
-  <div class="finger-dot">
-    <div class="finger-icon">👆</div>
-    <div class="finger-text">Tap to watch — then scroll</div>
-  </div>
+<!-- floating pill + animated pointer (emoji inside pill and arrow below) -->
+<div class="floating-bar" id="floatBanner" title="Watch this video first" role="button" aria-label="Watch this video first">
+  <span class="emoji">👆▶</span>
+  <span class="text">Watch this video first</span>
+</div>
+
+<div class="floating-pointer" aria-hidden="true">
+  <div class="dot">👆</div>
+  <div class="label">Tap to watch — then scroll</div>
+  <div class="arrow"></div>
 </div>
 
 <section class="hero">
@@ -356,7 +368,7 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- COACH SECTION (buttons above photo, popup chat & counters) -->
+<!-- COACH SECTION -->
 <section id="coach" class="coach">
   <div class="coach-inner container">
     <!-- left: photo -->
@@ -409,7 +421,7 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- GET STARTED FORM (unchanged logic) -->
+<!-- GET STARTED FORM -->
 <section id="getstart">
   <div class="container form-wrap">
     <div class="form-card">
@@ -461,7 +473,7 @@ fbq('track','PageView');
   </div>
 </footer>
 
-<!-- JS: interactions, counters, stacking niceties -->
+<!-- JS -->
 <script>
 // Mobile menu
 hamb.onclick = () => mnav.classList.toggle('on');
@@ -484,11 +496,9 @@ if('IntersectionObserver' in window){
     entries.forEach(entry=>{
       if(entry.isIntersecting){
         entry.target.classList.add('on');
-        // animate numbers inside
         entry.target.querySelectorAll && entry.target.querySelectorAll('.knum').forEach(k => {
           animateNum(k, parseInt(k.dataset.count,10) || 0);
         });
-        // if the element itself is a knum
         if(entry.target.classList.contains('knum')) animateNum(entry.target, parseInt(entry.target.dataset.count,10) || 0);
         obs.unobserve(entry.target);
       }
@@ -499,7 +509,7 @@ if('IntersectionObserver' in window){
   knums.forEach(k=>animateNum(k, parseInt(k.dataset.count,10)||0));
 }
 
-// Video selector: swap iframe src on click (autoplay)
+// Video selector
 const videoItems = document.querySelectorAll('.vitem');
 const mainPlayer = document.getElementById('mainPlayer');
 videoItems.forEach(item=>{
@@ -511,7 +521,7 @@ videoItems.forEach(item=>{
   });
 });
 
-// Pop animation on feature cards (touch/click)
+// Pop animation on feature cards
 document.querySelectorAll('[data-pop]').forEach(card=>{
   card.addEventListener('click',()=>{
     card.classList.add('pop');
@@ -521,7 +531,7 @@ document.querySelectorAll('[data-pop]').forEach(card=>{
   card.addEventListener('touchend',()=>setTimeout(()=>card.classList.remove('pop'),700));
 });
 
-// Countdown 1 hour (persist across reload)
+// Countdown 1 hour
 (function(){
   const cdElem = document.getElementById('countdown');
   if(!cdElem) return;
@@ -555,7 +565,6 @@ document.getElementById('floatBanner').addEventListener('click', ()=>{
     const text = encodeURIComponent("Hello Rahman sir, I want to join as an affiliate.\nName: \nPhone: \nInterested in: Affiliate onboarding / 100% commission offers");
     try{ if(window.fbq) fbq('trackCustom','WhatsAppCoachClick'); }catch(e){}
     window.open(`https://wa.me/${WHATSAPP_TO}?text=${text}`,'_blank');
-    // small popup feedback
     this.style.transform='scale(0.98)';
     setTimeout(()=>this.style.transform='none',240);
   });
@@ -600,22 +609,6 @@ document.getElementById('floatBanner').addEventListener('click', ()=>{
     setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent=old; }, 1400);
   });
 })();
-
-// Steps stacking: slight parallax effect (improves clarity on desktop)
-(function(){
-  const stack = document.getElementById('stepsStack');
-  if(!stack) return;
-  // on scroll, add class to reveal current top card (optional)
-  window.addEventListener('scroll', ()=> {
-    const rect = stack.getBoundingClientRect();
-    // compute progress from top of viewport to bottom
-    if(rect.top < window.innerHeight && rect.bottom > 0){
-      // add 'inview' to stack to allow CSS transitions if needed
-      stack.classList.add('inview');
-    }
-  });
-})();
-
 </script>
 
 </body>
