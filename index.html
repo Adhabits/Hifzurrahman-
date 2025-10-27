@@ -203,27 +203,65 @@ fbq('track','PageView');
   </div>
 </header>
 
-<!-- floating pill + animated pointer (emoji inside pill and arrow below) -->
-<div class="floating-bar" id="floatBanner" title="Watch this video first" role="button" aria-label="Watch this video first">
-  <span class="emoji">👆▶</span>
-  <span class="text">Watch this video first</span>
+<!-- Floating Pill (clean version) -->
+<div class="floating-bar" id="floatBanner" title="Watch this video first">
+  👆▶ Watch this video first
 </div>
 
-<div class="floating-pointer" aria-hidden="true">
-  <div class="dot">👆</div>
-  <div class="label">Tap to watch — then scroll</div>
-  <div class="arrow"></div>
-</div>
+<style>
+/* Floating Pill refined */
+.floating-bar{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  top:14px;
+  z-index:90;
+  background:linear-gradient(90deg,#ff6aa2,#9b5cff);
+  color:#fff;
+  padding:10px 22px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  cursor:pointer;
+  animation:floaty 2.8s ease-in-out infinite;
+  box-shadow:0 14px 40px rgba(155,59,255,.12);
+  border:2px solid rgba(255,255,255,.06);
+}
+@keyframes floaty{
+  0%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(8px);}
+  100%{transform:translateX(-50%) translateY(0);}
+}
 
-<section class="hero">
-  <div class="container">
-    <div class="reveal on">
-      <span class="eyebrow">Affiliate Opportunity</span>
-      <h1>Earn With <span class="hl2">100% Commissions</span><br><span class="headline-animated">We help Affiliates — Students — Housewives — Newbies</span></h1>
+/* Headline fixes for mobile */
+.hero h1{
+  font-family:Poppins,system-ui,Arial;
+  font-weight:800;
+  font-size:clamp(24px,6vw,48px);
+  line-height:1.15;
+  letter-spacing:-.02em;
+  margin-bottom:10px;
+  color:var(--text);
+  word-break:break-word;
+}
+@media(max-width:480px){
+  .hero h1{
+    font-size:clamp(24px,7vw,34px);
+    line-height:1.25;
+  }
+}
+</style>
 
-      <div class="kpis">Join Over <b style="color:var(--accent-q)">1,00,000+</b> Working Professionals, Housewives, Students &amp; Self Employed with us</div>
-
-      <div class="video-area">
+<script>
+// scroll to video
+document.getElementById('floatBanner').addEventListener('click', ()=>{
+  document.getElementById('playerFrame').scrollIntoView({behavior:'smooth', block:'center'});
+});
+</script>
         <!-- left: main player -->
         <div>
           <div class="player-wrap player-shadow">
