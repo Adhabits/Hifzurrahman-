@@ -15,11 +15,9 @@
   --grad:linear-gradient(135deg,#8b5cf6,#22d3ee 55%,#34d399);
   --accent:#ffb454; --accent2:#ff914d;
   --card:#0f172a;
-  --answer-black: #06101d;
-  --question-color: #0b1220;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 a{color:inherit;text-decoration:none}
 .container{max-width:1150px;margin:auto;padding:0 18px}
 
@@ -29,8 +27,11 @@ a{color:inherit;text-decoration:none}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800}
 .logo{width:28px;height:28px}
 .logo img{width:100%;height:100%;object-fit:contain}
+
 .nav-links{display:flex;align-items:center;gap:18px}
 .nav-links a{color:#c9d3e6;font-weight:700;font-size:15px}
+.nav-links a:hover{color:#fff}
+
 .hamb{display:none;cursor:pointer;border:1px solid #2b3652;border-radius:10px;padding:8px 10px}
 .hamb span{display:block;width:22px;height:2px;background:#c9d3e6;margin:4px 0;border-radius:2px}
 @media (max-width:860px){
@@ -38,13 +39,15 @@ a{color:inherit;text-decoration:none}
   .hamb{display:block}
 }
 
-/* floating banner (compact) */
+/* floating banner (shorter / compact) */
 .floating-bar{
   position:fixed;left:50%;transform:translateX(-50%);top:16px;z-index:90;
   background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;padding:8px 14px;border-radius:999px;font-weight:800;box-shadow:0 14px 40px rgba(155,59,255,.12);
   display:inline-flex;gap:10px;align-items:center;cursor:pointer;animation:floaty 2.8s ease-in-out infinite;
   border:2px solid rgba(255,255,255,.06);
-  font-size:13px;max-width:360px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-size:13px;
+  max-width:360px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 @keyframes floaty{0%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}100%{transform:translateX(-50%) translateY(0)}}
 
@@ -73,39 +76,73 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
 .btn{padding:12px 18px;border-radius:12px;font-weight:800;transition:transform .18s ease, box-shadow .18s ease;cursor:pointer}
 .btn.primary{background:var(--grad);color:#06101d;border:none}
+.btn.primary:hover{transform:scale(1.03);box-shadow:0 0 18px rgba(139,92,246,.45)}
 .btn.secondary{background:#0f1526;border:1px solid #303a57;color:#d7def0}
+.btn.secondary:hover{transform:scale(1.02);box-shadow:0 0 12px rgba(34,211,238,.2)}
+.panel{border:1px solid var(--stroke);background:#0f1628;border-radius:14px;padding:12px;color:#aeb9ce;font-size:14px}
 
-/* FEATURES */
+/* right column selectors */
+.video-select{display:flex;flex-direction:column;gap:12px}
+.vitem{border:2px solid rgba(255,255,255,0.03);padding:10px;border-radius:10px;display:flex;gap:12px;align-items:center;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
+.vitem.active{border-color:#ff4da6;box-shadow:0 8px 30px rgba(255,77,166,0.08);transform:translateY(-3px)}
+.thumb{width:64px;height:44px;background:#e6e9ed;border-radius:6px;flex:0 0 auto;display:grid;place-items:center;color:#222;font-weight:700}
+.vmeta h4{margin:0;font-weight:800;color:#e6edf7;font-size:15px}
+.vmeta p{margin:4px 0 0;color:#9fb0c9;font-size:13px}
+
+/* reasons */
+.reasons{margin-top:8px;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(139,92,246,0.06), rgba(255,77,166,0.04));border:1px solid rgba(255,255,255,0.02)}
+.reasons ul{margin:8px 0 0;padding-left:18px;color:#dfe9f7}
+.reasons li{margin:8px 0}
+
+/* features grid */
 .features-section{padding:40px 0 60px;background:linear-gradient(180deg, rgba(255,240,247,0.02), transparent)}
 .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px;align-items:start;padding-top:8px;overflow:visible}
 @media (max-width:1000px){.features-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* For mobile we'll use slide-in animation + make the grid temporarily fixed when in view */
 @media (max-width:640px){
-  .features-grid{grid-template-columns:1fr;padding-top:12px;padding-bottom:140px}
-}
-.feature-card{background:#fff;border-radius:12px;padding:22px 18px;text-align:center;color:#0b1220;box-shadow:0 12px 30px rgba(0,0,0,0.14);transition:transform .6s cubic-bezier(.2,.9,.2,1),opacity .45s}
-.feature-card .icon{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
-.feature-card h3{margin:6px 0 8px;font-size:18px}
-.feature-card p{color:#6b7889;margin:0}
-
-/* initial offscreen state for mobile (desktop shows normally) */
-@media (max-width:640px){
-  .feature-card { opacity:0; transform:translateX(0) translateY(12px); } /* default hidden */
-  .feature-card.from-left { transform: translateX(-90px); }   /* odd cards start left */
-  .feature-card.from-right { transform: translateX(90px); }   /* even cards start right */
-  .feature-card.in { opacity:1; transform: translateX(0) translateY(0); } /* visible */
+  .features-grid{grid-template-columns:1fr;padding-top:12px}
+  .feature-card{background:#fff;border-radius:12px;padding:22px 18px;text-align:center;color:#0b1220;box-shadow:0 12px 30px rgba(0,0,0,0.14);transition:transform .6s cubic-bezier(.2,.9,.2,1),opacity .45s}
+  .feature-card .icon{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
+  .feature-card h3{margin:6px 0 8px;font-size:18px}
+  .feature-card p{color:#6b7889;margin:0}
+  /* start positions */
+  .feature-card.from-left{opacity:0; transform:translateX(-90px) translateY(12px);}
+  .feature-card.from-right{opacity:0; transform:translateX(90px) translateY(12px);}
+  /* visible state */
+  .feature-card.in{opacity:1; transform:translateX(0) translateY(0);}
 }
 
-/* small pop effect when tapped */
-.feature-card.pop{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.25)}
+/* ensure sticky cards content is visible above neighboring card edges */
+.features-grid, .feature-card { overflow: visible; }
 
-/* STEPS */
+/* coach (kept improved responsive) */
+.coach-section{max-width:1150px;margin:48px auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:24px;align-items:center;color:var(--text)}
+.coach-inner{display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
+.coach-photo{width:100%;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.45);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
+.coach-photo img{width:100%;height:100%;display:block;object-fit:cover}
+.coach-copy{display:flex;flex-direction:column;gap:12px}
+.coach-badge{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:700;width:max-content}
+.coach-head{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(20px,4.2vw,36px);line-height:1.02;margin:6px 0;color:var(--text)}
+.coach-desc{color:var(--muted);max-width:66ch}
+.coach-stats{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.stat-pill{background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:12px;padding:12px 16px;min-width:160px;display:flex;flex-direction:column;align-items:center;box-shadow:0 12px 30px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,0.02);color:var(--text)}
+.stat-num{font-weight:900;font-size:20px;color:#ff6aa2}
+.stat-label{font-size:13px;color:var(--muted);margin-top:6px;text-align:center}
+.coach-cta{margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn-chat{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg,#25d366,#06b658);color:#061016;font-weight:800;border:none;cursor:pointer;box-shadow:0 12px 30px rgba(2,6,23,0.45)}
+
+@media(min-width:980px){
+  .coach-inner{grid-template-columns:420px 1fr;align-items:start}
+  .coach-stats{flex-direction:column;align-self:start}
+}
+
+/* steps / form etc kept similar (only minor mobile tweaks below) */
 .steps{padding:48px 0}
 .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media (max-width:980px){.steps-grid{grid-template-columns:1fr}}
 .step-card{background:#fff;border-radius:10px;padding:20px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 10px 28px rgba(0,0,0,.08)}
 .step-num{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-size:20px}
-.step-body h4{margin:0;font-size:18px;color:var(--question-color);font-weight:800}
-.step-body p{margin:6px 0 0;color:var(--answer-black);line-height:1.4}
 
 /* form */
 #getstart{padding:36px 0}
@@ -120,19 +157,33 @@ select:focus,input:focus{border-color:#3a8bd8}
 .form-hint{color:#93a4c6;margin-left:8px}
 .right-box{border:1px solid #273047;background:#0f172a;border-radius:16px;padding:18px}
 
-/* small screens */
+/* small-screen adjustments to ensure nothing hides */
 @media (max-width:520px){
   .hero{padding:36px 0}
   h1{font-size:24px;line-height:1.06}
-  .player-frame{padding-top:56.25%;max-height:420px}
+  .player-frame{padding-top:56.25%;max-height:420px} /* limit height on small screens */
+  .player-wrap{border-radius:12px}
+  .player-card{padding:12px}
   .floating-bar{left:50%;right:auto;transform:translateX(-50%);width:auto;max-width:360px;font-size:13px;top:12px;padding:8px 12px}
-  .features-grid{padding-bottom:140px}
+  .nav-inner{padding:0 10px}
+  .btn{padding:10px 14px}
+  .kpis{font-size:13px}
+  .video-area{gap:14px}
+  .vmeta h4{font-size:14px}
+  .vmeta p{font-size:12px}
+  .coach-head{font-size:20px}
+  /* ensure video container centered */
+  .player-wrap{margin:0 auto}
 }
 
-/* reveal */
+/* reveal animation */
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
 .reveal.on{opacity:1;transform:none}
+
+/* small helpers for feature pop effect */
+.feature-card.pop{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.25)}
 </style>
+
 </head>
 <body>
 
@@ -172,6 +223,7 @@ select:focus,input:focus{border-color:#3a8bd8}
       <div class="kpis">Join Over <b style="color:#ffb454">1,00,000+</b> Working Professionals, Housewives, Students &amp; Self Employed with us</div>
 
       <div class="video-area">
+        <!-- main player -->
         <div>
           <div class="player-wrap player-shadow">
             <div class="player-frame" id="playerFrame">
@@ -191,6 +243,7 @@ select:focus,input:focus{border-color:#3a8bd8}
           </div>
         </div>
 
+        <!-- selectors -->
         <aside>
           <div class="video-select">
             <div class="vitem active" data-video="SG5MdFiP1zA">
@@ -233,7 +286,7 @@ select:focus,input:focus{border-color:#3a8bd8}
 </section>
 
 <section id="features" class="features-section">
-  <div class="container">
+  <div class="container" id="featuresContainer">
     <div class="join-head">
       <h2>🌱 Aap Yahan Seekhenge</h2>
       <p>Real, skill-based aur sustainable online income opportunity — phone se kaam, flexible timing.</p>
@@ -271,7 +324,7 @@ select:focus,input:focus{border-color:#3a8bd8}
   <div class="container">
     <h2 style="text-align:center;font-weight:800;font-size:34px;color:var(--text)">What Happens When You Join?</h2>
     <div style="height:12px"></div>
-    <div class="steps-grid" id="stepsGrid">
+    <div class="steps-grid">
       <div class="step-card reveal">
         <div class="step-num">1</div>
         <div class="step-body">
@@ -311,6 +364,7 @@ select:focus,input:focus{border-color:#3a8bd8}
   </div>
 </section>
 
+<!-- coach section (replaced, responsive & mobile-friendly) -->
 <section id="coach" class="coach-section">
   <div class="coach-inner container">
     <div class="coach-photo reveal">
@@ -368,13 +422,7 @@ select:focus,input:focus{border-color:#3a8bd8}
       <h3>Get Started — Become an Affiliate</h3>
       <p class="form-note">Hello Rahman sir, I want to become an affiliate and start earning. My details below 👇</p>
 
-      <label for="platform">Which Offer</label>
-      <select id="platform">
-        <option>Affiliate — 100% Commission Offer</option>
-        <option>Starter Affiliate (low-ticket)</option>
-        <option>Growth Affiliate (mid-ticket)</option>
-        <option>High-ticket Affiliate</option>
-      </select>
+      <!-- removed the top 'Which Offer' select per request -->
 
       <label for="name">Your Name</label>
       <input id="name" type="text" placeholder="Your name" required>
@@ -451,7 +499,7 @@ function revealInit(){
 }
 revealInit();
 
-/* animate numbers from 0 to target on scroll */
+/* number animation */
 function animateNum(el, to, dur=1200){
   const start = performance.now(), from = 0;
   function step(now){
@@ -476,7 +524,7 @@ document.querySelectorAll('.knum, .num').forEach(k => {
   ioNum.observe(k);
 });
 
-/* Video selector (keeps original behaviour) */
+/* video selector */
 const videoItems = document.querySelectorAll('.vitem');
 const mainPlayer = document.getElementById('mainPlayer');
 videoItems.forEach(item=>{
@@ -485,58 +533,132 @@ videoItems.forEach(item=>{
     item.classList.add('active');
     const vid = item.dataset.video;
     if(mainPlayer) mainPlayer.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
-    if(window.innerWidth < 900) document.getElementById('playerFrame')?.scrollIntoView({behavior:'smooth', block:'center'});
+    if(window.innerWidth < 900) document.getElementById('playerFrame').scrollIntoView({behavior:'smooth', block:'center'});
   });
 });
 
-/* -------- FEATURES alternate slide-in animation --------
-   Odd cards (.from-left) slide in from left, even (.from-right) from right.
-   We only run the animation on mobile (<=640px) for better effect; on desktop cards are visible.
-   There is a small stagger for nicer animation.
+/* ------------------ left/right slide + fixed panel logic ------------------
+   Behavior:
+   - On mobile (<=640px) when #features enters viewport, we:
+     - measure container position and set .features-grid to fixed centered panel
+     - reveal cards with alternating left/right slide-in (staggered)
+   - When leaving the section, revert to normal flow.
 */
-function setupFeatureSlideIn(){
-  const cards = Array.from(document.querySelectorAll('.features-grid .feature-card'));
-  if(!cards.length) return;
-  const isMobile = window.matchMedia('(max-width:640px)').matches;
+const featuresSection = document.getElementById('features');
+const featuresGrid = document.getElementById('featuresGrid');
+const featuresContainer = document.getElementById('featuresContainer');
+const featureCards = featuresGrid ? Array.from(featuresGrid.querySelectorAll('.feature-card')) : [];
 
-  // Reset any classes first (safe)
-  cards.forEach(c => c.classList.remove('in'));
+let gridState = { fixed: false, placeholder: null, savedStyles: {} };
 
-  if(!isMobile){
-    cards.forEach(c => {
-      c.style.opacity = ''; c.style.transform = '';
-    });
-    return;
+function makeGridFixed(){
+  if(!featuresGrid || gridState.fixed) return;
+  // Only on small screens
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+
+  // create placeholder to keep flow height same
+  const placeholder = document.createElement('div');
+  placeholder.style.height = featuresGrid.getBoundingClientRect().height + 'px';
+  featuresGrid.parentNode.insertBefore(placeholder, featuresGrid);
+  gridState.placeholder = placeholder;
+
+  // compute left offset for container to center fixed grid
+  const containerRect = featuresContainer.getBoundingClientRect();
+  // save previous inline styles
+  gridState.savedStyles = {
+    position: featuresGrid.style.position || '',
+    left: featuresGrid.style.left || '',
+    top: featuresGrid.style.top || '',
+    width: featuresGrid.style.width || '',
+    zIndex: featuresGrid.style.zIndex || '',
+    marginTop: featuresGrid.style.marginTop || ''
+  };
+
+  // set fixed styles
+  const topOffset = 110; // position below header (px) — tweak if needed
+  featuresGrid.style.position = 'fixed';
+  featuresGrid.style.left = (containerRect.left) + 'px';
+  featuresGrid.style.top = topOffset + 'px';
+  featuresGrid.style.width = containerRect.width + 'px';
+  featuresGrid.style.zIndex = 120;
+  featuresGrid.style.marginTop = '0';
+
+  // add slight body padding bottom so user can scroll past it smoothly
+  document.body.style.paddingBottom = '60px';
+
+  gridState.fixed = true;
+
+  // reveal cards with staggered in-class
+  featureCards.forEach((card, i) => {
+    // ensure correct start position classes (from-left/from-right already set in markup)
+    card.classList.remove('in');
+    setTimeout(()=> card.classList.add('in'), i * 120);
+  });
+}
+
+function removeGridFixed(){
+  if(!featuresGrid || !gridState.fixed) return;
+  // revert styles
+  const s = gridState.savedStyles;
+  featuresGrid.style.position = s.position;
+  featuresGrid.style.left = s.left;
+  featuresGrid.style.top = s.top;
+  featuresGrid.style.width = s.width;
+  featuresGrid.style.zIndex = s.zIndex;
+  featuresGrid.style.marginTop = s.marginTop;
+
+  // remove placeholder
+  if(gridState.placeholder && gridState.placeholder.parentNode){
+    gridState.placeholder.parentNode.removeChild(gridState.placeholder);
+    gridState.placeholder = null;
   }
 
-  // Use IntersectionObserver to reveal cards when the features section enters viewport.
-  const grid = document.querySelector('#features');
-  if(!grid) return;
+  // remove in class so it can re-animate when user returns
+  featureCards.forEach(card => card.classList.remove('in'));
+  document.body.style.paddingBottom = '';
 
-  // We'll observe the grid and individually observe cards when grid enters view.
-  const gridObserver = new IntersectionObserver((entries, obGrid) => {
-    entries.forEach(en => {
+  gridState.fixed = false;
+}
+
+// Observe features section intersection and toggle fixed/panel state
+if(featuresSection){
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
       if(en.isIntersecting){
-        // when features section intersects, reveal cards with small stagger
-        cards.forEach((card, i) => {
-          const delay = i * 120; // stagger (ms)
-          setTimeout(()=> card.classList.add('in'), delay);
-        });
+        // when section is visible enough -> fix the grid
+        makeGridFixed();
       } else {
-        // when leaving, remove class so animation can replay if user scrolls back
-        cards.forEach(card => card.classList.remove('in'));
+        // when leaving -> restore
+        removeGridFixed();
       }
     });
-  }, {threshold: 0.15, rootMargin: '0px 0px -10% 0px'});
-
-  gridObserver.observe(grid);
+  }, {threshold: 0.18, rootMargin: '0px 0px -20% 0px'});
+  obs.observe(featuresSection);
 }
-setupFeatureSlideIn();
-window.addEventListener('resize', setupFeatureSlideIn);
-window.addEventListener('orientationchange', ()=> setTimeout(setupFeatureSlideIn, 120));
 
-/* small click/touch pop for feature cards */
-document.querySelectorAll('.feature-card.pop-anim').forEach(card=>{
+// Also on resize/orientation, recalc or remove fixed if viewport changes
+window.addEventListener('resize', ()=> {
+  if(!window.matchMedia('(max-width:640px)').matches) {
+    removeGridFixed();
+  } else {
+    // if fixed, re-adjust left/width
+    if(gridState.fixed && featuresContainer){
+      const rect = featuresContainer.getBoundingClientRect();
+      featuresGrid.style.left = rect.left + 'px';
+      featuresGrid.style.width = rect.width + 'px';
+    }
+  }
+});
+window.addEventListener('orientationchange', ()=> setTimeout(()=> {
+  if(gridState.fixed) {
+    const rect = featuresContainer.getBoundingClientRect();
+    featuresGrid.style.left = rect.left + 'px';
+    featuresGrid.style.width = rect.width + 'px';
+  }
+}, 160));
+
+/* small pop animation for features (tap) */
+featureCards.forEach(card=>{
   card.addEventListener('click', ()=> {
     card.classList.add('pop');
     setTimeout(()=>card.classList.remove('pop'), 700);
@@ -567,9 +689,10 @@ document.querySelectorAll('.feature-card.pop-anim').forEach(card=>{
   tick();
 })();
 
-/* form + whatsapp (profession included) */
+/* form + whatsapp (no platform select now) */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznR1Wk3Gn2jztC1ZXnBW4jr52146ctHC3phfdn8Ve3zuwKvCflNIOy_sxfPZNhQbbf/exec";
 const WHATSAPP_TO = "919610580359";
+
 function saveLeadFast(params){
   try{
     const utm = sessionStorage.getItem('adh_utm');
@@ -582,15 +705,21 @@ function saveLeadFast(params){
     }
   }catch(_){}
 }
+function track(e,d){ try{ fbq && fbq('track', e, d||{}); }catch(_){ } }
+function trackCustom(n,d){ try{ fbq && fbq('trackCustom', n, d||{}); }catch(_){ } }
+
 function openWhatsApp({name, phone, platform, plan, profession}){
-  const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nProfession: ${profession || 'Not specified'}\nOffer: ${platform}\nPlan: ${plan || 'Affiliate Onboard'}\n\nPlease guide me.`;
+  trackCustom('WhatsAppOpen', {plan, platform});
+  const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nProfession: ${profession || 'Not specified'}\nPlan: ${plan || 'Affiliate Onboard'}\n\nPlease guide me.`;
   window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
 }
+
 const sendBtn = document.getElementById('sendBtn');
 if(sendBtn){
   sendBtn.addEventListener('click', (e)=>{
     e.preventDefault();
-    const platform = document.getElementById('platform').value.trim();
+    // platform select removed, fallback to default platform name
+    const platform = 'Affiliate — 100% Commission Offer';
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const profession = document.getElementById('profession').value.trim();
@@ -600,12 +729,13 @@ if(sendBtn){
     const old = sendBtn.textContent; sendBtn.disabled = true; sendBtn.textContent = 'Opening WhatsApp...';
     const payload = new URLSearchParams({ name, phone, platform, plan, profession });
     saveLeadFast(payload);
+    track('Lead', { content_name: plan, content_category: platform });
     openWhatsApp({name, phone, platform, plan, profession});
     setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent = old; }, 1200);
   });
 }
 
-/* quick CTA bindings */
+/* quick CTAs */
 document.getElementById('ctaStart')?.addEventListener('click', ()=>{
   sessionStorage.setItem('adh_plan', 'Affiliate Onboard');
   document.getElementById('name')?.focus({preventScroll:true});
@@ -622,6 +752,7 @@ document.getElementById('coachWhats')?.addEventListener('click', ()=>{
   location.hash = '#getstart';
 });
 document.getElementById('coachChatBtn')?.addEventListener('click', ()=>{
+  try{ if(window.fbq) fbq('trackCustom','WhatsAppCoachClick'); }catch(e){}
   const msg = `Hello Rahman sir, I want to join as an affiliate.\nName:\nPhone:\nInterested in: Affiliate onboarding / 100% commission offers`;
   window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
 });
@@ -630,8 +761,15 @@ document.getElementById('coachLearnBtn')?.addEventListener('click', ()=>{
   if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-/* ensure feature slide logic runs after load */
-window.addEventListener('load', ()=> setTimeout(setupFeatureSlideIn, 120));
+/* ensure initial clean state on load */
+window.addEventListener('load', ()=> {
+  // remove any fixed state (safety)
+  removeGridFixed && removeGridFixed();
+  // small delay so fonts/layout settle
+  setTimeout(()=> {
+    // if features already in view, let observer handle it
+  }, 150);
+});
 </script>
 
 </body>
