@@ -46,6 +46,8 @@ a{color:inherit;text-decoration:none}
   display:inline-flex;gap:12px;align-items:center;cursor:pointer;animation:floaty 2.8s ease-in-out infinite;
   border:2px solid rgba(255,255,255,.06);
   font-size:15px;
+  max-width:calc(100% - 36px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 @keyframes floaty{0%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}100%{transform:translateX(-50%) translateY(0)}}
 
@@ -62,8 +64,8 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 .hl2{color:var(--accent2)}
 
 /* layout */
-.video-area{display:grid;grid-template-columns:1fr 420px;gap:26px;align-items:start;margin-top:18px}
-@media (max-width:980px){.video-area{grid-template-columns:1fr;gap:18px}}
+.video-area{display:grid;grid-template-columns:1fr 420px;gap:26px;align-items:start;margin-top:18px;align-items:start}
+@media (max-width:980px){.video-area{grid-template-columns:1fr;gap:18px;justify-items:center}}
 .player-wrap{border-radius:16px;overflow:hidden;border:1px solid #25304a;background:#0b0f1a;box-shadow: 0 30px 60px rgba(0,0,0,0.5)}
 .player-frame{position:relative;padding-top:56.25%;background:#111;overflow:hidden}
 .player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
@@ -94,9 +96,19 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 
 /* features grid */
 .features-section{padding:40px 0 60px;background:linear-gradient(180deg, rgba(255,240,247,0.02), transparent)}
-.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px;align-items:start}
 @media (max-width:1000px){.features-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:640px){.features-grid{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .features-grid{grid-template-columns:1fr; /* stacked vertically on small screens */}
+  /* stacking / overlap behaviour */
+  .feature-card{
+    position:-webkit-sticky;
+    position:sticky;
+    top:120px; /* where the cards will stick — tweak if header height changes */
+    margin-bottom:-72px; /* overlap amount */
+    transition:transform .28s ease, box-shadow .28s ease;
+  }
+}
 .feature-card{background:#fff;border-radius:12px;padding:22px 18px;text-align:center;color:#0b1220;box-shadow:0 12px 30px rgba(0,0,0,0.14);transition:transform .18s ease}
 .feature-card .icon{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
 .feature-card p{color:#6b7889}
@@ -111,7 +123,7 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(26px,6vw,
 .coach-head{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(20px,4.2vw,36px);line-height:1.02;margin:6px 0;color:var(--text)}
 .coach-desc{color:var(--muted);max-width:66ch}
 .coach-stats{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-.stat-pill{background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:12px;padding:12px 16px;min-width:160px;display:flex;flex-direction:column;align-items:center;box-shadow:0 12px 30px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.02);color:var(--text)}
+.stat-pill{background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:12px;padding:12px 16px;min-width:160px;display:flex;flex-direction:column;align-items:center;box-shadow:0 12px 30px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,0.02);color:var(--text)}
 .stat-num{font-weight:900;font-size:20px;color:#ff6aa2}
 .stat-label{font-size:13px;color:var(--muted);margin-top:6px;text-align:center}
 .coach-cta{margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
@@ -149,7 +161,7 @@ select:focus,input:focus{border-color:#3a8bd8}
   .player-frame{padding-top:56.25%;max-height:420px} /* limit height on small screens */
   .player-wrap{border-radius:12px}
   .player-card{padding:12px}
-  .floating-bar{left:16px;right:16px;transform:none;width:auto;padding:10px 14px;font-size:14px}
+  .floating-bar{left:50%;right:auto;transform:translateX(-50%);width:calc(100% - 36px);max-width:520px;font-size:14px;top:12px}
   .nav-inner{padding:0 10px}
   .btn{padding:10px 14px}
   .kpis{font-size:13px}
@@ -157,11 +169,17 @@ select:focus,input:focus{border-color:#3a8bd8}
   .vmeta h4{font-size:14px}
   .vmeta p{font-size:12px}
   .coach-head{font-size:20px}
+  /* ensure video container centered */
+  .player-wrap{margin:0 auto}
+  .features-grid{padding-bottom:120px}
 }
 
 /* reveal animation */
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
 .reveal.on{opacity:1;transform:none}
+
+/* small helpers for feature stacking visuals */
+.feature-card.pop{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.25)}
 </style>
 
 <!-- Meta Pixel -->
@@ -284,7 +302,7 @@ fbq('init','905585234905857'); fbq('track','PageView');
       <p>Real, skill-based aur sustainable online income opportunity — phone se kaam, flexible timing.</p>
     </div>
 
-    <div class="features-grid">
+    <div class="features-grid" id="featuresGrid">
       <div class="feature-card pop-anim" data-pop>
         <div class="icon">💡</div>
         <h3>In-demand Digital Skills</h3>
@@ -322,7 +340,7 @@ fbq('init','905585234905857'); fbq('track','PageView');
         <div class="step-body">
           <h4>Instant Connection</h4>
           <p>Message on WhatsApp & instantly connect with coach for guidance.</p>
-        </div>
+      </div>
       </div>
 
       <div class="step-card reveal">
@@ -422,11 +440,21 @@ fbq('init','905585234905857'); fbq('track','PageView');
         <option>High-ticket Affiliate</option>
       </select>
 
+      <!-- reordered fields: Name -> Phone -> Profession -->
       <label for="name">Your Name</label>
       <input id="name" type="text" placeholder="Your name" required>
 
       <label for="phone">Phone Number</label>
       <input id="phone" type="tel" placeholder="10-digit number" required>
+
+      <label for="profession">Profession</label>
+      <select id="profession">
+        <option value="Student">Student</option>
+        <option value="Job Person">Job Person</option>
+        <option value="Housewife">Housewife</option>
+        <option value="Business Person">Business Person</option>
+        <option value="Other">Other</option>
+      </select>
 
       <div style="margin-top:10px">
         <button id="sendBtn" class="form-btn">Send on WhatsApp</button>
@@ -438,10 +466,19 @@ fbq('init','905585234905857'); fbq('track','PageView');
       <h3>Ready to Earn Daily?</h3>
       <p style="color:#9fb0c9">Click and message us to get affiliate onboarding and creatives.</p>
 
-      <div style="margin-top:12px" class="stat-grid">
-        <div class="stat"><div class="num knum" data-count="3">0</div><div class="lbl">Years</div></div>
-        <div class="stat"><div class="num knum" data-count="250">0</div><div class="lbl">Affiliates</div></div>
-        <div class="stat"><div class="num knum" data-count="50">0</div><div class="lbl">₹50 L+ Budget</div></div>
+      <div style="margin-top:12px" class="stat-grid" aria-hidden="true">
+        <div class="stat" style="display:inline-block;margin-right:12px">
+          <div class="num knum" data-count="3">0</div>
+          <div class="lbl" style="color:#9fb0c9">Years</div>
+        </div>
+        <div class="stat" style="display:inline-block;margin-right:12px">
+          <div class="num knum" data-count="250">0</div>
+          <div class="lbl" style="color:#9fb0c9">Affiliates</div>
+        </div>
+        <div class="stat" style="display:inline-block">
+          <div class="num knum" data-count="50">0</div>
+          <div class="lbl" style="color:#9fb0c9">₹50 L+ Budget</div>
+        </div>
       </div>
     </aside>
   </div>
@@ -464,7 +501,22 @@ fbq('init','905585234905857'); fbq('track','PageView');
 const hamb = document.getElementById('hamb'), mnav = document.getElementById('mnav');
 if(hamb) hamb.onclick = () => { mnav.style.display = (mnav.style.display === 'block') ? 'none' : 'block'; };
 
-// reveal & counters
+// ---------- reveal animation ----------
+function revealInit(){
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries, o)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.classList.add('on');
+        o.unobserve(en.target);
+      }
+    });
+  }, {threshold: 0.18});
+  revealEls.forEach(el=>obs.observe(el));
+}
+revealInit();
+
+// ---------- number animation (0 -> target) when scrolled into view ----------
 function animateNum(el, to, dur=1200){
   const start = performance.now(), from = 0;
   function step(now){
@@ -475,22 +527,35 @@ function animateNum(el, to, dur=1200){
   }
   requestAnimationFrame(step);
 }
-const io = new IntersectionObserver((entries, obs)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('on');
-      // animate numbers inside this node
-      e.target.querySelectorAll && e.target.querySelectorAll('.knum').forEach(k=>{
-        animateNum(k, parseInt(k.dataset.count,10) || 0);
-      });
-      obs.unobserve(e.target);
+
+// Observe each knum separately so it animates when it comes into view
+document.querySelectorAll('.knum, .num').forEach(k => {
+  // initialize text to 0
+  k.textContent = '0';
+  const target = parseInt(k.dataset.count || '0', 10) || 0;
+  const ioNum = new IntersectionObserver((entries, ob) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        animateNum(k, target, 1300);
+        ob.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.4});
+  ioNum.observe(k);
+});
+
+// Also ensure knum already visible on load animates
+window.addEventListener('load', ()=>{
+  document.querySelectorAll('.knum, .num').forEach(k=>{
+    const rect = k.getBoundingClientRect();
+    if(rect.top < window.innerHeight && parseInt(k.textContent || '0',10) === 0){
+      const t = parseInt(k.dataset.count || '0',10) || 0;
+      animateNum(k, t, 900);
     }
   });
-},{threshold:0.25});
-document.querySelectorAll('.reveal, .knum').forEach(el=>io.observe(el));
-document.querySelectorAll('.reveal.on').forEach(el=>el.classList.add('on'));
+});
 
-// video selector
+// ---------- video selector ----------
 const videoItems = document.querySelectorAll('.vitem');
 const mainPlayer = document.getElementById('mainPlayer');
 videoItems.forEach(item=>{
@@ -500,13 +565,14 @@ videoItems.forEach(item=>{
     const vid = item.dataset.video;
     // update src and autoplay
     mainPlayer.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
-    // scroll to player on mobile
+    // scroll to player on mobile and center it
     if(window.innerWidth < 900) document.getElementById('playerFrame').scrollIntoView({behavior:'smooth', block:'center'});
   });
 });
 
-// pop animation for features
-document.querySelectorAll('[data-pop]').forEach(card=>{
+// ---------- pop animation for features (and stacking z-index on mobile) ----------
+const featureCards = Array.from(document.querySelectorAll('.feature-card'));
+featureCards.forEach((card, idx) => {
   card.addEventListener('click', ()=> {
     card.classList.add('pop');
     setTimeout(()=>card.classList.remove('pop'), 700);
@@ -515,9 +581,25 @@ document.querySelectorAll('[data-pop]').forEach(card=>{
   card.addEventListener('touchend', ()=> setTimeout(()=>card.classList.remove('pop'), 600));
 });
 
-// 1-hour countdown persist
+// assign z-index so later cards appear above earlier when stacking on small screens
+function setFeatureZIndices(){
+  const mq = window.matchMedia('(max-width:640px)');
+  if(mq.matches){
+    // higher index for later items
+    featureCards.forEach((c,i) => {
+      c.style.zIndex = 100 + i; // later cards have larger z-index
+    });
+  } else {
+    featureCards.forEach((c) => { c.style.zIndex = ''; });
+  }
+}
+setFeatureZIndices();
+window.addEventListener('resize', setFeatureZIndices);
+
+// ---------- countdown timer (1 hour persisted per session) ----------
 (function(){
   const cdElem = document.getElementById('countdown');
+  if(!cdElem) return;
   const key = 'adh_countdown_end';
   let end = sessionStorage.getItem(key);
   if(!end || isNaN(+end)){
@@ -536,7 +618,7 @@ document.querySelectorAll('[data-pop]').forEach(card=>{
   tick();
 })();
 
-// forms & WhatsApp logic (kept same as original)
+// ---------- forms & WhatsApp logic (updated: includes profession) ----------
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznR1Wk3Gn2jztC1ZXnBW4jr52146ctHC3phfdn8Ve3zuwKvCflNIOy_sxfPZNhQbbf/exec";
 const WHATSAPP_TO = "919610580359";
 
@@ -555,27 +637,28 @@ function saveLeadFast(params){
 function track(e,d){ try{ fbq && fbq('track', e, d||{}); }catch(_){ } }
 function trackCustom(n,d){ try{ fbq && fbq('trackCustom', n, d||{}); }catch(_){ } }
 
-function openWhatsApp({name, phone, platform, plan}){
+function openWhatsApp({name, phone, platform, plan, profession}){
   trackCustom('WhatsAppOpen', {plan, platform});
-  const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nOffer: ${platform}\nPlan: ${plan || 'Affiliate Onboard'}\n\nPlease guide me.`;
+  const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nProfession: ${profession || 'Not specified'}\nOffer: ${platform}\nPlan: ${plan || 'Affiliate Onboard'}\n\nPlease guide me.`;
   window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-// Form submit
+// Form submit (with new profession field)
 const sendBtn = document.getElementById('sendBtn');
 sendBtn.addEventListener('click', (e)=>{
   e.preventDefault();
   const platform = document.getElementById('platform').value.trim();
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
+  const profession = document.getElementById('profession').value.trim();
   const plan = sessionStorage.getItem('adh_plan') || 'Affiliate Starter';
   if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
   if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
   const old = sendBtn.textContent; sendBtn.disabled = true; sendBtn.textContent = 'Opening WhatsApp...';
-  const payload = new URLSearchParams({ name, phone, platform, plan });
+  const payload = new URLSearchParams({ name, phone, platform, plan, profession });
   saveLeadFast(payload);
   track('Lead', { content_name: plan, content_category: platform });
-  openWhatsApp({name, phone, platform, plan});
+  openWhatsApp({name, phone, platform, plan, profession});
   setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent = old; }, 1200);
 });
 
@@ -607,7 +690,7 @@ document.getElementById('coachLearnBtn')?.addEventListener('click', ()=>{
   if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-// small helper to animate .knum already visible
+// small helper to animate .knum already visible (kept for safety)
 document.querySelectorAll('.knum').forEach(k=>{
   if(k.getBoundingClientRect().top < window.innerHeight) animateNum(k, parseInt(k.dataset.count,10) || 0);
 });
@@ -615,4 +698,3 @@ document.querySelectorAll('.knum').forEach(k=>{
 
 </body>
 </html>
-
