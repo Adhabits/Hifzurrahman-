@@ -253,7 +253,8 @@ fbq('track','PageView');
         <div>
           <div class="player-wrap player-shadow">
             <div class="player-frame" id="playerFrame">
-              <iframe id="mainPlayer" src="https://youtu.be/EZJ8JRFwd9E?si=VMt2w6_SfSXG_vyM=0&modestbranding=1&playsinline=1" title="AdHabits Intro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              <!-- changed to your provided video ID: P_YFHwjGcno -->
+              <iframe id="mainPlayer" src="https://www.youtube.com/embed/P_YFHwjGcno?rel=0&modestbranding=1&playsinline=1" title="AdHabits Intro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
             <div class="player-card">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
@@ -272,19 +273,12 @@ fbq('track','PageView');
         <!-- selectors -->
         <aside>
           <div class="video-select">
-            <div class="vitem active" data-video="SG5MdFiP1zA">
+            <!-- Only one vitem now (the provided video) -->
+            <div class="vitem active" data-video="P_YFHwjGcno">
               <div class="thumb">▶</div>
               <div class="vmeta">
                 <h4>Success Stories</h4>
                 <p>Real students & affiliates sharing wins.</p>
-              </div>
-            </div>
-
-            <div class="vitem" data-video="dQw4w9WgXcQ">
-              <div class="thumb">▶</div>
-              <div class="vmeta">
-                <h4>Behind the Scenes</h4>
-                <p>Coach journey & how offers are structured.</p>
               </div>
             </div>
 
@@ -766,4 +760,3 @@ window.addEventListener('load', ()=> setTimeout(enableStacking, 120));
 
 </body>
 </html>
-
