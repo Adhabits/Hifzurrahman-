@@ -15,7 +15,6 @@
   --card:#0f172a; --grad:linear-gradient(135deg,#8b5cf6, #22d3ee 55%, #34d399);
   --accent:#ffb454; --accent2:#ff914d; --pink1:#ff3ca6; --pink2:#7f3bff;
   --soft:#0f1628;
-  --glass: rgba(255,255,255,0.03);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
@@ -59,7 +58,6 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(28px,6vw,
 .headline-animated b{display:inline-block;padding-left:6px;color:var(--accent2);animation:slideIn 6s linear infinite}
 @keyframes slideIn{0%{transform:translateY(0)}45%{transform:translateY(-100%)}50%{transform:translateY(100%)}100%{transform:translateY(0)}}
 
-/* VIDEO + RIGHT SIDEBAR */
 .video-area{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start;margin-top:18px}
 @media (max-width:980px){.video-area{grid-template-columns:1fr;}}
 .player-wrap{border-radius:16px;overflow:hidden;border:1px solid #25304a;background:#0b0f1a;box-shadow: 0 30px 60px rgba(0,0,0,0.5)}
@@ -68,16 +66,35 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(28px,6vw,
 .player-card{background:#fff;color:#0b1220;padding:18px;border-radius:0 0 12px 12px}
 .player-shadow{box-shadow:0 40px 80px rgba(0,0,0,.45);border-radius:12px}
 
-/* CTA buttons */
+.kpis{color:#cfd7e9;margin:10px 0 18px;font-size:15px}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
 .btn{padding:13px 18px;border-radius:12px;font-weight:800;transition:transform .18s ease, box-shadow .18s ease;cursor:pointer}
-.btn.primary{background:var(--grad);color:#06101d;border:none}
+.btn.primary{background:var(--grad);Color:#06101d;border:none}
 .btn.primary:hover{transform:scale(1.04);box-shadow:0 0 22px rgba(139,92,246,.45)}
 .btn.secondary{background:#0f1526;border:1px solid #303a57;color:#d7def0}
 .btn.secondary:hover{transform:scale(1.03);box-shadow:0 0 16px rgba(34,211,238,.35)}
 .panel{border:1px solid var(--stroke);background:#0f1628;border-radius:14px;padding:12px;color:#aeb9ce;font-size:14px}
 
-/* features grid */
+/* video selector (right column) */
+.video-select{display:flex;flex-direction:column;gap:14px}
+.vitem{border:2px solid rgba(255,255,255,0.03);padding:12px;border-radius:10px;display:flex;gap:12px;align-items:center;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
+.vitem.active{border-color:#ff4da6;box-shadow:0 8px 30px rgba(255,77,166,0.08);transform:translateY(-4px)}
+.thumb{width:64px;height:44px;background:#e6e9ed;border-radius:6px;flex:0 0 auto;display:grid;place-items:center;color:#222;font-weight:700}
+.vmeta{flex:1}
+.vmeta h4{margin:0;font-weight:800;color:#e6edf7}
+.vmeta p{margin:4px 0 0;color:#9fb0c9;font-size:14px}
+
+/* video right reasons box */
+.reasons{margin-top:8px;padding:14px;border-radius:12px;background:linear-gradient(180deg,rgba(139,92,246,0.06), rgba(255,77,166,0.04));border:1px solid rgba(255,255,255,0.02)}
+.reasons ul{margin:8px 0 0;padding-left:18px;color:#dfe9f7}
+.reasons li{margin:8px 0}
+
+/* big join headline */
+.join-head{margin:30px 0 12px;text-align:center}
+.join-head h2{font:800 30px/1.1 Poppins;color:var(--text)}
+.join-head p{color:#9fb0c9;margin-top:8px}
+
+/* features grid as cards (pink background style from screenshots) */
 .features-section{padding:40px 0 60px;background:linear-gradient(180deg, rgba(255,240,247,0.02), transparent)}
 .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:18px}
 @media (max-width:1000px){.features-grid{grid-template-columns:repeat(2,1fr)}}
@@ -86,7 +103,7 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(28px,6vw,
 .feature-card .icon{width:80px;height:80px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800}
 .feature-card p{color:#6b7889}
 
-/* steps */
+/* steps / what happens section */
 .steps{padding:48px 0}
 .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media (max-width:980px){.steps-grid{grid-template-columns:1fr}}
@@ -95,142 +112,71 @@ h1{font-family:Poppins,system-ui,Arial;font-weight:800;font-size:clamp(28px,6vw,
 .step-body h4{margin:0;font-weight:800;color:#0b1220}
 .step-body p{margin:6px 0 0;color:#6b7889}
 
-/* === IMPROVED COACH SECTION === */
+/* reveal */
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
+.reveal.on{opacity:1;transform:none}
+
+/* mobile-friendly popup animation for feature cards */
+.pop-anim{transition:transform .18s cubic-bezier(.2,.9,.2,1);transform-origin:center}
+.pop-anim.pop{transform:scale(1.06);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+
+/* timer */
+.timer{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:800;box-shadow:0 8px 24px rgba(155,59,255,.12)}
+
+/* small screens tweaks */
+@media (max-width:640px){
+  .video-area{grid-template-columns:1fr}
+  .video-select{order:2}
+  .floating-bar{left:8px;right:8px;transform:none;width:auto}
+  .features-grid{gap:14px}
+  .nav-inner{padding:0 8px}
+}
+
+/* === COACH SECTION STYLES (replacement) === */
+/* Keep these at end so they override where needed */
 .coach-section{
-  padding:48px 0;
-  --gap:28px;
+  max-width:1150px;
+  margin:48px auto;
+  padding:0 18px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:24px;
+  align-items:center;
+  color:var(--text);
 }
 .coach-inner{
   display:grid;
   grid-template-columns: 1fr;
-  gap:var(--gap);
+  gap:22px;
   align-items:center;
-  max-width:1150px;
-  margin:0 auto;
-  padding:0 18px;
 }
-
-/* desktop layout: photo left, text right */
-@media(min-width:980px){
-  .coach-inner{ grid-template-columns: 460px 1fr; align-items:start; }
-}
-
-/* photo box */
 .coach-photo{
-  border-radius:18px;
-  overflow:hidden;
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  padding:10px;
-  box-shadow:
-    0 40px 80px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.02);
-  transition:transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s;
-}
-.coach-photo img{
-  display:block;
   width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:12px;
-  transform-origin:center;
-  transition:transform .9s ease;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
 }
-.coach-photo:hover{ transform: translateY(-6px); box-shadow:0 60px 110px rgba(0,0,0,0.65); }
-.coach-photo:hover img{ transform:scale(1.03); }
-
-/* copy area */
-.coach-copy{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-.coach-badge{
-  display:inline-block;
-  padding:8px 12px;
-  border-radius:999px;
-  background:linear-gradient(90deg,#ff6aa2,#9b5cff);
-  color:#fff;
-  font-weight:700;
-  width:max-content;
-  box-shadow:0 8px 22px rgba(159,64,255,0.12);
-}
-.coach-head{
-  font-family:Poppins,system-ui,Arial;
-  font-weight:900;
-  font-size:clamp(20px,3.6vw,36px);
-  line-height:1.02;
-  margin:6px 0;
-  color:var(--text);
-  text-wrap:balance;
-}
-.coach-desc{color:var(--muted);max-width:70ch;font-size:15px;line-height:1.6}
-
-/* stats area: Desktop vertical stack on right of copy */
-.coach-stats{
-  display:flex;
-  gap:12px;
-  margin-top:10px;
-  flex-wrap:wrap;
-}
-.stat-pill{
-  background:linear-gradient(180deg,#0f172a,#0b0f1a);
-  border-radius:12px;
-  padding:14px 18px;
-  min-width:150px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.02);
-  color:var(--text);
-  transition:transform .18s ease, box-shadow .18s;
-}
-.stat-pill:hover{ transform:translateY(-6px); box-shadow:0 28px 60px rgba(0,0,0,0.6); }
+.coach-photo img{width:100%;height:100%;display:block;object-fit:cover}
+.coach-copy{display:flex;flex-direction:column;gap:12px}
+.coach-badge{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,#ff6aa2,#9b5cff);color:#fff;font-weight:700;width:max-content}
+.coach-head{font-family:Poppins, system-ui, sans-serif;font-weight:800;font-size:clamp(22px,4.6vw,40px);line-height:1.02;margin:6px 0;color:var(--text)}
+.coach-desc{color:var(--muted);max-width:66ch}
+.coach-stats{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.stat-pill{background:linear-gradient(180deg,#0f172a,#0b0f1a);border-radius:12px;padding:12px 16px;min-width:180px;display:flex;flex-direction:column;align-items:center;box-shadow: 0 12px 30px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.02);color:var(--text)}
 .stat-num{font-weight:900;font-size:20px;color:#ff6aa2}
 .stat-label{font-size:13px;color:var(--muted);margin-top:6px;text-align:center}
-
-/* CTA */
-.coach-cta{
-  margin-top:16px;
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
+.coach-cta{margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn-chat{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg,#25d366,#06b658);color:#061016;font-weight:800;border:none;cursor:pointer;box-shadow:0 12px 30px rgba(2,6,23,0.45)}
+@media(min-width:980px){
+  .coach-inner{ grid-template-columns: 420px 1fr; align-items:start;}
+  .coach-stats{ flex-direction:column; align-self:start; }
 }
-.btn-chat{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 18px;
-  border-radius:12px;
-  background:linear-gradient(90deg,#25d366,#06b658);
-  color:#061016;
-  font-weight:800;
-  border:none;
-  cursor:pointer;
-  box-shadow:0 14px 40px rgba(2,6,23,0.45);
+@media(max-width:520px){
+  .stat-pill{min-width:unset;padding:10px}
+  .coach-head{font-size:22px}
+  .coach-desc{font-size:14px}
 }
-.btn-outline{
-  background:transparent;
-  border:1px solid var(--glass);
-  color:var(--text);
-  padding:12px 16px;
-  border-radius:12px;
-  cursor:pointer;
-}
-
-/* mobile adjustments: stack and make image smaller height */
-@media(max-width:979px){
-  .coach-photo{ padding:12px; border-radius:14px; }
-  .coach-photo img{ border-radius:10px; height:360px; width:100%; object-fit:cover; }
-  .coach-inner{ grid-template-columns:1fr; }
-  .coach-stats{ justify-content:space-between; }
-  .stat-pill{ min-width:32%; padding:12px; }
-  .coach-head{ font-size:22px; }
-}
-
-/* reveal helper */
-.reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
-.reveal.on{opacity:1;transform:none}
 </style>
 
 <!-- ✅ Meta Pixel Code (ID: 905585234905857) -->
@@ -351,7 +297,7 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- FEATURES -->
+<!-- FEATURES / WHAT YOU'LL LEARN -->
 <section id="features" class="features-section">
   <div class="container">
     <div class="join-head">
@@ -433,45 +379,61 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- === IMPROVED COACH SECTION (REPLACE YOUR OLD ONE WITH THIS) === -->
-<section class="coach-section" id="coachSection">
-  <div class="coach-inner">
-    <!-- photo -->
-    <div class="coach-photo reveal" aria-hidden="false">
-      <!-- replace with your hi-res photo url -->
-      <img src="https://i.postimg.cc/vm9tGMTm/Whats-App-Image-2025-09-26-at-11-47-37.jpg" alt="Coach Rahman — AdHabits">
+<!-- =========================
+     REPLACED COACH SECTION
+     (kept nav anchor as #coach)
+     ========================= -->
+<section id="coach" class="coach-section">
+  <div class="coach-inner container">
+    <!-- PHOTO -->
+    <div class="coach-photo reveal">
+      <img src="https://i.postimg.cc/vm9tGMTm/Whats-App-Image-2025-09-26-at-11-47-37.jpg" alt="Coach Rahman">
     </div>
 
-    <!-- copy + stats -->
+    <!-- COPY + STATS -->
     <div class="coach-copy reveal">
       <span class="coach-badge">Your Coach</span>
-      <h2 class="coach-head">Hi, Rahman here — I help affiliates scale & earn <span style="color:#ffcf8a">100% commissions</span></h2>
-      <p class="coach-desc">I work with students, homemakers and full-time affiliates. If you're stuck, I help you grow from first sale to consistent income — small & big packages both supported. I provide ad traffic, scripts, 1:1 audits, and weekly payout guidance so you can focus on selling.</p>
+      <h3 class="coach-head">Hi, Rahman here — I help affiliates scale & earn <span style="color:#ffcf8a">100% commissions</span></h3>
+      <p class="coach-desc">I work with students, homemakers and full-time affiliates. If you're stuck, I help you grow from first sale to consistent income — small & big packages both supported. I provide ad traffic, scripts, 1:1 audits & weekly payouts.</p>
 
-      <div class="coach-stats" role="list" aria-label="Coach stats">
-        <div class="stat-pill" role="listitem">
+      <!-- stats -->
+      <div class="coach-stats" aria-hidden="false">
+        <div class="stat-pill">
           <div class="stat-num knum" data-count="3">0</div>
           <div class="stat-label">Years Experience</div>
         </div>
-        <div class="stat-pill" role="listitem">
+
+        <div class="stat-pill">
           <div class="stat-num knum" data-count="250">0</div>
           <div class="stat-label">Affiliates Helped</div>
         </div>
-        <div class="stat-pill" role="listitem">
+
+        <div class="stat-pill">
           <div class="stat-num knum" data-count="100000">0</div>
           <div class="stat-label">Leads Delivered</div>
         </div>
       </div>
 
+      <!-- CTA -->
       <div class="coach-cta">
-        <button class="btn-chat" id="coachChatBtn">💬 Talk with Rahman on WhatsApp</button>
-        <button class="btn-outline" id="coachPlansBtn">View Affiliate Plans</button>
+        <button class="btn-chat" id="coachChatBtn">
+          💬 Talk with Rahman on WhatsApp
+        </button>
+
+        <!-- keep a fallback button with the old id so existing script doesn't break -->
+        <button id="coachWhats" class="btn secondary" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:12px 16px;border-radius:12px;">
+          Get 1:1 — Start Chat
+        </button>
+
+        <button class="btn secondary" id="coachLearnBtn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:12px 16px;border-radius:12px;">
+          View Affiliate Plans
+        </button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
+<!-- TESTIMONIALS (re-using your screenshots) -->
 <section id="testimonials" style="padding:36px 0">
   <div class="container">
     <h2 style="font-weight:800">Client Testimonials</h2>
@@ -541,16 +503,16 @@ fbq('track','PageView');
 </footer>
 
 <script>
-/* Common UI scripts (menu, reveals, video selector, timer, forms) */
+// ===== Mobile menu
 hamb.onclick = () => mnav.classList.toggle('on');
 document.querySelectorAll('#mnav a').forEach(a=>a.addEventListener('click',()=>mnav.classList.remove('on')));
 
-/* Reveal & animate numbers */
-function animateNum(el, to, dur=1100){
-  const start=performance.now();
-  function step(now){
-    const p=Math.min(1,(now-start)/dur), ease=1-Math.pow(1-p,3);
-    el.textContent = Math.floor(ease*to).toLocaleString('en-IN');
+// ===== Reveal & Numbers (animate when in view) =====
+function animateNum(el, to, dur=1300){
+  const start=performance.now(), from=0;
+  function step(t){
+    const p=Math.min(1,(t-start)/dur), ease=1-Math.pow(1-p,3);
+    el.textContent = Math.floor(from + ease*to).toLocaleString('en-IN');
     if(p<1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
@@ -559,6 +521,7 @@ const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       e.target.classList.add('on');
+      // children .knum inside
       e.target.querySelectorAll && e.target.querySelectorAll('.knum').forEach(k=>{
         animateNum(k, parseInt(k.dataset.count,10));
       });
@@ -569,10 +532,16 @@ const io = new IntersectionObserver((entries)=>{
     }
   });
 },{threshold:0.25});
-document.querySelectorAll('.reveal, .knum').forEach(el=>io.observe(el));
+
+// observe common reveal nodes and stat numbers
+document.querySelectorAll('.reveal, .knum').forEach(el=>{
+  io.observe(el);
+});
+
+// also trigger on elements initially visible
 document.querySelectorAll('.reveal.on').forEach(el=>el.classList.add('on'));
 
-/* Video switching */
+// ===== Video selector: swap iframe src on click =====
 const videoItems = document.querySelectorAll('.vitem');
 const mainPlayer = document.getElementById('mainPlayer');
 videoItems.forEach(item=>{
@@ -580,30 +549,34 @@ videoItems.forEach(item=>{
     videoItems.forEach(i=>i.classList.remove('active'));
     item.classList.add('active');
     const vid = item.dataset.video;
+    // update player with autoplay
     mainPlayer.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
   });
 });
 
-/* Pop animation for feature cards */
+// ===== Pop animation for feature cards on touch / click =====
 document.querySelectorAll('[data-pop]').forEach(card=>{
   card.addEventListener('click',()=>{
     card.classList.toggle('pop');
+    // also quick remove after 900ms
     setTimeout(()=>card.classList.remove('pop'),900);
   });
+  // on touchstart give immediate pop
   card.addEventListener('touchstart',()=>card.classList.add('pop'));
   card.addEventListener('touchend',()=>setTimeout(()=>card.classList.remove('pop'),700));
 });
 
-/* 1-hour countdown (session-persistent) */
+// ===== Countdown 1 hour timer (starts on page load) =====
 (function(){
   const cdElem = document.getElementById('countdown');
-  if(!cdElem) return;
+  // store end timestamp in sessionStorage so refresh keeps remaining
   const key = 'adh_countdown_end';
   let end = sessionStorage.getItem(key);
   if(!end || isNaN(+end)){
-    end = Date.now() + (60*60*1000);
+    end = Date.now() + (60*60*1000); // 1 hour from now
     sessionStorage.setItem(key, end);
   } else end = +end;
+
   function tick(){
     const now = Date.now();
     const diff = Math.max(0, end - now);
@@ -616,9 +589,9 @@ document.querySelectorAll('[data-pop]').forEach(card=>{
   tick();
 })();
 
-/* Form + WhatsApp handling */
+// ===== CTA & WhatsApp interactions =====
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznR1Wk3Gn2jztC1ZXnBW4jr52146ctHC3phfdn8Ve3zuwKvCflNIOy_sxfPZNhQbbf/exec";
-const WHATSAPP_TO = "919610580359";
+const WHATSAPP_TO = "919610580359"; // keep original unless you want to change
 
 function saveLeadFast(params){
   try{
@@ -630,37 +603,40 @@ function saveLeadFast(params){
     }else{
       fetch(SCRIPT_URL, { method:'POST', body: params, mode:'no-cors', keepalive:true }).catch(()=>{});
     }
-  }catch(_){}
+  }catch(_){ }
 }
 function track(e,d){ try{ fbq && fbq('track', e, d||{}); }catch(_){}}
 function trackCustom(n,d){ try{ fbq && fbq('trackCustom', n, d||{}); }catch(_){}}
 
-function openWhatsAppPrefilled(msg){
+function openWhatsApp({name, phone, platform, plan}){
+  trackCustom('WhatsAppOpen', {plan, platform});
+  const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nOffer: ${platform}\nPlan: ${plan || 'Affiliate Onboard'}\n\nPlease guide me.`;
   window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
-/* Form submit */
+// Form submit
 const sendBtn = document.getElementById('sendBtn');
-if(sendBtn){
-  sendBtn.addEventListener('click',(e)=>{
-    e.preventDefault();
-    const platform = document.getElementById('platform').value.trim();
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const plan = sessionStorage.getItem('adh_plan') || 'Affiliate Starter';
-    if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
-    if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
-    const old = sendBtn.textContent; sendBtn.disabled=true; sendBtn.textContent='Opening WhatsApp...';
-    const payload = new URLSearchParams({ name, phone, platform, plan });
-    saveLeadFast(payload);
-    track('Lead', { content_name: plan, content_category: platform });
-    const msg = `Hello Rahman sir, I want to become an affiliate and start earning.\nThis is my detail:\nName: ${name}\nPhone: ${phone}\nOffer: ${platform}\nPlan: ${plan}\n\nPlease guide me.`;
-    openWhatsAppPrefilled(msg);
-    setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent=old; }, 1200);
-  });
-}
+sendBtn.addEventListener('click',(e)=>{
+  e.preventDefault();
+  const platform = document.getElementById('platform').value.trim();
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const plan = sessionStorage.getItem('adh_plan') || 'Affiliate Starter';
 
-/* CTA buttons behavior */
+  if(!name || !phone){ alert('Please enter your Name and Phone.'); return; }
+  if(!/^\d{10}$/.test(phone)){ alert('Enter 10-digit phone number.'); return; }
+
+  const old = sendBtn.textContent; sendBtn.disabled=true; sendBtn.textContent='Opening WhatsApp...';
+
+  const payload = new URLSearchParams({ name, phone, platform, plan });
+  saveLeadFast(payload);                 // fire-and-forget
+  track('Lead', { content_name: plan, content_category: platform });
+  openWhatsApp({name, phone, platform, plan});
+
+  setTimeout(()=>{ sendBtn.disabled=false; sendBtn.textContent=old; }, 1200);
+});
+
+// quick buttons
 document.getElementById('ctaStart').addEventListener('click', ()=>{
   sessionStorage.setItem('adh_plan', 'Affiliate Onboard');
   document.getElementById('name').focus({preventScroll:true});
@@ -672,27 +648,36 @@ document.getElementById('bottomWhats').addEventListener('click', ()=>{
   location.hash = '#getstart';
 });
 
-/* coach chat & plans buttons */
-document.getElementById('coachChatBtn').addEventListener('click', ()=>{
+// keep compatibility with previous script that used #coachWhats
+// the new coach section has coachChatBtn, coachWhats (fallback) and coachLearnBtn
+document.getElementById('coachWhats')?.addEventListener('click', ()=>{
+  sessionStorage.setItem('adh_plan', 'Coach 1:1');
+  document.getElementById('name').focus({preventScroll:true});
+  location.hash = '#getstart';
+});
+
+// new coach chat button behaviour (opens WhatsApp prefilled)
+document.getElementById('coachChatBtn')?.addEventListener('click', ()=>{
   try{ if(window.fbq) fbq('trackCustom','WhatsAppCoachClick'); }catch(e){}
   const msg = `Hello Rahman sir, I want to join as an affiliate.\nName:\nPhone:\nInterested in: Affiliate onboarding / 100% commission offers`;
-  openWhatsAppPrefilled(msg);
+  window.open(`https://wa.me/${WHATSAPP_TO}?text=${encodeURIComponent(msg)}`, '_blank');
 });
-document.getElementById('coachPlansBtn').addEventListener('click', ()=>{
+
+// view plans scroll
+document.getElementById('coachLearnBtn')?.addEventListener('click', ()=>{
   const target = document.getElementById('plans') || document.getElementById('getstart');
   if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-/* floating banner scroll */
+// floating banner click toggles the player section scroll
 document.getElementById('floatBanner').addEventListener('click', ()=>{
   document.getElementById('playerFrame').scrollIntoView({behavior:'smooth', block:'center'});
 });
 
-/* make sure stats animate if already visible */
+// small helper to animate numbers already in DOM
 document.querySelectorAll('.knum').forEach(k=>{
-  if(k.getBoundingClientRect().top < window.innerHeight) {
-    animateNum(k, parseInt(k.dataset.count,10));
-  }
+  // if visible already, animate now
+  if(k.getBoundingClientRect().top < window.innerHeight) animateNum(k, parseInt(k.dataset.count,10));
 });
 </script>
 
