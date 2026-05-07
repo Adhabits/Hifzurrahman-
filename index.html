@@ -1,635 +1,1135 @@
-
-from pathlib import Path
-
-# Brand colors from the reference (Saad Khan style)
-BRAND_PRIMARY = "#E879F9"    # Pink/magenta accent
-BRAND_LIGHT = "#F0ABFC"      # Light pink
-BRAND_DARK = "#C026D3"       # Dark magenta
-DARK_BG = "#0A0A1A"          # Dark navy (almost black)
-LIGHT_BG = "#F5F5F0"         # Warm off-white
-LIGHT_BORDER = "#E5E5E0"     # Slightly darker than light bg
-
-# User's photo as base64 data URI
-USER_PHOTO_DATAURI = f"data:image/png;base64,{user_photo_b64}"
-
-# The 10 slides content (extracted from screenshots)
-slides_data = [
-    {
-        "type": "hero",
-        "bg": "image",  # Will use user's photo as background
-        "title": "8",
-        "title2": "BUSINESS<br>MODELS",
-        "subtitle": "IN DIGITAL MARKETING",
-        "cta": "Swipe to Learn",
-        "is_light": False
-    },
-    {
-        "type": "content",
-        "bg": "dark",
-        "heading": "1. EMAIL MARKETING",
-        "lines": [
-            "Email marketing focuses on building an audience through email lists and sending valuable content, promotions, or newsletters.",
-            "Business use email to nature relationships with customers, increase sales, and build long-term loyalty.",
-            "Many companies generate a large portion of their revenue through well-optimized email campaigns."
-        ],
-        "is_light": False
-    },
-    {
-        "type": "content",
-        "bg": "dark",
-        "heading": "2. CONTENT MARKETING",
-        "lines": [
-            "Content marketing is about creating valuable content such as blog posts, guides, podcasts, or videos that attract and audience.",
-            "Instead of directly selling the goal is to educate, entertain, or solve problems.",
-            "Over time, this builds trust and converts readers or viewers into customers."
-        ],
-        "is_light": False
-    },
-    {
-        "type": "content",
-        "bg": "dark",
-        "heading": "3. AFFILIATE MARKETING",
-        "lines": [
-            "Affiliate marketing allows you to earn commissions by promoting other companies products or services.",
-            "You share a unique referral link, and when someone makes a purchase through that link, you earn a percentage.",
-            "Many creators use blogs, youtube, or social media to generate affiliate income."
-        ],
-        "is_light": False
-    },
-    {
-        "type": "content",
-        "bg": "dark",
-        "heading": "4. VIDEO EDITING/VIDEO MARKETING",
-        "lines": [
-            "Video marketing has become one of the most powerful forms of online communication.",
-            "Business rely on video editors and marketers to create engaging content for platforms like Youtube, Instagram, and TikTok.",
-            "High-quality video content can dramatically increase brand visibility and engagement."
-        ],
-        "is_light": False
-    },
-    {
-        "type": "content",
-        "bg": "dark",
-        "heading": "5. SOCIAL MEDIA MARKETING",
-        "lines": [
-            "Social media marketing focuses on managing and growing brand presence on platforms like Instagram, TikTok, Linkedin, and X.",
-            "This includes creating posts, building communities, running campaigns, and engaging with audience.",
-            "Many companies hire social media specialists to increase brand awareness and sales."
-        ],
-        "is_light": False
-    },
-    {
-        "type": "content",
-        "bg": "dark",
-        "heading": "6. SEARCH ENGINE OPTIMIZATION (SEO)",
-        "lines": [
-            "SEO is the process of optimizing websites so they rank higher on search engines like Google.",
-            "When done correctly, SEO brings consistent organic traffic without paying for ads.",
-            "Businesses value SEO because it can generate long-term visibility and steady customers acquisition."
-        ],
-        "is_light": False
-    },
-    {
-        "type": "content",
-        "bg": "dark",
-        "heading": "7. DIGITAL ADVERTISING",
-        "lines": [
-            "Digital advertising involves running paid campaigns on platforms like Google, Facebook, Instagram, and Youtube.",
-            "Marketers use targeted ads to reach specific audience and drive traffic, leads, or sales.",
-            "Successful advertisers focus on data, testing, and optimizing campaigns for maximum returns."
-        ],
-        "is_light": False
-    },
-    {
-        "type": "content",
-        "bg": "dark",
-        "heading": "8. INBOUND MARKETING",
-        "lines": [
-            "Inbound marketing focuses on attracting customers through helpful content, SEO, and personalized experiences.",
-            "Instead of interrupting people with ads businesses draw customers in by providing value and solving problems.",
-            "This approach often leads to stronger trust and higher-quality leads."
-        ],
-        "is_light": False
-    },
-    {
-        "type": "summary",
-        "bg": "dark",
-        "heading": "DIGITAL MARKETING OFFERS MAY DIFFERENT PATHS.",
-        "lines": [
-            "The best model depends on your skills, interests, and long-term goals.",
-            "The most important steps is choosing one path, learning consistently and improving over time.",
-            "Which one interest you the most?"
-        ],
-        "is_light": False
-    },
-    {
-        "type": "cta",
-        "bg": "dark",
-        "is_light": False,
-        "is_last": True
-    }
-]
-
-TOTAL_SLIDES = len(slides_data)
-
-# Build the complete HTML
-html_parts = []
-
-html_parts.append(f'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instagram Carousel - 8 Business Models</title>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-* {{ margin: 0; padding: 0; box-sizing: border-box; }}
-body {{
-    font-family: 'Inter', sans-serif;
-    background: #1a1a2e;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-}}
-.ig-frame {{
-    width: 420px;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}}
-.ig-header {{
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    gap: 10px;
-    border-bottom: 1px solid #eee;
-}}
-.ig-avatar {{
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, {BRAND_PRIMARY}, {BRAND_DARK});
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-weight: 700; font-size: 14px;
-}}
-.ig-handle {{ font-weight: 600; font-size: 14px; }}
-.ig-sub {{ font-size: 12px; color: #888; }}
-.carousel-viewport {{
-    width: 420px;
-    aspect-ratio: 4/5;
-    overflow: hidden;
-    position: relative;
-    background: {DARK_BG};
-}}
-.carousel-track {{
-    display: flex;
-    height: 100%;
-    transition: transform 0.4s ease;
-}}
-.slide {{
-    width: 420px;
-    height: 525px;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-}}
-/* Hero slide with user photo background */
-.slide-hero {{
-    background: {DARK_BG};
-    position: relative;
-}}
-.slide-hero .hero-bg-img {{
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    opacity: 0.85;
-    filter: brightness(0.7) contrast(1.1);
-}}
-.slide-hero .hero-overlay {{
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to bottom, rgba(10,10,26,0.3) 0%, rgba(10,10,26,0.6) 50%, rgba(10,10,26,0.85) 100%);
-}}
-.slide-hero .hero-content {{
-    position: relative;
-    z-index: 2;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 36px 70px;
-}}
-.hero-number {{
-    font-family: 'Anton', sans-serif;
-    font-size: 140px;
-    line-height: 1;
-    color: {BRAND_PRIMARY};
-    text-shadow: 0 0 40px rgba(232,121,249,0.4);
-    margin-bottom: -10px;
-}}
-.hero-title {{
-    font-family: 'Anton', sans-serif;
-    font-size: 42px;
-    line-height: 1.05;
-    color: #fff;
-    letter-spacing: 1px;
-}}
-.hero-subtitle {{
-    display: inline-block;
-    background: {BRAND_PRIMARY};
-    color: {DARK_BG};
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    padding: 6px 14px;
-    border-radius: 4px;
-    margin-top: 12px;
-    text-transform: uppercase;
-}}
-.hero-swipe {{
-    position: absolute;
-    bottom: 20px;
-    right: 36px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #fff;
-    font-family: 'Anton', sans-serif;
-    font-size: 22px;
-    z-index: 3;
-}}
-.hero-swipe .swipe-arrow {{
-    display: flex;
-    align-items: center;
-    gap: 3px;
-}}
-.hero-swipe .swipe-arrow span {{
-    width: 3px;
-    height: 14px;
-    background: #fff;
-    border-radius: 1px;
-    display: inline-block;
-}}
-.hero-swipe .swipe-arrow .arrow-head {{
-    width: 0; height: 0;
-    border-top: 7px solid transparent;
-    border-bottom: 7px solid transparent;
-    border-left: 10px solid #fff;
-    margin-left: 2px;
-}}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thrive Clip Productions — School stories that fill seats</title>
+  <meta name="description"
+    content="We live and breathe school stories. Documentary-style admissions campaigns for K-12 schools across Jaipur." />
 
-/* Content slides */
-.slide-content {{
-    background: {DARK_BG};
-    padding: 50px 36px 70px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    height: 100%;
-}}
-.slide-heading {{
-    font-family: 'Anton', sans-serif;
-    font-size: 32px;
-    line-height: 1.1;
-    color: {BRAND_PRIMARY};
-    margin-bottom: 30px;
-    letter-spacing: 0.5px;
-}}
-.slide-text {{
-    color: rgba(255,255,255,0.9);
-    font-size: 15px;
-    line-height: 1.55;
-    margin-bottom: 22px;
-}}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap"
+    rel="stylesheet" />
 
-/* Summary slide */
-.slide-summary {{
-    background: {DARK_BG};
-    padding: 50px 36px 70px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    height: 100%;
-}}
-.slide-summary .slide-heading {{
-    font-family: 'Anton', sans-serif;
-    font-size: 30px;
-    line-height: 1.15;
-    color: {BRAND_PRIMARY};
-    margin-bottom: 30px;
-}}
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            hand: ['Caveat', 'cursive'],
+          },
+          colors: {
+            ink: '#1a1a2e',
+            paper: '#fbf7f5',
+            orange: '#ff6a3d',
+            sun: '#ffd60a',
+            purple: '#b794f4',
+            pink: '#f9a8d4',
+            sky: '#7dd3fc',
+            mint: '#86efac',
+          },
+        },
+      },
+    };
+  </script>
 
-/* CTA / Last slide */
-.slide-cta {{
-    background: {DARK_BG};
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 40px 36px 70px;
-    text-align: center;
-}}
-.cta-text {{
-    color: rgba(255,255,255,0.9);
-    font-size: 18px;
-    margin-bottom: 8px;
-}}
-.cta-handle {{
-    color: {BRAND_PRIMARY};
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 25px;
-}}
-.cta-photo-wrap {{
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    border: 4px solid {BRAND_PRIMARY};
-    overflow: hidden;
-    margin-bottom: 20px;
-    box-shadow: 0 0 30px rgba(232,121,249,0.3);
-}}
-.cta-photo-wrap img {{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}}
-.cta-signature {{
-    font-family: 'Brush Script MT', cursive;
-    font-size: 36px;
-    color: #fff;
-    margin-bottom: 25px;
-    font-style: italic;
-}}
-.cta-platforms {{
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    background: rgba(255,255,255,0.1);
-    padding: 10px 20px;
-    border-radius: 30px;
-}}
-.platform-icon {{
-    width: 28px; height: 28px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-}}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-/* Swipe arrow on right edge */
-.swipe-hint {{
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.06));
-    z-index: 5;
-}}
-.swipe-hint svg {{
-    width: 24px; height: 24px;
-}}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* Progress bar */
-.progress-bar {{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px 28px 20px;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}}
-.progress-track {{
-    flex: 1;
-    height: 3px;
-    background: rgba(255,255,255,0.12);
-    border-radius: 2px;
-    overflow: hidden;
-}}
-.progress-fill {{
-    height: 100%;
-    background: #fff;
-    border-radius: 2px;
-    transition: width 0.3s ease;
-}}
-.progress-label {{
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-    font-weight: 500;
-}}
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #fbf7f5;
+      color: #1a1a2e;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* IG dots */
-.ig-dots {{
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding: 12px;
-}}
-.ig-dot {{
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #ccc;
-}}
-.ig-dot.active {{ background: {BRAND_PRIMARY}; }}
+    .font-hand {
+      font-family: 'Caveat', cursive;
+    }
 
-/* IG actions */
-.ig-actions {{
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 16px;
-}}
-.ig-actions-left, .ig-actions-right {{
-    display: flex;
-    gap: 14px;
-}}
-.ig-actions svg {{
-    width: 24px; height: 24px;
-}}
+    .sh-2 {
+      box-shadow: 2px 2px 0 #1a1a2e;
+    }
 
-/* IG caption */
-.ig-caption {{
-    padding: 0 16px 16px;
-    font-size: 14px;
-    line-height: 1.5;
-}}
-.ig-caption-handle {{ font-weight: 600; }}
-.ig-caption-time {{ color: #888; font-size: 12px; margin-top: 4px; }}
+    .sh-3 {
+      box-shadow: 3px 3px 0 #1a1a2e;
+    }
 
-/* Curved arrow for CTA slide */
-.curved-arrow {{
-    position: absolute;
-    top: 80px;
-    right: 60px;
-    width: 50px;
-    height: 60px;
-}}
-</style>
+    .sh-4 {
+      box-shadow: 4px 4px 0 #1a1a2e;
+    }
+
+    .sh-5 {
+      box-shadow: 5px 5px 0 #1a1a2e;
+    }
+
+    .sh-6 {
+      box-shadow: 6px 6px 0 #1a1a2e;
+    }
+
+    .sh-orange-4 {
+      box-shadow: 4px 4px 0 #ff6a3d;
+    }
+
+    .sh-orange-8 {
+      box-shadow: 8px 8px 0 #ff6a3d;
+    }
+
+    .ink-border {
+      border: 1.5px solid #1a1a2e;
+    }
+
+    .btn-press {
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .btn-press:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #1a1a2e;
+    }
+
+    .btn-press:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 0 #1a1a2e;
+    }
+
+    .bubble-tail::after {
+      content: "";
+      position: absolute;
+      left: 22px;
+      bottom: -10px;
+      width: 16px;
+      height: 16px;
+      background: inherit;
+      border: 1.5px solid #1a1a2e;
+      border-top: none;
+      border-right: none;
+      transform: rotate(-45deg);
+      border-radius: 0 0 0 6px;
+    }
+
+    .line-grid {
+      background-image:
+        linear-gradient(rgba(26, 26, 46, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26, 26, 46, 0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .hl-yellow {
+      background: #ffd60a;
+      padding: 0 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .hl-pink {
+      background: #f9a8d4;
+      padding: 0 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .hl-blue {
+      background: #7dd3fc;
+      padding: 0 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .hl-green {
+      background: #86efac;
+      padding: 0 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .hl-purple {
+      background: #b794f4;
+      padding: 0 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .tag-block {
+      background: #ffd60a;
+      border: 1.5px solid #1a1a2e;
+      border-radius: 12px;
+      padding: 0 12px;
+      box-shadow: 3px 3px 0 #1a1a2e;
+      display: inline-block;
+    }
+
+    @keyframes floaty {
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(var(--r, 0deg));
+      }
+
+      50% {
+        transform: translateY(-8px) rotate(var(--r, 0deg));
+      }
+    }
+
+    .floaty {
+      animation: floaty 5s ease-in-out infinite;
+    }
+
+    /* On small screens, reduce float distance so cards stay inside their container */
+    @media (max-width: 640px) {
+      @keyframes floaty {
+
+        0%,
+        100% {
+          transform: translateY(0px) rotate(var(--r, 0deg));
+        }
+
+        50% {
+          transform: translateY(-4px) rotate(var(--r, 0deg));
+        }
+      }
+    }
+
+    .chartline {
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      animation: drawline 2.2s 0.4s ease-out forwards;
+    }
+
+    @keyframes drawline {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .h-hero {
+      font-size: clamp(40px, 8vw, 84px);
+      line-height: 1.0;
+      letter-spacing: -0.035em;
+      font-weight: 800;
+      text-wrap: balance;
+    }
+
+    .h-section {
+      font-size: clamp(32px, 5.5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      font-weight: 800;
+    }
+
+    .h-cta {
+      font-size: clamp(38px, 7vw, 76px);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+    }
+
+    .h-banner {
+      font-size: clamp(32px, 6vw, 60px);
+      letter-spacing: -0.02em;
+      font-weight: 800;
+    }
+
+    [data-anim] {
+      opacity: 0;
+    }
+  </style>
+<base target="_blank">
 </head>
-<body>
-<div class="ig-frame">
-    <div class="ig-header">
-        <div class="ig-avatar">A</div>
-        <div>
-            <div class="ig-handle">adhabits</div>
-            <div class="ig-sub">Digital Marketing Agency</div>
-        </div>
-    </div>
-    <div class="carousel-viewport">
-        <div class="carousel-track" id="track">
-''')
 
-# Build each slide
-for i, slide in enumerate(slides_data):
-    is_last = i == TOTAL_SLIDES - 1
-    
-    # Progress bar
-    pct = ((i + 1) / TOTAL_SLIDES) * 100
-    progress_html = f'''<div class="progress-bar">
-    <div class="progress-track"><div class="progress-fill" style="width:{pct}%"></div></div>
-    <span class="progress-label">{i+1}/{TOTAL_SLIDES}</span>
-</div>'''
-    
-    # Swipe arrow (not on last slide)
-    swipe_html = ''
-    if not is_last:
-        swipe_html = f'''<div class="swipe-hint">
-    <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</div>'''
-    
-    if slide["type"] == "hero":
-        slide_html = f'''<div class="slide slide-hero">
-    <img class="hero-bg-img" src="{USER_PHOTO_DATAURI}" alt="Hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <div class="hero-number">8</div>
-        <div class="hero-title">BUSINESS<br>MODELS</div>
-        <div class="hero-subtitle">IN DIGITAL MARKETING</div>
-    </div>
-    <div class="hero-swipe">
-        Swipe
-        <div class="swipe-arrow">
-            <span></span><span></span><span></span><span></span>
-            <div class="arrow-head"></div>
+<body class="overflow-x-hidden">
+
+  <!-- ============== NAV ============== -->
+  <header class="sticky top-0 z-40 bg-paper/85 backdrop-blur-md">
+    <div class="max-w-[1440px] mx-auto px-5 md:px-10 lg:px-16 py-4 md:py-6 flex items-center justify-between gap-4">
+
+      <div class="relative" data-anim="fade-down">
+        <div class="bg-white ink-border rounded-[28px] py-2 pl-2 pr-4 flex items-center gap-2.5 sh-3 bubble-tail">
+          <img src="tcp-logo.jpeg" alt="TCP" class="w-9 h-9 rounded-full ink-border object-cover" />
+          <span class="font-extrabold text-[17px] tracking-tight">TCP!</span>
         </div>
-    </div>
-    {progress_html}
-    {swipe_html}
-</div>'''
-    
-    elif slide["type"] == "content":
-        lines_html = ""
-        for line in slide["lines"]:
-            lines_html += f'<p class="slide-text">{line}</p>'
-        slide_html = f'''<div class="slide slide-content">
-    <div class="slide-heading">{slide["heading"]}</div>
-    {lines_html}
-    {progress_html}
-    {swipe_html}
-</div>'''
-    
-    elif slide["type"] == "summary":
-        lines_html = ""
-        for line in slide["lines"]:
-            lines_html += f'<p class="slide-text">{line}</p>'
-        slide_html = f'''<div class="slide slide-summary">
-    <div class="slide-heading">{slide["heading"]}</div>
-    {lines_html}
-    {progress_html}
-    {swipe_html}
-</div>'''
-    
-    elif slide["type"] == "cta":
-        slide_html = f'''<div class="slide slide-cta">
-    <div class="cta-text">Got value from this?</div>
-    <div class="cta-handle">Follow <span style="color:{BRAND_PRIMARY}">@adhabits</span> for more</div>
-    <div style="position:relative;width:160px;height:160px;margin-bottom:20px;">
-        <svg class="curved-arrow" viewBox="0 0 50 60" style="position:absolute;top:-40px;right:-30px;z-index:5;width:50px;height:60px;">
-            <path d="M10,5 Q35,5 40,30 Q42,45 25,50" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            <path d="M20,42 L25,50 L32,45" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </div>
+
+      <nav class="hidden lg:flex items-center gap-1 bg-white ink-border rounded-full p-1.5 sh-3" data-anim="fade-down">
+        <a href="#why" class="px-5 py-2.5 text-sm font-semibold rounded-full hover:bg-sun transition">Why TCP</a>
+        <a href="#process" class="px-5 py-2.5 text-sm font-semibold rounded-full hover:bg-sun transition">Process</a>
+        <a href="#voices" class="px-5 py-2.5 text-sm font-semibold rounded-full hover:bg-sun transition">Schools</a>
+        <a href="#voices" class="px-5 py-2.5 text-sm font-semibold rounded-full hover:bg-sun transition">Voices</a>
+        <a href="#faq" class="px-5 py-2.5 text-sm font-semibold rounded-full hover:bg-sun transition">FAQ</a>
+      </nav>
+
+      <a href="#audit"
+        class="hidden md:inline-flex items-center gap-2.5 bg-orange text-white ink-border rounded-full px-5 py-3 text-sm font-bold sh-4 btn-press"
+        data-anim="fade-down">
+        <span class="w-2 h-2 rounded-full bg-white"></span>
+        Free School Audit
+        <span class="text-base">→</span>
+      </a>
+
+      <button id="menuBtn" class="lg:hidden ink-border rounded-full p-2 bg-white sh-2" aria-label="Open menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+          stroke-linecap="round">
+          <path d="M4 7h16M4 12h16M4 17h16" />
         </svg>
-        <div class="cta-photo-wrap">
-            <img src="{USER_PHOTO_DATAURI}" alt="Profile">
+      </button>
+    </div>
+
+    <div id="mobileMenu" class="hidden lg:hidden border-t-2 border-ink/10 bg-paper">
+      <ul class="px-5 py-4 space-y-1">
+        <li><a href="#why" class="block py-2.5 font-semibold">Why TCP</a></li>
+        <li><a href="#process" class="block py-2.5 font-semibold">Process</a></li>
+        <li><a href="#voices" class="block py-2.5 font-semibold">Schools</a></li>
+        <li><a href="#voices" class="block py-2.5 font-semibold">Voices</a></li>
+        <li><a href="#faq" class="block py-2.5 font-semibold">FAQ</a></li>
+        <li class="pt-2"><a href="#audit"
+            class="block bg-orange text-white text-center ink-border rounded-full py-3 font-bold sh-3">Free School Audit
+            →</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ============== HERO ============== -->
+  <section class="relative px-5 md:px-10 lg:px-16 pt-6 md:pt-10 pb-16 md:pb-20 max-w-[1440px] mx-auto">
+
+    <div class="hidden md:block absolute top-32 right-32 w-6 h-6 bg-pink rounded-md rotate-12 floaty"
+      style="--r:12deg;"></div>
+    <div class="hidden md:block absolute top-48 right-72 w-4 h-4 bg-sun rounded floaty" style="animation-delay:.6s;">
+    </div>
+    <div class="hidden md:block absolute top-[380px] right-24 w-8 h-8 bg-sky/60 rounded-md floaty"
+      style="animation-delay:.3s;"></div>
+    <div class="hidden md:block absolute top-20 right-[36%] text-2xl floaty" style="animation-delay:.5s;">✦</div>
+    <div class="hidden md:block absolute top-[480px] right-[40%] text-base floaty" style="animation-delay:1s;">✦</div>
+
+    <div
+      class="hidden md:block absolute top-12 right-10 lg:right-16 w-[55%] max-w-[720px] h-[540px] line-grid rounded-3xl pointer-events-none">
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-12 items-start relative z-10">
+
+      <!-- LEFT -->
+      <div data-anim="fade-up">
+
+        <div class="relative inline-block mb-7">
+          <div
+            class="bg-white ink-border rounded-full px-5 py-3 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.08em] uppercase bubble-tail">
+            <span class="w-2 h-2 rounded-full bg-orange"></span>
+            Hello, principals of Jaipur 👋
+          </div>
         </div>
-    </div>
-    <div class="cta-signature">AdHabits</div>
-    <div class="cta-platforms">
-        <span class="platform-icon">🛒</span>
-        <span class="platform-icon">🔍</span>
-        <span class="platform-icon">📘</span>
-        <span class="platform-icon">🎵</span>
-        <span class="platform-icon">▶️</span>
-        <span class="platform-icon">📷</span>
-    </div>
-    {progress_html}
-</div>'''
-    
-    html_parts.append(slide_html)
 
-html_parts.append(f'''
+        <h1 class="h-hero">
+          We live and breathe
+          <span class="tag-block">school</span>
+          stories.
+        </h1>
+
+        <div class="flex items-center gap-5 mt-9 flex-wrap">
+          <div class="bg-white ink-border rounded-2xl px-4 py-3 flex items-center gap-3 sh-3">
+            <span class="text-2xl">🎓</span>
+            <div class="leading-none">
+              <div class="text-[22px] font-extrabold leading-none">3.4×</div>
+              <div class="text-[11px] text-ink/60 mt-1">more admissions</div>
+            </div>
+          </div>
+          <div class="relative flex items-center gap-2">
+            <svg width="100" height="60" viewBox="0 0 100 60" class="hidden sm:block">
+              <path d="M 5 30 Q 25 5, 50 30 T 90 30" stroke="#1a1a2e" stroke-width="2" fill="none"
+                stroke-linecap="round" />
+              <path d="M 80 22 L 92 30 L 80 38" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span class="font-hand text-[22px] text-orange -rotate-6">that's the goal!</span>
+          </div>
         </div>
-    </div>
-    <div class="ig-dots" id="dots">
-        {''.join([f'<div class="ig-dot {"active" if j==0 else ""}" data-index="{j}"></div>' for j in range(TOTAL_SLIDES)])}
-    </div>
-    <div class="ig-actions">
-        <div class="ig-actions-left">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+
+        <form class="mt-12 max-w-[480px] bg-white ink-border rounded-full p-1.5 flex items-center sh-4"
+          onsubmit="event.preventDefault(); document.getElementById('audit').scrollIntoView({behavior:'smooth'});">
+          <input type="url" placeholder="Your school's website…"
+            class="flex-1 bg-transparent outline-none px-5 py-3 text-[15px] placeholder:text-ink/45 min-w-0" />
+          <button
+            class="bg-orange text-white ink-border rounded-full px-5 py-3 text-sm font-bold whitespace-nowrap inline-flex items-center gap-2 btn-press">
+            Book Free Audit <span>→</span>
+          </button>
+        </form>
+
+        <ul class="flex items-center flex-wrap gap-x-5 gap-y-2 mt-4 text-[13px] text-ink/65">
+          <li>✓ 30 min</li>
+          <li>✓ No deck</li>
+          <li>✓ 3 fixes you keep</li>
+        </ul>
+      </div>
+
+      <!-- RIGHT - illustration cluster -->
+      <div
+        class="relative w-full max-w-[420px] sm:max-w-[480px] mx-auto lg:max-w-none lg:mx-0 h-[420px] sm:h-[500px] lg:h-[540px] mt-4 lg:mt-0"
+        data-anim="fade-up">
+
+        <!-- Big gradient blob (CENTER on mobile, left on desktop) -->
+        <div class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2
+                  lg:left-[15%] lg:-translate-x-0 lg:top-8 lg:translate-y-0
+                  w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] lg:w-[380px] lg:h-[380px]
+                  rounded-full ink-border sh-6 floaty overflow-hidden flex items-end justify-center"
+          style="background: linear-gradient(135deg, #f9a8d4 0%, #ff6a3d 100%); --r:0deg;">
+          <div class="text-[120px] sm:text-[140px] lg:text-[220px] -mb-3 leading-none">👩‍🏫</div>
         </div>
-        <div class="ig-actions-right">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+
+        <!-- TOP-LEFT: Admissions card -->
+        <div
+          class="absolute left-0 top-2 sm:top-3
+                  lg:left-2 lg:top-48
+                  bg-white ink-border rounded-2xl p-3 sm:p-3.5 lg:p-4 sh-3 lg:sh-4 floaty -rotate-[4deg] w-[140px] sm:w-[160px] lg:w-[180px]"
+          style="--r:-4deg; animation-delay:.2s;">
+          <div class="text-[9px] sm:text-[10px] tracking-[0.08em] font-bold uppercase text-ink/55">Admissions ↗</div>
+          <div class="text-[22px] sm:text-[26px] lg:text-[32px] font-extrabold leading-none mt-1">+247</div>
+          <svg viewBox="0 0 148 40" class="w-full h-7 sm:h-8 lg:h-10 mt-1">
+            <path class="chartline" d="M 4 32 L 30 24 L 56 28 L 82 16 L 108 18 L 144 6" stroke="#86efac"
+              stroke-width="3" fill="none" stroke-linecap="round" />
+            <circle cx="144" cy="6" r="4" fill="#ff6a3d" stroke="#1a1a2e" stroke-width="1.5" />
+          </svg>
+          <div class="text-[9px] sm:text-[10px] lg:text-[11px] text-ink/55 mt-1">vs last cycle</div>
         </div>
+
+        <!-- TOP-RIGHT: CPL card -->
+        <div
+          class="absolute right-0 top-2 sm:top-3
+                  lg:right-5 lg:top-20
+                  bg-white ink-border rounded-2xl px-3 py-2.5 sm:px-3.5 sm:py-3 lg:px-4 lg:py-3 sh-3 lg:sh-4 floaty rotate-[5deg]"
+          style="--r:5deg; animation-delay:.5s;">
+          <div class="text-[9px] sm:text-[10px] tracking-[0.08em] font-bold uppercase text-ink/55">Cost / Lead</div>
+          <div class="text-[20px] sm:text-[24px] lg:text-[28px] font-extrabold text-orange leading-none mt-1">−47%</div>
+        </div>
+
+        <!-- BOTTOM-LEFT: Trophy badge -->
+        <div
+          class="absolute left-0 bottom-2 sm:bottom-3
+                  lg:left-7 lg:bottom-5
+                  bg-white ink-border rounded-3xl px-3 py-2 sm:px-3.5 sm:py-2.5 lg:px-4 lg:py-2.5 sh-3 floaty flex items-center gap-2"
+          style="--r:0deg; animation-delay:1s;">
+          <span class="text-[16px] sm:text-[18px] lg:text-[22px]">🏆</span>
+          <div class="leading-tight">
+            <div class="text-[11px] sm:text-[12px] lg:text-[13px] font-bold">40+ schools</div>
+            <div class="text-[9px] sm:text-[10px] text-ink/55">across Rajasthan</div>
+          </div>
+        </div>
+
+        <!-- BOTTOM-RIGHT: Quote bubble -->
+        <div
+          class="absolute right-0 bottom-2 sm:bottom-3
+                  lg:right-2 lg:bottom-20
+                  bg-sun ink-border rounded-3xl px-3 py-2.5 sm:px-4 sm:py-3 lg:px-5 lg:py-3.5 max-w-[160px] sm:max-w-[180px] lg:max-w-[220px] sh-3 floaty rotate-[3deg]"
+          style="--r:3deg; animation-delay:.8s;">
+          <div class="text-[11px] sm:text-[12px] lg:text-[14px] font-semibold leading-snug">"Our reels finally feel like
+            our school!" 🙌</div>
+          <div class="text-[9px] sm:text-[10px] lg:text-[11px] text-ink/55 mt-1.5">— Mrs. Sharma</div>
+        </div>
+      </div>
     </div>
-    <div class="ig-caption">
-        <span class="ig-caption-handle">adhabits</span> 8 Business Models in Digital Marketing — which one interests you the most? 💼🚀<br>
-        <div class="ig-caption-time">2 HOURS AGO</div>
+  </section>
+
+  <!-- ============== COLOR BLOB DIVIDER ============== -->
+  <section class="px-5 md:px-10 lg:px-16 max-w-[1440px] mx-auto" data-anim="fade-up">
+    <div
+      class="ink-border sh-5 rounded-[36px] md:rounded-full px-6 md:px-12 py-7 md:py-8 flex flex-col md:flex-row items-center justify-between gap-6"
+      style="background: linear-gradient(120deg, #b794f4 0%, #f9a8d4 50%, #ff6a3d 100%);">
+
+      <div class="flex flex-wrap items-center gap-2 md:gap-3 justify-center">
+        <div
+          class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-white ink-border flex items-center justify-center text-[22px]">
+          🎬</div>
+        <div
+          class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-white ink-border flex items-center justify-center text-[22px]">
+          📱</div>
+        <div
+          class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-white ink-border flex items-center justify-center text-[22px]">
+          📈</div>
+        <div
+          class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-white ink-border flex items-center justify-center text-[22px]">
+          💬</div>
+        <div
+          class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-white ink-border flex items-center justify-center text-[22px]">
+          📸</div>
+        <div
+          class="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-white ink-border flex items-center justify-center text-[22px]">
+          🎯</div>
+      </div>
+
+      <div class="h-banner text-white text-center" style="text-shadow: 2px 2px 0 #1a1a2e;">
+        School<br />
+        <span class="italic">stories.</span>
+      </div>
+
+      <div class="bg-white ink-border rounded-2xl px-5 py-4 sh-3 min-w-[200px] text-center md:text-left">
+        <div class="font-hand text-[24px] leading-tight">
+          We live & breathe<br />
+          <span class="text-orange">school stories</span>
+        </div>
+      </div>
     </div>
-</div>
+  </section>
 
-<script>
-const track = document.getElementById('track');
-const dots = document.querySelectorAll('.ig-dot');
-let currentSlide = 0;
-const totalSlides = {TOTAL_SLIDES};
+  <!-- ============== WHO WE ARE ============== -->
+  <section id="why" class="px-5 md:px-10 lg:px-16 max-w-[1440px] mx-auto pt-24 md:pt-32 pb-16 md:pb-20">
+    <div class="grid md:grid-cols-2 gap-10 md:gap-20 items-start">
+      <div data-anim="fade-up">
+        <p class="text-[17px] leading-[1.65] text-ink/85">
+          We live and breathe school stories — and creativity runs through every part of what we do.
+        </p>
+        <p class="text-[17px] leading-[1.65] text-ink/85 mt-4">
+          We work with K-12 schools across Jaipur as a partner, not a vendor — building admissions campaigns that turn
+          parent attention into walk-ins, one cycle at a time.
+        </p>
+      </div>
+      <div data-anim="fade-up">
+        <p class="text-[19px] leading-[1.55] font-medium">
+          We are a team of <span class="hl-yellow">filmmakers</span>,
+          <span class="hl-pink">strategists</span>,
+          <span class="hl-blue">media buyers</span>,
+          <span class="hl-green">storytellers</span>, and
+          <span class="hl-purple">educators</span>.
+        </p>
+        <a href="#process"
+          class="mt-7 inline-flex items-center gap-2.5 bg-orange text-white ink-border rounded-full px-7 py-4 text-base font-bold sh-4 btn-press">
+          <span class="w-2 h-2 rounded-full bg-white"></span>
+          Learn more about TCP
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-function goToSlide(index) {{
-    if (index < 0) index = 0;
-    if (index >= totalSlides) index = totalSlides - 1;
-    currentSlide = index;
-    track.style.transform = 'translateX(' + (-index * 420) + 'px)';
-    dots.forEach((d, i) => d.classList.toggle('active', i === index));
-}}
+  <!-- ============== PROBLEM ============== -->
+  <section class="px-5 md:px-10 lg:px-16 max-w-[1440px] mx-auto py-16 md:py-24">
 
-let startX = 0;
-let isDragging = false;
-const viewport = document.querySelector('.carousel-viewport');
+    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-5 mb-12 md:mb-14"
+      data-anim="fade-up">
+      <div
+        class="bg-ink text-white rounded-full px-5 py-2 text-[12px] font-bold tracking-[0.08em] uppercase whitespace-nowrap">
+        The Problem</div>
+      <h2 class="h-section">
+        You're not short on content. You're short on <span class="text-orange italic">results.</span>
+      </h2>
+    </div>
 
-viewport.addEventListener('mousedown', (e) => {{ startX = e.clientX; isDragging = true; }});
-viewport.addEventListener('touchstart', (e) => {{ startX = e.touches[0].clientX; isDragging = true; }});
-viewport.addEventListener('mouseup', (e) => {{ if (!isDragging) return; isDragging = false; const diff = startX - e.clientX; if (diff > 50) goToSlide(currentSlide + 1); else if (diff < -50) goToSlide(currentSlide - 1); }});
-viewport.addEventListener('touchend', (e) => {{ if (!isDragging) return; isDragging = false; const diff = startX - e.changedTouches[0].clientX; if (diff > 50) goToSlide(currentSlide + 1); else if (diff < -50) goToSlide(currentSlide - 1); }});
+    <div class="grid md:grid-cols-3 gap-5 md:gap-6">
 
-dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
-</script>
+      <article class="bg-white ink-border rounded-3xl p-7 sh-5 flex flex-col gap-4 md:min-h-[280px]"
+        data-anim="fade-up">
+        <div class="w-16 h-16 rounded-2xl bg-pink ink-border flex items-center justify-center text-[32px]">📭</div>
+        <h3 class="text-[22px] font-extrabold tracking-tight">Empty seats, full inboxes</h3>
+        <p class="text-[15px] leading-[1.55] text-ink/70">
+          You're spending on hoardings, newspaper inserts, and 'reels packages' — but the admissions team is still
+          chasing the same parents.
+        </p>
+      </article>
+
+      <article class="bg-white ink-border rounded-3xl p-7 sh-5 flex flex-col gap-4 md:min-h-[280px]"
+        data-anim="fade-up">
+        <div class="w-16 h-16 rounded-2xl bg-sun ink-border flex items-center justify-center text-[32px]">🎬</div>
+        <h3 class="text-[22px] font-extrabold tracking-tight">Content that nobody watches</h3>
+        <p class="text-[15px] leading-[1.55] text-ink/70">
+          Generic school b-roll set to royalty-free music. Parents scroll past in 0.6 seconds. The footage ages out
+          before the next admission cycle.
+        </p>
+      </article>
+
+      <article class="bg-white ink-border rounded-3xl p-7 sh-5 flex flex-col gap-4 md:min-h-[280px]"
+        data-anim="fade-up">
+        <div class="w-16 h-16 rounded-2xl bg-sky ink-border flex items-center justify-center text-[32px]">🔥</div>
+        <h3 class="text-[22px] font-extrabold tracking-tight">Ads that burn budget</h3>
+        <p class="text-[15px] leading-[1.55] text-ink/70">
+          Boosted posts, no targeting, no funnel. Your CPL keeps climbing and there's no story to tell the trustees at
+          the end of the quarter.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============== HOW IT WORKS ============== -->
+  <section id="process" class="px-5 md:px-10 lg:px-16 max-w-[1440px] mx-auto py-16 md:py-24">
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-12" data-anim="fade-up">
+      <div>
+        <div
+          class="bg-orange text-white ink-border rounded-full px-5 py-2 text-[13px] font-bold tracking-[0.08em] uppercase inline-block sh-3">
+          How it works</div>
+        <h2 class="h-section mt-5">
+          Three steps. <span class="font-hand text-orange font-bold">One admissions cycle.</span>
+        </h2>
+      </div>
+      <div
+        class="bg-sun ink-border rounded-2xl px-4 py-2.5 text-[13px] font-bold sh-3 rotate-2 self-start md:self-auto whitespace-nowrap">
+        Day 0 → Day 90
+      </div>
+    </div>
+
+    <div class="bg-white ink-border rounded-[28px] sh-5 overflow-hidden" data-anim="fade-up">
+
+      <div
+        class="grid grid-cols-[auto_auto_1fr_auto] md:grid-cols-[120px_72px_1fr_60px] gap-4 md:gap-6 items-center px-5 md:px-8 py-6 md:py-7 border-b-[1.5px] border-ink/15 hover:bg-paper/40 transition">
+        <div class="w-16 h-16 md:w-[84px] md:h-[84px] rounded-full ink-border flex items-center justify-center shrink-0"
+          style="background: linear-gradient(135deg, #7dd3fc, #b794f4);">
+          <div
+            class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-[24px] md:text-[30px]">
+            👨‍💼</div>
+        </div>
+        <div
+          class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-paper ink-border flex items-center justify-center text-lg md:text-[22px] font-extrabold">
+          01</div>
+        <div class="min-w-0">
+          <h3 class="text-lg md:text-2xl font-extrabold tracking-tight">Free School Audit</h3>
+          <p class="text-[13px] md:text-[14px] leading-[1.5] text-ink/65 mt-1.5 max-w-[640px]">
+            30-min call. We map your admissions funnel, audit your social, and identify the 3 leaks costing you
+            applications this season.
+          </p>
+        </div>
+        <a href="#audit"
+          class="w-10 h-10 md:w-11 md:h-11 rounded-full bg-white ink-border flex items-center justify-center text-orange text-lg md:text-xl hover:bg-orange hover:text-white transition justify-self-end"
+          aria-label="Go to audit">↗</a>
+      </div>
+
+      <div
+        class="grid grid-cols-[auto_auto_1fr_auto] md:grid-cols-[120px_72px_1fr_60px] gap-4 md:gap-6 items-center px-5 md:px-8 py-6 md:py-7 border-b-[1.5px] border-ink/15 hover:bg-paper/40 transition">
+        <div class="w-16 h-16 md:w-[84px] md:h-[84px] rounded-full ink-border flex items-center justify-center shrink-0"
+          style="background: linear-gradient(135deg, #ffd60a, #ff6a3d);">
+          <div
+            class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-[24px] md:text-[30px]">
+            🎥</div>
+        </div>
+        <div
+          class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-paper ink-border flex items-center justify-center text-lg md:text-[22px] font-extrabold">
+          02</div>
+        <div class="min-w-0">
+          <h3 class="text-lg md:text-2xl font-extrabold tracking-tight">Story-First Production</h3>
+          <p class="text-[13px] md:text-[14px] leading-[1.5] text-ink/65 mt-1.5 max-w-[640px]">
+            We shoot what parents actually want to see — students, teachers, real classroom moments — in documentary
+            style. No stock, no stiffness.
+          </p>
+        </div>
+        <a href="#audit"
+          class="w-10 h-10 md:w-11 md:h-11 rounded-full bg-white ink-border flex items-center justify-center text-orange text-lg md:text-xl hover:bg-orange hover:text-white transition justify-self-end"
+          aria-label="Go to audit">↗</a>
+      </div>
+
+      <div
+        class="grid grid-cols-[auto_auto_1fr_auto] md:grid-cols-[120px_72px_1fr_60px] gap-4 md:gap-6 items-center px-5 md:px-8 py-6 md:py-7 hover:bg-paper/40 transition">
+        <div class="w-16 h-16 md:w-[84px] md:h-[84px] rounded-full ink-border flex items-center justify-center shrink-0"
+          style="background: linear-gradient(135deg, #86efac, #7dd3fc);">
+          <div
+            class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-[24px] md:text-[30px]">
+            📊</div>
+        </div>
+        <div
+          class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-paper ink-border flex items-center justify-center text-lg md:text-[22px] font-extrabold">
+          03</div>
+        <div class="min-w-0">
+          <h3 class="text-lg md:text-2xl font-extrabold tracking-tight">Performance Campaigns</h3>
+          <p class="text-[13px] md:text-[14px] leading-[1.5] text-ink/65 mt-1.5 max-w-[640px]">
+            Geo-targeted ads across Meta and YouTube, optimized weekly. You get a live dashboard showing CPL, walk-ins,
+            and applications.
+          </p>
+        </div>
+        <a href="#audit"
+          class="w-10 h-10 md:w-11 md:h-11 rounded-full bg-white ink-border flex items-center justify-center text-orange text-lg md:text-xl hover:bg-orange hover:text-white transition justify-self-end"
+          aria-label="Go to audit">↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== TESTIMONIALS ============== -->
+  <section id="voices" class="px-5 md:px-10 lg:px-16 max-w-[1440px] mx-auto py-16 md:py-20">
+
+    <div class="grid lg:grid-cols-[260px_1fr_220px] gap-6 md:gap-12 lg:gap-12 items-end mb-8 md:mb-10"
+      data-anim="fade-up">
+      <div>
+        <div class="text-[12px] font-bold text-ink/55 tracking-[0.12em] uppercase">Our Voices</div>
+        <h2 class="text-[32px] md:text-[36px] font-extrabold mt-2 leading-[1.1]">
+          Heard from<br />The <span class="text-orange">Principals</span>
+        </h2>
+      </div>
+      <p class="text-[15px] md:text-[17px] leading-[1.5] text-ink/75">
+        What heads of school across Jaipur say after working with TCP — <span class="hl-yellow">real numbers, real
+          reels, real walk-ins.</span>
+      </p>
+      <a href="#"
+        class="inline-flex items-center gap-2.5 bg-white ink-border rounded-full px-5 py-3 text-sm font-semibold sh-3 btn-press whitespace-nowrap self-start lg:self-auto">
+        <span class="w-2 h-2 rounded-full bg-orange"></span>
+        Read the case studies
+        <span>→</span>
+      </a>
+    </div>
+
+    <div class="ink-border sh-5 rounded-[24px] p-4 md:p-8 grid md:grid-cols-3 gap-4 md:gap-5"
+      style="background: linear-gradient(120deg, #b794f4 0%, #f9a8d4 50%, #7dd3fc 100%);" data-anim="fade-up">
+
+      <article class="bg-white ink-border rounded-3xl p-6 flex flex-col gap-4 md:min-h-[280px]">
+        <div class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, #f9a8d4, #ff6a3d);">
+            <div class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-lg">👩‍🏫</div>
+          </div>
+          <div>
+            <div class="text-[14px] font-extrabold">Mrs. R. Sharma</div>
+            <div class="text-[11px] text-ink/65">Principal, K-12 private school, Jaipur</div>
+          </div>
+        </div>
+        <p class="text-[15px] leading-[1.5] font-medium flex-1">
+          "Our admission inquiries went up 3.4x in one cycle. The TCP team understood our school's voice better than our
+          in-house comms."
+        </p>
+        <div class="flex gap-1 text-orange">★★★★★</div>
+      </article>
+
+      <article class="bg-sun ink-border rounded-3xl p-6 flex flex-col gap-4 md:min-h-[280px]">
+        <div class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, #7dd3fc, #b794f4);">
+            <div class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-lg">👨‍💼</div>
+          </div>
+          <div>
+            <div class="text-[14px] font-extrabold">Mr. A. Singhvi</div>
+            <div class="text-[11px] text-ink/65">Trustee, residential school, Rajasthan</div>
+          </div>
+        </div>
+        <p class="text-[15px] leading-[1.5] font-medium flex-1">
+          "We finally have ad campaigns we can defend in a trustee meeting. Numbers, not guesses."
+        </p>
+        <div class="flex gap-1 text-orange">★★★★★</div>
+      </article>
+
+      <article class="bg-white ink-border rounded-3xl p-6 flex flex-col gap-4 md:min-h-[280px]">
+        <div class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, #86efac, #ffd60a);">
+            <div class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-lg">👩‍💼</div>
+          </div>
+          <div>
+            <div class="text-[14px] font-extrabold">Ms. P. Menon</div>
+            <div class="text-[11px] text-ink/65">Director of Admissions</div>
+          </div>
+        </div>
+        <p class="text-[15px] leading-[1.5] font-medium flex-1">
+          "The documentary they made about our boarding house is what convinced 40% of this year's parents to visit
+          campus."
+        </p>
+        <div class="flex gap-1 text-orange">★★★★★</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============== FAQ ============== -->
+  <section id="faq" class="px-5 md:px-10 lg:px-16 max-w-[1440px] mx-auto py-16 md:py-24">
+
+    <div class="grid lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-16 items-start">
+
+      <div data-anim="fade-up">
+        <div class="text-[12px] font-bold text-ink/55 tracking-[0.12em] uppercase">FAQ</div>
+        <h2 class="h-section mt-3">
+          Things <span class="font-hand text-orange font-bold">trustees</span> ask first.
+        </h2>
+
+        <div class="bg-white ink-border rounded-3xl p-5 sh-4 mt-8 max-w-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-12 h-12 rounded-full ink-border flex items-center justify-center"
+              style="background: linear-gradient(135deg, #ff6a3d, #ffd60a);">
+              <div class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-base">💬</div>
+            </div>
+            <div>
+              <div class="text-sm font-extrabold">Still have questions?</div>
+              <div class="text-[12px] text-ink/65">WhatsApp us — we reply fast.</div>
+            </div>
+          </div>
+          <a href="https://wa.me/917258055245?text=Hello%20team%20ThriveClip%20Productions%2C%20I%20have%20a%20question."
+            target="_blank" rel="noopener"
+            class="bg-orange text-white ink-border rounded-full px-5 py-2.5 text-sm font-bold sh-3 btn-press inline-flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-white"></span>
+            Chat on WhatsApp
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="space-y-3" data-anim="fade-up">
+
+        <details open class="faq-item group bg-sun ink-border rounded-[20px] sh-4">
+          <summary class="cursor-pointer list-none px-5 md:px-6 py-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <span
+                class="w-8 h-8 rounded-full bg-ink text-white text-[12px] font-bold flex items-center justify-center shrink-0">Q1</span>
+              <h3 class="text-[15px] md:text-[17px] font-bold tracking-tight">What exactly do I get in the Free School
+                Audit?</h3>
+            </div>
+            <span
+              class="w-8 h-8 rounded-full bg-white ink-border flex items-center justify-center text-lg font-bold shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="px-5 md:px-6 pb-5 pl-[60px] md:pl-[64px] text-[14px] leading-[1.6] text-ink/80">
+            A 30-minute call where we review your school's current social presence, ad spend, and admissions funnel —
+            then send a written diagnostic with 3 specific fixes you can action whether you work with us or not.
+          </p>
+        </details>
+
+        <details class="faq-item group bg-white ink-border rounded-[20px] sh-2">
+          <summary class="cursor-pointer list-none px-5 md:px-6 py-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <span
+                class="w-8 h-8 rounded-full bg-ink text-white text-[12px] font-bold flex items-center justify-center shrink-0">Q2</span>
+              <h3 class="text-[15px] md:text-[17px] font-bold tracking-tight">We've worked with agencies before — they
+                didn't move the needle. Why is TCP different?</h3>
+            </div>
+            <span
+              class="w-8 h-8 rounded-full bg-white ink-border flex items-center justify-center text-lg font-bold shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="px-5 md:px-6 pb-5 pl-[60px] md:pl-[64px] text-[14px] leading-[1.6] text-ink/80">
+            We don't sell 'content packages.' We're hired to move admissions numbers. Every reel, every ad, every
+            parent-facing video maps to a measurable outcome — applications, walk-ins, or cost-per-lead — agreed before
+            we shoot a frame.
+          </p>
+        </details>
+
+        <details class="faq-item group bg-white ink-border rounded-[20px] sh-2">
+          <summary class="cursor-pointer list-none px-5 md:px-6 py-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <span
+                class="w-8 h-8 rounded-full bg-ink text-white text-[12px] font-bold flex items-center justify-center shrink-0">Q3</span>
+              <h3 class="text-[15px] md:text-[17px] font-bold tracking-tight">Do you understand the local Jaipur /
+                Rajasthan school market?</h3>
+            </div>
+            <span
+              class="w-8 h-8 rounded-full bg-white ink-border flex items-center justify-center text-lg font-bold shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="px-5 md:px-6 pb-5 pl-[60px] md:pl-[64px] text-[14px] leading-[1.6] text-ink/80">
+            Yes. We're based in Jaipur and have shot inside K-12 campuses across the city. We know the parent-decision
+            cycle here, what reads as 'premium' to a Rajasthani parent vs. a transferred-in family, and which platforms
+            actually drive admission walk-ins locally.
+          </p>
+        </details>
+
+        <details class="faq-item group bg-white ink-border rounded-[20px] sh-2">
+          <summary class="cursor-pointer list-none px-5 md:px-6 py-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <span
+                class="w-8 h-8 rounded-full bg-ink text-white text-[12px] font-bold flex items-center justify-center shrink-0">Q4</span>
+              <h3 class="text-[15px] md:text-[17px] font-bold tracking-tight">How long until we see results from the
+                campaigns?</h3>
+            </div>
+            <span
+              class="w-8 h-8 rounded-full bg-white ink-border flex items-center justify-center text-lg font-bold shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="px-5 md:px-6 pb-5 pl-[60px] md:pl-[64px] text-[14px] leading-[1.6] text-ink/80">
+            Brand-recall lift in 30 days. Cost-per-lead reduction by week 6. Admission-quality leads in the funnel by
+            month 2 — assuming a typical mid-cycle launch. We share a weekly dashboard so you're never guessing.
+          </p>
+        </details>
+
+        <details class="faq-item group bg-white ink-border rounded-[20px] sh-2">
+          <summary class="cursor-pointer list-none px-5 md:px-6 py-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <span
+                class="w-8 h-8 rounded-full bg-ink text-white text-[12px] font-bold flex items-center justify-center shrink-0">Q5</span>
+              <h3 class="text-[15px] md:text-[17px] font-bold tracking-tight">What does a typical engagement cost?</h3>
+            </div>
+            <span
+              class="w-8 h-8 rounded-full bg-white ink-border flex items-center justify-center text-lg font-bold shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="px-5 md:px-6 pb-5 pl-[60px] md:pl-[64px] text-[14px] leading-[1.6] text-ink/80">
+            Engagements start at the equivalent of one extra admission per month. We scope per-school after the audit —
+            pricing depends on shoot days, ad spend, and campaign length. No retainer lock-ins.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== FINAL CTA ============== -->
+  <section id="audit" class="px-5 md:px-10 lg:px-16 max-w-[1440px] mx-auto py-16 md:py-20">
+
+    <div
+      class="bg-ink text-white ink-border rounded-[24px] sm:rounded-[32px] sh-orange-8 relative overflow-hidden p-5 sm:p-7 md:p-12 lg:p-16">
+
+      <div class="absolute -top-10 -right-10 w-52 h-52 rounded-full bg-orange/50 blur-[40px] pointer-events-none"></div>
+      <div class="absolute -bottom-16 left-40 w-60 h-60 rounded-full bg-purple/30 blur-[60px] pointer-events-none">
+      </div>
+
+      <div class="grid lg:grid-cols-[1.2fr_1fr] gap-10 md:gap-16 items-start relative z-10">
+
+        <div data-anim="fade-up">
+          <div
+            class="bg-sun ink-border rounded-full inline-flex items-center gap-2 px-4 py-2 text-[12px] font-bold tracking-[0.08em] uppercase text-ink mb-5">
+            <span class="w-2 h-2 rounded-full bg-ink"></span>
+            Free School Audit · 30 min
+          </div>
+
+          <h2 class="h-cta">
+            Show us your<br />
+            funnel. <span class="font-hand text-sun font-bold">We'll show</span><br />
+            you the leak.
+          </h2>
+
+          <p class="text-[16px] md:text-[18px] leading-[1.55] text-white/65 mt-7 max-w-[460px]">
+            30 minutes with our admissions strategist. Walk away with a written diagnostic — three specific fixes ranked
+            by impact. No deck. No retainer. No obligation.
+          </p>
+
+          <ul class="flex flex-wrap gap-2.5 mt-7">
+            <li class="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-[13px] font-medium">✓ No retainer
+            </li>
+            <li class="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-[13px] font-medium">✓ Local team
+              in Jaipur</li>
+            <li class="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-[13px] font-medium">✓ NDA on
+              request</li>
+            <li class="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-[13px] font-medium">✓ Hindi /
+              English / Marwari</li>
+          </ul>
+
+          <div class="flex items-center gap-4 mt-10">
+            <div class="flex">
+              <div class="w-11 h-11 rounded-full ink-border flex items-center justify-center relative z-40"
+                style="background: linear-gradient(135deg, #f9a8d4, #ff6a3d);">
+                <div class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-sm">👨‍🏫
+                </div>
+              </div>
+              <div class="-ml-3.5 w-11 h-11 rounded-full ink-border flex items-center justify-center relative z-30"
+                style="background: linear-gradient(135deg, #7dd3fc, #b794f4);">
+                <div class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-sm">👩‍💼
+                </div>
+              </div>
+              <div class="-ml-3.5 w-11 h-11 rounded-full ink-border flex items-center justify-center relative z-20"
+                style="background: linear-gradient(135deg, #ffd60a, #86efac);">
+                <div class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-sm">👨‍💼
+                </div>
+              </div>
+              <div class="-ml-3.5 w-11 h-11 rounded-full ink-border flex items-center justify-center relative z-10"
+                style="background: linear-gradient(135deg, #86efac, #7dd3fc);">
+                <div class="w-[78%] h-[78%] rounded-full bg-white/40 flex items-center justify-center text-sm">👩‍🏫
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="text-sm font-extrabold">40+ Jaipur schools</div>
+              <div class="text-[12px] text-white/55">Already moved their numbers</div>
+            </div>
+          </div>
+        </div>
+
+        <form id="auditForm"
+          class="bg-white text-ink ink-border rounded-[20px] sh-orange-4 p-4 sm:p-6 md:p-8 self-start"
+          data-anim="fade-up" onsubmit="handleSubmit(event)">
+
+          <div
+            class="bg-mint ink-border rounded-full inline-block px-3 sm:px-3.5 py-1 sm:py-1.5 text-[10px] sm:text-[11px] font-bold tracking-[0.08em] uppercase mb-4 sm:mb-5">
+            ● 4 slots open this week
+          </div>
+
+          <div class="space-y-2.5 sm:space-y-3.5">
+            <div>
+              <label class="block text-[11px] sm:text-[12px] font-bold text-ink/70 mb-1 sm:mb-1.5">Your name</label>
+              <input id="f_name" type="text" placeholder="Mrs. R. Sharma" required
+                class="w-full bg-paper ink-border rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm outline-none focus:border-orange transition" />
+            </div>
+            <div>
+              <label class="block text-[11px] sm:text-[12px] font-bold text-ink/70 mb-1 sm:mb-1.5">School name</label>
+              <input id="f_school" type="text" placeholder="St. Xavier's Senior Secondary" required
+                class="w-full bg-paper ink-border rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm outline-none focus:border-orange transition" />
+            </div>
+            <div>
+              <label class="block text-[11px] sm:text-[12px] font-bold text-ink/70 mb-1 sm:mb-1.5">Your role</label>
+              <input id="f_role" type="text" placeholder="Principal / Director / Trustee" required
+                class="w-full bg-paper ink-border rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm outline-none focus:border-orange transition" />
+            </div>
+
+            <!-- Two-col on mobile: City + Phone -->
+            <div class="grid grid-cols-2 gap-2.5 sm:gap-3.5">
+              <div>
+                <label class="block text-[11px] sm:text-[12px] font-bold text-ink/70 mb-1 sm:mb-1.5">City</label>
+                <input id="f_city" type="text" placeholder="Jaipur" required
+                  class="w-full bg-paper ink-border rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm outline-none focus:border-orange transition" />
+              </div>
+              <div>
+                <label class="block text-[11px] sm:text-[12px] font-bold text-ink/70 mb-1 sm:mb-1.5">Phone</label>
+                <input id="f_phone" type="tel" placeholder="+91 ..." required
+                  class="w-full bg-paper ink-border rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm outline-none focus:border-orange transition" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] sm:text-[12px] font-bold text-ink/70 mb-1 sm:mb-1.5">Email</label>
+              <input id="f_email" type="email" placeholder="principal@yourschool.in" required
+                class="w-full bg-paper ink-border rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm outline-none focus:border-orange transition" />
+            </div>
+
+            <button type="submit"
+              class="w-full bg-orange text-white ink-border rounded-lg sm:rounded-xl py-3 sm:py-4 text-[13px] sm:text-[15px] font-bold sh-3 btn-press inline-flex items-center justify-center gap-2 sm:gap-2.5 mt-1 sm:mt-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="sm:w-[18px] sm:h-[18px]">
+                <path
+                  d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+              </svg>
+              Send via WhatsApp
+              <span>→</span>
+            </button>
+
+            <div class="text-[10px] sm:text-[11px] text-ink/60 text-center pt-1">
+              We respond within 4 business hours · Mon–Sat
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="px-5 md:px-10 lg:px-16 max-w-[1440px] mx-auto py-8 md:py-10">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 text-[13px] text-ink/65">
+      <div class="flex items-center gap-3 flex-wrap">
+        <img src="tcp-logo.jpeg" alt="TCP" class="w-8 h-8 rounded-full ink-border object-cover" />
+        <span class="font-bold text-ink">Thrive Clip Productions</span>
+        <span class="hidden md:inline">·</span>
+        <a href="https://share.google/hy3mlt7kmtoccVaSR" target="_blank" rel="noopener"
+          class="hover:text-orange transition inline-flex items-center gap-1">
+          <span>📍</span> Jaipur, Rajasthan
+        </a>
+      </div>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <a href="mailto:thriveclipproductions@gmail.com"
+          class="hover:text-orange transition break-all">thriveclipproductions@gmail.com</a>
+        <a href="tel:+917258055245" class="hover:text-orange transition">+91 7258 055245</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============== SCRIPTS ============== -->
+  <script type="module">
+    import { animate, inView } from "https://cdn.jsdelivr.net/npm/motion@10.18.0/+esm";
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    // Scroll-triggered fade-up
+    document.querySelectorAll('[data-anim]').forEach((el) => {
+      el.style.transform = 'translateY(28px)';
+      inView(el, () => {
+        animate(
+          el,
+          { opacity: [0, 1], transform: ['translateY(28px)', 'translateY(0px)'] },
+          { duration: 0.7, easing: [0.16, 1, 0.3, 1] }
+        );
+      }, { amount: 0.15 });
+    });
+
+    // FAQ accordion behavior
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      item.addEventListener('toggle', () => {
+        if (item.open) {
+          item.classList.remove('sh-2');
+          item.classList.add('sh-4');
+          // close others
+          faqItems.forEach(other => {
+            if (other !== item && other.open) {
+              other.open = false;
+              other.classList.remove('sh-4');
+              other.classList.add('sh-2');
+            }
+          });
+        } else {
+          item.classList.remove('sh-4');
+          item.classList.add('sh-2');
+        }
+      });
+    });
+
+    // ============================================================
+    // GOOGLE SHEET INTEGRATION
+    // ============================================================
+    // Apni Google Apps Script "Web app URL" yaha paste karo.
+    // Setup steps `google-apps-script.gs` file ke top me likhe hai.
+    // Example: "https://script.google.com/macros/s/AKfyc.../exec"
+    const SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzks7U0pUUNMEEe0mogxX7mtRSE3_ZTkUhhFX1I0-vhCCDaafVFq-ECJ1JAWrQ-NG6t4g/exec";
+    // ============================================================
+
+    // Form submit handler — save to Google Sheet + open WhatsApp
+    window.handleSubmit = async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const btn = form.querySelector('button[type="submit"]');
+      const originalHTML = btn.innerHTML;
+
+      const lead = {
+        name: document.getElementById('f_name').value.trim(),
+        school: document.getElementById('f_school').value.trim(),
+        role: document.getElementById('f_role').value.trim(),
+        city: document.getElementById('f_city').value.trim(),
+        phone: document.getElementById('f_phone').value.trim(),
+        email: document.getElementById('f_email').value.trim(),
+      };
+
+      // Show "saving..." state
+      btn.innerHTML = '⏳ Saving…';
+      btn.style.background = '#ffd60a';
+      btn.style.color = '#1a1a2e';
+      btn.disabled = true;
+
+      // 1) Send data to Google Sheet (fire-and-forget; don't block UX)
+      if (SHEET_SCRIPT_URL && !SHEET_SCRIPT_URL.includes("PASTE_YOUR")) {
+        try {
+          const formData = new FormData();
+          Object.entries(lead).forEach(([k, v]) => formData.append(k, v));
+          // We use no-cors so Apps Script accepts; response is opaque, that's fine
+          await fetch(SHEET_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData,
+          });
+        } catch (err) {
+          console.warn('Sheet save failed (continuing to WhatsApp):', err);
+        }
+      } else {
+        console.warn('SHEET_SCRIPT_URL not set — skipping Google Sheet save.');
+      }
+
+      // 2) Build WhatsApp message
+      const message =
+        `Hello team ThriveClip Productions,
+I am interested in your services for our school.
+Here are my details:
+👤 Name: ${lead.name}
+🏫 School: ${lead.school}
+🎓 Role: ${lead.role}
+📍 City: ${lead.city}
+📞 Phone: ${lead.phone}
+📧 Email: ${lead.email}
+Please contact me at your earliest convenience.
+Thank you!`;
+
+      const whatsappUrl = `https://wa.me/917258055245?text=${encodeURIComponent(message)}`;
+
+      // 3) Open WhatsApp + reset
+      btn.innerHTML = '✓ Opening WhatsApp…';
+      btn.style.background = '#86efac';
+
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank', 'noopener');
+        btn.innerHTML = originalHTML;
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.disabled = false;
+        form.reset();
+      }, 600);
+    };
+  </script>
+
 </body>
-</html>''')
 
-# Write HTML file
-output_dir = Path("/mnt/agents/output")
-output_dir.mkdir(exist_ok=True)
-html_path = output_dir / "carousel.html"
-html_path.write_text(''.join(html_parts), encoding="utf-8")
-
-print(f"Carousel HTML saved: {html_path}")
-print(f"Total slides: {TOTAL_SLIDES}")
-print(f"File size: {html_path.stat().st_size / 1024 / 1024:.1f} MB")
+</html>
